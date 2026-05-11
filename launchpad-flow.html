@@ -405,21 +405,19 @@ button,a,input,textarea,select,.btn,.chip,.option,.usecase,.integration,.checkbo
 .usecase-desc{font-size:11.5px;line-height:1.42;color:var(--text-secondary);}
 .usecase-select{display:inline-flex;align-items:center;justify-content:center;justify-self:start;margin-top:4px;padding:4px 9px;border-radius:999px;border:1px solid rgba(125,225,255,.30);font-size:11px;font-weight:800;color:#D7F9FF;background:rgba(7,9,12,.38);}
 .usecase.selected .usecase-select{color:#061018;background:linear-gradient(135deg,#22D3EE,#5EEAD4,#F9A8D4);border-color:transparent;}
-.complete-art-wrap{position:relative;width:100%;margin:0 auto 18px;border-radius:22px;overflow:hidden;box-shadow:0 0 34px rgba(34,211,238,.18),0 18px 60px rgba(0,0,0,.42);}
-.complete-art-wrap img{display:block;width:100%;height:auto;border-radius:22px;}
+.complete-art-wrap{position:relative;width:100%;max-width:680px;margin:0 auto 18px;border-radius:22px;overflow:hidden;box-shadow:0 0 34px rgba(34,211,238,.18),0 18px 60px rgba(0,0,0,.42);background:#05070b;}
+.complete-art-wrap img{display:block;width:100%;height:auto;object-fit:contain;border-radius:22px;}
 .complete-copy{text-align:center;margin-bottom:18px;}
 
-.complete-card-wrap{isolation:isolate;}
-.complete-card-cta{position:absolute;left:31%;right:31%;bottom:8%;z-index:2;display:flex;justify-content:center;}
 .complete-real-button{width:100%;max-width:320px;min-height:48px;border-radius:999px!important;background:linear-gradient(135deg,#22D3EE,#5EEAD4,#F9A8D4,#FDE047)!important;color:#061018!important;font-weight:900!important;box-shadow:0 0 26px rgba(34,211,238,.36),0 0 44px rgba(249,168,212,.20)!important;}
 
-@media(max-width:700px){.usecase{align-items:flex-start!important}.usecase-desc{font-size:12px}.complete-art-wrap{border-radius:18px;margin-bottom:16px}.complete-art-wrap img{border-radius:18px}.complete-copy .headline{font-size:22px!important;}.complete-card-cta{left:7%;right:7%;bottom:6%;}.complete-real-button{min-height:50px!important;font-size:15px!important;}}
+@media(max-width:700px){.usecase{align-items:flex-start!important}.usecase-desc{font-size:12px}.complete-art-wrap{width:min(100%,320px);border-radius:18px;margin-bottom:16px}.complete-art-wrap img{border-radius:18px}.complete-copy .headline{font-size:22px!important;}.complete-real-button{min-height:50px!important;font-size:15px!important;}}
 
 /* Ron final Cassie art pass */
-.flow-art{width:220px;height:auto;aspect-ratio:1672/941;object-fit:cover;border-radius:18px;box-shadow:0 0 28px rgba(34,211,238,.16),0 14px 45px rgba(0,0,0,.34);}
-.flow-art-wide{width:100%;height:auto;aspect-ratio:1672/941;object-fit:cover;border-radius:22px;box-shadow:0 0 34px rgba(34,211,238,.18),0 18px 60px rgba(0,0,0,.42);margin-bottom:18px;}
+.flow-art{width:220px;height:auto;object-fit:contain;border-radius:18px;box-shadow:0 0 28px rgba(34,211,238,.16),0 14px 45px rgba(0,0,0,.34);}
+.flow-art-wide{width:100%;height:auto;object-fit:contain;border-radius:22px;box-shadow:0 0 34px rgba(34,211,238,.18),0 18px 60px rgba(0,0,0,.42);margin-bottom:18px;}
 .art-only-copy{text-align:center;margin-bottom:18px;}
-@media(max-width:700px){.flow-art{width:min(100%,320px)!important;max-width:320px!important;height:auto!important;}.flow-art-wide{border-radius:18px;margin-bottom:16px;}}
+@media(max-width:700px){.flow-art{width:min(100%,320px)!important;max-width:320px!important;height:auto!important;}.flow-art-wide{display:block!important;width:min(100%,320px)!important;max-width:320px!important;height:auto!important;margin:0 auto 16px!important;border-radius:18px;}}
 
 </style>
 <!-- Functional Launchpad flow copied from launchpad-final.html; entry art lives in launchpad-onboarding.html. -->
@@ -1318,7 +1316,10 @@ function PreviewScreen({ data, onUpdate, onLaunch, onBack, step, totalSteps, exp
   return (
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
-      <div className="complete-art-wrap complete-card-wrap"><img src="assets/onboarding/final/final-mission-control-card.png" alt="Welcome to Launchpad." /><div className="complete-card-cta"><button type="button" className="btn btn-primary complete-real-button" onClick={onLaunch}>Finish in Mission Control</button></div></div><div className="hero-text complete-copy"><h1 className="headline">You're ready for Mission Control.</h1><p className="sub">Review the setup below, or use the button on the card to head back to Mission Control.</p></div>
+      <div className="complete-art-wrap"><img src="assets/onboarding/onboarding-complete.png" alt="Congrats on completing onboarding. Welcome to the crew. Continue this way." /></div><div className="hero-text complete-copy"><h1 className="headline">You're ready for Mission Control.</h1><p className="sub">Review the safety note, confirm you understand, then finish in Mission Control.</p></div>
+      <div className="warning-box"><strong>Final acknowledgement:</strong> Your agent may remember what you provide and may use connected tools based on the access you grant. Do not paste secrets unless you intend to store them. You can change settings later, but launch means you understand what you configured.</div>
+      <label className="ack-row"><input type="checkbox" checked={!!data.launchAck} onChange={(e) => onUpdate({ launchAck: e.target.checked })} /> <span>I understand this is a real agent setup and I’m ready to launch with these settings.</span></label>
+      <div className="actions complete-actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary complete-real-button" onClick={onLaunch} disabled={!data.launchAck}>Finish in Mission Control</button></div>
       <div className="summary">
         <div className="summary-section-title">Identity</div>
         <div className="summary-row"><span className="summary-label">Your name</span><span className="summary-value">{data.yourName}</span></div>
@@ -1341,9 +1342,6 @@ function PreviewScreen({ data, onUpdate, onLaunch, onBack, step, totalSteps, exp
         <div className="summary-row"><span className="summary-label">Working hours</span><span className="summary-value">{data.workStart}–{data.workEnd}, {data.workDays.length} days</span></div>
         <div className="summary-row"><span className="summary-label">Notifications</span><span className="summary-value">{[data.notifyEmail && 'Email', data.notifyPush && 'Push'].filter(Boolean).join(' + ') || 'Off'}</span></div></>)}
       </div>
-      <div className="warning-box"><strong>Final acknowledgement:</strong> Your agent may remember what you provide and may use connected tools based on the access you grant. Do not paste secrets unless you intend to store them. You can change settings later, but launch means you understand what you configured.</div>
-      <label className="ack-row"><input type="checkbox" checked={!!data.launchAck} onChange={(e) => onUpdate({ launchAck: e.target.checked })} /> <span>I understand this is a real agent setup and I’m ready to launch with these settings.</span></label>
-      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onLaunch} disabled={!data.launchAck}>Finish in Mission Control</button></div>
     </div>
   );
 }
