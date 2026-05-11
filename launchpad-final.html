@@ -411,7 +411,7 @@ function NamesScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
         </div>
       </div>
       <div className="field"><label>Your name</label><input className="input" value={data.yourName} onChange={(e) => onUpdate({ yourName: e.target.value })} placeholder="Cassie" autoFocus /></div>
-      <div className="field"><label>Your agent's name</label><input className="input" value={data.agentName} onChange={(e) => onUpdate({ agentName: e.target.value })} placeholder="e.g. Ron, Eloise, Ari, Mac, Navi" /><p className="field-hint">Pick something you'll enjoy seeing in your inbox every morning.</p></div>
+      <div className="field"><label>Your agent's name</label><input className="input" value={data.agentName} onChange={(e) => onUpdate({ agentName: e.target.value })} placeholder="e.g. Ron, Eloise, Ari" /><p className="field-hint">Story-fit examples: Ron, Eloise, Ari, Mac, Navi, Nova, Atlas, Sol. Pick something you’ll enjoy seeing in your inbox every morning.</p></div>
       <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={!valid}>Continue</button></div>
     </div>
   );
