@@ -716,7 +716,7 @@ a,button,.button,.card,.clippy-open,.sw-quick button{min-height:44px;touch-actio
    <h3>Make a Ticket</h3>
    <p>Something broken, confusing, or account-specific? Send it to the humans at command center.</p>
   </div>
-  <a href="https://heyron.ai/support" class="button">Create Ticket</a>
+  <button type="button" class="button" id="ticketOpen">Create Ticket</button>
  </div>
 
  <div class="card featured">
@@ -725,7 +725,7 @@ a,button,.button,.card,.clippy-open,.sw-quick button{min-height:44px;touch-actio
    <h3>Check Your Ticket</h3>
    <p>Already asked for help? Check status, replies, and next steps without guessing.</p>
   </div>
-  <a href="https://heyron.ai/support/ticket" class="button">View Ticket</a>
+  <button type="button" class="button" id="ticketStatusOpen">View Ticket</button>
  </div>
 
  <div class="card">
@@ -787,6 +787,44 @@ a,button,.button,.card,.clippy-open,.sw-quick button{min-height:44px;touch-actio
  </form>
 </div>
 
+
+<div class="billing-modal" id="ticketModal" role="dialog" aria-modal="true" aria-labelledby="ticketTitle">
+ <div class="billing-card">
+  <h2 id="ticketTitle">Create a support ticket</h2>
+  <p>Safe preview only: this queues locally in your browser. Real hookup should write to Supabase tickets with signed-in user auth.</p>
+  <form class="billing-form" id="supportTicketForm">
+   <input name="email" type="email" placeholder="Account email" required />
+   <input name="subject" type="text" placeholder="Short subject" required />
+   <select name="category"><option>Bug</option><option>Account</option><option>Billing</option><option>Integration</option><option>Feature request</option><option>Other</option></select>
+   <textarea name="description" placeholder="What happened? What did you expect? Add screenshots in the real ticket flow." required></textarea>
+   <div class="billing-buttons"><button class="primary" type="submit">Queue Ticket Locally</button><button type="button" id="ticketClose">Cancel</button></div>
+  </form>
+ </div>
+</div>
+
+<div class="billing-modal" id="ticketStatusModal" role="dialog" aria-modal="true" aria-labelledby="ticketStatusTitle">
+ <div class="billing-card">
+  <h2 id="ticketStatusTitle">Local ticket queue</h2>
+  <p id="ticketStatusCopy">No local tickets yet.</p>
+  <pre id="ticketStatusDump" style="white-space:pre-wrap;max-height:320px;overflow:auto;border:1px solid rgba(125,225,255,.18);border-radius:14px;padding:12px;background:rgba(5,7,11,.72);font-size:11px;color:#D7F9FF;"></pre>
+  <div class="billing-buttons"><button type="button" id="ticketExport">Copy JSON</button><button type="button" id="ticketStatusClose">Close</button></div>
+ </div>
+</div>
+
+<div class="billing-modal" id="billingModal" role="dialog" aria-modal="true" aria-labelledby="billingTitle">
+ <div class="billing-card">
+  <h2 id="billingTitle">Billing Center</h2>
+  <p>Safe preview only. Billing requests become supervised local ticket drafts, never Stripe actions.</p>
+  <div class="billing-policy">No card changes, cancellations, refunds, or Stripe writes happen from this preview.</div>
+  <form class="billing-form" id="billingForm">
+   <input name="email" type="email" placeholder="Account email" required />
+   <select name="request"><option>Cancel subscription</option><option>Request refund</option><option>Change email</option><option>Update card</option><option>Billing question</option></select>
+   <textarea name="details" placeholder="Add details for human review" required></textarea>
+   <div class="billing-buttons"><button class="primary" type="submit">Queue Billing Ticket Locally</button><button type="button" id="billingClose">Cancel</button></div>
+  </form>
+ </div>
+</div>
+
 <div class="sw-panel" id="supportClippy" role="dialog" aria-modal="false" aria-labelledby="supportClippyTitle">
  <div class="sw-header"><img src="assets/clippy/clippy-ron-avatar.png" alt="Ron" class="clippy-ron-img"><div><strong id="supportClippyTitle">Clippy Ron</strong><span>Support triage raccoon</span></div><button class="sw-close" id="supportClippyClose" type="button">×</button></div>
  <div class="sw-body">
@@ -801,19 +839,37 @@ a,button,.button,.card,.clippy-open,.sw-quick button{min-height:44px;touch-actio
 </div>
 
 <script>
-
+const SAFE_HOOKS = {
+ get(key, fallback = null) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } },
+ set(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} },
+ push(key, value) { const arr = SAFE_HOOKS.get(key, []); arr.push(value); SAFE_HOOKS.set(key, arr); return arr; },
+};
+function formPayload(form){ return Object.fromEntries(new FormData(form).entries()); }
+function queueSupportTicket(ticket, source){
+ const id = 'SUP-' + Math.floor(1000 + Math.random() * 9000);
+ const payload = { id, createdAt: new Date().toISOString(), source, status: 'queued_local_only', ticket };
+ SAFE_HOOKS.push('heyronSupportTickets', payload);
+ return payload;
+}
+function bindModal(openId, modalId, closeId){
+ const open=document.getElementById(openId), modal=document.getElementById(modalId), close=document.getElementById(closeId);
+ const show=()=>modal&&modal.classList.add('open'); const hide=()=>modal&&modal.classList.remove('open');
+ open&&open.addEventListener('click',show); close&&close.addEventListener('click',hide);
+ modal&&modal.addEventListener('click',e=>{if(e.target===modal)hide();}); return {show,hide,modal};
+}
 (function(){
- const modal=document.getElementById('billingModal');
- const open=document.getElementById('billingOpen');
- const close=document.getElementById('billingClose');
- const form=document.getElementById('billingForm');
- function show(){modal&&modal.classList.add('open');}
- function hide(){modal&&modal.classList.remove('open');}
- open&&open.addEventListener('click',show);
- close&&close.addEventListener('click',hide);
- modal&&modal.addEventListener('click',e=>{if(e.target===modal)hide();});
- form&&form.addEventListener('submit',e=>{e.preventDefault(); alert('Billing ticket draft created for human oversight. Real hookup should create a support ticket with this request.'); hide();});
- document.addEventListener('keydown',e=>{if(e.key==='Escape')hide();});
+ const ticket=bindModal('ticketOpen','ticketModal','ticketClose');
+ const status=bindModal('ticketStatusOpen','ticketStatusModal','ticketStatusClose');
+ const billing=bindModal('billingOpen','billingModal','billingClose');
+ const statusCopy=document.getElementById('ticketStatusCopy');
+ const dump=document.getElementById('ticketStatusDump');
+ function renderStatus(){ const tickets=SAFE_HOOKS.get('heyronSupportTickets',[]); if(statusCopy) statusCopy.textContent=tickets.length ? `${tickets.length} local ticket(s) queued. Safe preview only.` : 'No local tickets yet.'; if(dump) dump.textContent=JSON.stringify(tickets,null,2); }
+ document.getElementById('ticketStatusOpen')?.addEventListener('click',renderStatus);
+ document.getElementById('supportTicketForm')?.addEventListener('submit',e=>{e.preventDefault(); const payload=queueSupportTicket(formPayload(e.target),'support-page-ticket'); alert(`${payload.id} queued locally. Robby can wire this payload to Supabase next.`); e.target.reset(); ticket.hide();});
+ document.getElementById('billingForm')?.addEventListener('submit',e=>{e.preventDefault(); const data=formPayload(e.target); const payload=queueSupportTicket({ ...data, category:'Billing', subject:data.request, description:data.details },'support-page-billing'); alert(`${payload.id} billing request queued locally for human oversight.`); e.target.reset(); billing.hide();});
+ document.getElementById('tedQuestionForm')?.addEventListener('submit',e=>{e.preventDefault(); SAFE_HOOKS.push('heyronTedQuestions',{id:'TED-'+Date.now(),createdAt:new Date().toISOString(),status:'queued_local_only',question:formPayload(e.target)}); alert('TED Talk question queued locally.'); e.target.reset();});
+ document.getElementById('ticketExport')?.addEventListener('click',async()=>{ const text=JSON.stringify({tickets:SAFE_HOOKS.get('heyronSupportTickets',[]), tedQuestions:SAFE_HOOKS.get('heyronTedQuestions',[])},null,2); try{await navigator.clipboard.writeText(text); alert('Local queue JSON copied.');}catch{ if(dump) dump.textContent=text; alert('Copy blocked, JSON is visible in the box.'); }});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'){ticket.hide();status.hide();billing.hide();}});
 })();
 
 (function(){
@@ -825,7 +881,7 @@ a,button,.button,.card,.clippy-open,.sw-quick button{min-height:44px;touch-actio
  document.getElementById('supportClippyOpen2')?.addEventListener('click',open);
  document.getElementById('supportClippyClose')?.addEventListener('click',close);
  document.querySelectorAll('.sw-quick button').forEach(b=>b.addEventListener('click',()=>{msg.textContent=b.dataset.reply;}));
- document.getElementById('supportClippySend')?.addEventListener('click',()=>{const q=(input.value||'').trim(); if(!q) return; msg.textContent='Got it. If this touches your account, billing, container, or private info, make a ticket. Otherwise this is a good Discord/simple-question lane.'; input.value='';});
+ document.getElementById('supportClippySend')?.addEventListener('click',()=>{const q=(input.value||'').trim(); if(!q) return; msg.textContent='Got it. If this touches your account, billing, container, or private info, make a ticket. I can queue that locally in this preview, no prod writes.'; input.value='';});
  document.addEventListener('keydown',e=>{if(e.key==='Escape') close();});
 })();
 </script>
