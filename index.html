@@ -62,25 +62,24 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .status{display:block;margin-top:18px;position:relative;}
 .status-left{display:none;}
 .status-right{width:min(860px,92%);margin:0 auto;position:relative;overflow:hidden;border-radius:24px;min-height:430px;border:1px solid rgba(125,225,255,.46);background:radial-gradient(circle at 50% 40%,rgba(34,211,238,.08),rgba(7,9,12,.92) 64%);box-shadow:0 -12px 34px rgba(7,9,12,.44),0 0 28px rgba(34,211,238,.16),0 0 44px rgba(94,234,212,.08),inset 0 1px 0 rgba(248,250,252,.06);}
-.status-right::before{content:'';position:absolute;z-index:0;inset:0;background-image:url("assets/mission-control-main-clean-v3.png");background-size:cover;background-position:center;background-repeat:no-repeat;filter:none;border-radius:24px;box-shadow:none;}
 .status-right::after{content:'';position:absolute;z-index:2;inset:0;background:linear-gradient(180deg,rgba(7,9,12,.10) 0%,rgba(7,9,12,0) 34%,rgba(7,9,12,.18) 100%);pointer-events:none;}
 .quick-card{display:flex;flex-direction:column;align-items:center;justify-start;text-align:center;min-height:180px;padding-bottom:12px;}
 .quick-card h3{font-size:12px;margin:4px 0;}
 .quick-card p{font-size:10px;color:var(--text-muted);text-align:center;margin-bottom:10px;flex-grow:1;}
 .icon{width:clamp(28px,5vw,36px);height:clamp(28px,5vw,36px);object-fit:contain;display:block;margin:0 auto 6px;filter:drop-shadow(0 0 6px rgba(34,211,238,0.25));}
 .button{margin-top:6px;display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--accent);color:var(--accent);font-size:10px;text-decoration:none;}
-@keyframes heyronButtonGlow{
-  0%,100%{border-color:rgba(0,207,255,.78);box-shadow:0 0 18px rgba(0,207,255,.28),0 0 34px rgba(0,207,255,.10),inset 0 1px 0 rgba(248,250,252,.10);} /* robin egg */
-  14%{border-color:rgba(34,211,238,.72);box-shadow:0 0 18px rgba(34,211,238,.24),0 0 34px rgba(34,211,238,.10),inset 0 1px 0 rgba(248,250,252,.10);} /* cerulean */
-  28%{border-color:rgba(94,234,212,.72);box-shadow:0 0 18px rgba(94,234,212,.24),0 0 34px rgba(94,234,212,.10),inset 0 1px 0 rgba(248,250,252,.10);} /* seafoam */
-  42%{border-color:rgba(249,168,212,.68);box-shadow:0 0 18px rgba(249,168,212,.22),0 0 34px rgba(249,168,212,.10),inset 0 1px 0 rgba(248,250,252,.10);} /* baby pink */
-  56%{border-color:rgba(109,40,217,.72);box-shadow:0 0 20px rgba(109,40,217,.26),0 0 38px rgba(109,40,217,.12),inset 0 1px 0 rgba(248,250,252,.10);} /* deep purple */
-  70%{border-color:rgba(253,224,71,.76);box-shadow:0 0 20px rgba(253,224,71,.26),0 0 36px rgba(253,224,71,.12),inset 0 1px 0 rgba(248,250,252,.10);} /* yellow */
-  84%{border-color:rgba(251,146,60,.76);box-shadow:0 0 20px rgba(251,146,60,.26),0 0 36px rgba(251,146,60,.12),inset 0 1px 0 rgba(248,250,252,.10);} /* orange */
-}
-.button,.bridge-button,.footer-symbol,.clippy-quick button,.clippy-send button,.clippy-login button,.mod-access,.status-right{animation:heyronButtonGlow 13s ease-in-out infinite;}
-@media (prefers-reduced-motion: reduce){.button,.bridge-button,.footer-symbol,.clippy-quick button,.clippy-send button,.clippy-login button,.mod-access{animation:none!important;}}
-.card.selected,.bridge-button.selected,.footer-symbol.selected,.button.selected{border-color:rgba(248,250,252,.92)!important;box-shadow:0 0 0 1px rgba(248,250,252,.30),0 0 26px rgba(0,207,255,.34),0 0 46px rgba(109,40,217,.18),inset 0 1px 0 rgba(255,255,255,.16)!important;filter:brightness(1.24) saturate(1.16);transform:translateY(-2px);}
+
+
+@keyframes heyronRainbowTrace{to{--rainbow-angle:360deg;}}
+@property --rainbow-angle{syntax:'<angle>';inherits:false;initial-value:0deg;}
+.button,.bridge-button,.footer-symbol,.clippy-quick button,.clippy-send button,.clippy-login button,.mod-access,.status-right,.quick-card{position:relative;border-color:transparent!important;background-clip:padding-box;}
+.button::before,.bridge-button::before,.footer-symbol::before,.clippy-quick button::before,.clippy-send button::before,.clippy-login button::before,.mod-access::before,.status-right::before,.quick-card::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:conic-gradient(from var(--rainbow-angle),#00CFFF,#22D3EE,#5EEAD4,#F9A8D4,#6D28D9,#FDE047,#FB923C,#F8FAFC,#00CFFF);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;animation:heyronRainbowTrace 22s linear infinite;box-shadow:0 0 18px rgba(0,207,255,.16),0 0 28px rgba(109,40,217,.08);}
+.status-right::before{inset:0;padding:1px;z-index:4;border-radius:24px;background:conic-gradient(from var(--rainbow-angle),#00CFFF,#22D3EE,#5EEAD4,#F9A8D4,#6D28D9,#FDE047,#FB923C,#F8FAFC,#00CFFF);background-image:conic-gradient(from var(--rainbow-angle),#00CFFF,#22D3EE,#5EEAD4,#F9A8D4,#6D28D9,#FDE047,#FB923C,#F8FAFC,#00CFFF);}
+.status-right .bridge-art{position:absolute;z-index:0;inset:0;background-image:url("assets/mission-control-main-clean-v3.png");background-size:cover;background-position:center;background-repeat:no-repeat;border-radius:24px;}
+.quick-card:first-child,.bridge-button.primary{box-shadow:0 0 24px rgba(0,207,255,.16),0 0 38px rgba(109,40,217,.10),inset 0 1px 0 rgba(255,255,255,.07)!important;}
+@media (prefers-reduced-motion: reduce){.button::before,.bridge-button::before,.footer-symbol::before,.clippy-quick button::before,.clippy-send button::before,.clippy-login button::before,.mod-access::before,.status-right::before,.quick-card::before{animation:none!important;}}
+
+.card.selected,.quick-card.selected,.bridge-button.selected,.footer-symbol.selected,.button.selected{border-color:rgba(248,250,252,.92)!important;box-shadow:0 0 0 1px rgba(248,250,252,.30),0 0 26px rgba(0,207,255,.34),0 0 46px rgba(109,40,217,.18),inset 0 1px 0 rgba(255,255,255,.16)!important;filter:brightness(1.24) saturate(1.16);transform:translateY(-2px);}
 .bridge-button.primary.selected,.quick-card:first-child.selected{box-shadow:0 0 0 1px rgba(248,250,252,.34),0 0 32px rgba(0,207,255,.40),0 0 54px rgba(109,40,217,.24),0 0 34px rgba(253,224,71,.12),inset 0 1px 0 rgba(255,255,255,.18)!important;}
 
 
