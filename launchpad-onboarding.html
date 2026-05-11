@@ -63,6 +63,12 @@ a,button,.path-card,.back-button{min-height:44px;touch-action:manipulation;}
 .welcome-frame{cursor:pointer;}
 .welcome-img{pointer-events:none;}
 
+
+/* Ron real-link fix: mobile button is now a native anchor */
+.welcome-hotspot{display:block!important;text-indent:-9999px;overflow:hidden;text-decoration:none;-webkit-tap-highlight-color:rgba(0,229,255,.18);}
+.welcome-hotspot::after{content:'';position:absolute;inset:-12px;border-radius:28px;pointer-events:none;}
+@media(max-width:700px){.welcome-hotspot{right:0;bottom:0;width:58%;height:36%;min-height:96px;}}
+
 </style>
 </head>
 <body>
@@ -70,7 +76,7 @@ a,button,.path-card,.back-button{min-height:44px;touch-action:manipulation;}
 <section class="screen welcome active" id="welcome">
   <div class="welcome-frame">
     <img class="welcome-img" src="assets/final-onboarding-art.png" alt="Ron says Welcome cadet. You are in the right place. Let’s launch something great." />
-    <button class="welcome-hotspot" id="start" aria-label="Continue Launchpad onboarding">Continue</button>
+    <a class="welcome-hotspot" id="start" href="launchpad-flow.html?path=beginner" aria-label="Continue Launchpad onboarding">Continue</a>
   </div>
 </section>
 <section class="screen choose" id="choose">
@@ -92,13 +98,6 @@ a,button,.path-card,.back-button{min-height:44px;touch-action:manipulation;}
 </section>
 <script>
 const welcome=document.getElementById('welcome');const choose=document.getElementById('choose');
-const advanceLaunchpad=()=>{welcome.classList.remove('active');choose.classList.add('active');};
-document.getElementById('start').addEventListener('click',(event)=>{event.stopPropagation();advanceLaunchpad();});
-document.querySelector('.welcome-frame').addEventListener('click',advanceLaunchpad);
-document.querySelector('.welcome-frame').addEventListener('keydown',(event)=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();advanceLaunchpad();}});
-document.querySelector('.welcome-frame').setAttribute('tabindex','0');
-document.querySelector('.welcome-frame').setAttribute('role','button');
-document.querySelector('.welcome-frame').setAttribute('aria-label','Continue Launchpad onboarding');
 document.getElementById('back').addEventListener('click',()=>{choose.classList.remove('active');welcome.classList.add('active');});
 </script>
 </body>
