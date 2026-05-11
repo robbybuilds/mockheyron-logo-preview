@@ -36,3 +36,22 @@ Source preserved from: https://github.com/catherinebb272/MockHeyron
 - Added the onboarding intro shell before the older working Launchpad flow
 - Normalized the Ron assistant artwork into a cleaner Clippy/widget icon after the Discord CDN source was already 404
 - Did not edit Catherine's original repository
+
+## Desktop/mobile responsive pass
+
+Cassie flagged mobile Safari/phone layout risk. Added responsive safety CSS across:
+
+- `index.html`
+- `support.html`
+- `launchpad-onboarding.html`
+- `launchpad-flow.html`
+
+What changed:
+
+- Adds iOS/Android safe-area bottom padding so buttons/cards do not sit under browser chrome.
+- Tightens mobile grids and card heights on Mission Control.
+- Keeps tap targets at least 44px.
+- Moves support/Clippy floating widgets above mobile browser bars.
+- Uses `100svh`/`100dvh` where needed so onboarding does not get clipped.
+
+Verification done locally: all four pages return 200 from a local static server and include the responsive safety pass. Playwright screenshot could not run because browsers are not installed in this environment.

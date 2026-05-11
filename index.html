@@ -223,6 +223,45 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .ron-saying-pop{position:fixed;top:72px;right:22px;z-index:1200;width:min(320px,calc(100vw - 28px));padding:14px 15px;border-radius:18px;border:1px solid rgba(0,207,255,.38);background:linear-gradient(180deg,rgba(15,20,28,.98),rgba(7,9,12,.98));color:#FDE68A;box-shadow:0 0 34px rgba(0,207,255,.20),0 18px 60px rgba(0,0,0,.40);font-size:13px;line-height:1.45;display:none;}
 .ron-saying-pop.open{display:block;animation:popIn .16s ease-out}@keyframes popIn{from{opacity:0;transform:translateY(-6px) scale(.98)}to{opacity:1;transform:none}}
 .ron-saying-pop strong{display:block;color:#D7F9FF;margin-bottom:4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;}
+
+/* Ron responsive safety pass: desktop + iOS/Android mobile */
+html{width:100%;overflow-x:hidden;scroll-padding-bottom:calc(112px + env(safe-area-inset-bottom));}
+body{width:100%;min-height:100svh;overflow-x:hidden;padding-bottom:env(safe-area-inset-bottom);}
+.app-shell{box-sizing:border-box;padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right));padding-bottom:calc(96px + env(safe-area-inset-bottom));}
+a,button,.button,.bridge-button,.quick-card,.footer-symbol{min-height:44px;touch-action:manipulation;}
+img,svg{max-width:100%;}
+@media(max-width:700px){
+  .app-shell{padding-left:14px;padding-right:14px;padding-bottom:calc(132px + env(safe-area-inset-bottom));}
+  .header{padding-top:calc(12px + env(safe-area-inset-top));gap:10px;align-items:flex-start;}
+  .header-left{min-width:0;gap:8px;}
+  .header-title h1{font-size:17px;}
+  .slogan{font-size:11px;}
+  .mission-pill{font-size:9px;max-width:190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .header-right{gap:10px;}
+  .header-link{display:none;}
+  .featured-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  .all-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  .featured-actions .quick-card,.all-actions .quick-card,.quick-card{min-height:138px;padding:11px 9px;}
+  .quick-card h3{font-size:12px;line-height:1.15;}
+  .quick-card p{font-size:10px;line-height:1.3;margin-bottom:8px;}
+  .button{width:100%;padding:9px 10px;font-size:11px;display:flex;align-items:center;justify-content:center;}
+  .status{margin-top:12px;}
+  .status-right{width:100%;min-height:260px;border-radius:18px;}
+  .status-right .bridge-art{background-size:cover;background-position:center;}
+  .bridge-actions{gap:10px;margin-bottom:12px;}
+  .bridge-button{min-height:46px;padding:11px 14px;}
+  .grid-4{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .site-footer{margin-bottom:calc(118px + env(safe-area-inset-bottom));}
+  .footer-icons{width:100%;gap:12px;}
+  .clippy-widget{right:12px!important;bottom:calc(92px + env(safe-area-inset-bottom))!important;max-width:calc(100vw - 24px);}
+}
+@media(max-width:390px){
+  .featured-actions,.all-actions{grid-template-columns:1fr;}
+  .featured-actions .quick-card,.all-actions .quick-card,.quick-card{min-height:112px;}
+  .status-right{min-height:220px;}
+}
+@media(min-width:701px){.app-shell{padding-bottom:40px;}}
+
 </style>
 </head>
 <body>
