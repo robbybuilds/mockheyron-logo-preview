@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Heyron Launchpad Flow</title>
+<link rel="preconnect" href="https://rsms.me/" />
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+<style>
+:root {
+  --bg-page: #0C0F14; --bg-panel: #161B23; --bg-panel-2: #1E232C;
+  --border-muted: #232A33; --border-strong: #3F3F46;
+  --accent: #22D3EE; --accent-soft: rgba(34, 211, 238, 0.08); --accent-edge: rgba(34, 211, 238, 0.40);
+  --text-primary: #F5F0E8; --text-secondary: #A1A1AA; --text-tertiary: #71717A; --text-on-accent: #0C0F14;
+  --status-success: #34D399; --status-error: #DC2626;
+  --r-sm: 8px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg-page); color: var(--text-primary); font-family: 'Inter', system-ui, -apple-system, sans-serif; font-feature-settings: 'cv02','cv03','cv04','cv11'; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+button { font-family: inherit; cursor: pointer; }
+input, textarea, select { font-family: inherit; }
+code { font-family: 'JetBrains Mono', SFMono-Regular, Menlo, monospace; font-size: 0.9em; background: var(--bg-panel-2); padding: 1px 6px; border-radius: 4px; color: var(--accent); }
+
+.app { max-width: 720px; margin: 0 auto; padding: 32px 16px 120px; position: relative; min-height: 100vh; }
+.placeholder-note { background: var(--accent-soft); border: 0.5px dashed var(--accent-edge); border-radius: var(--r-md); padding: 10px 14px; font-size: 12px; color: var(--accent); margin-bottom: 16px; line-height: 1.5; }
+.panel { border: 0.5px solid var(--border-muted); border-radius: var(--r-xl); padding: 32px 28px 24px; }
+
+.brand { display: flex; align-items: center; gap: 6px; margin-bottom: 24px; }
+.brand-name { font-size: 15px; font-weight: 500; letter-spacing: -0.01em; }
+.brand-dot { display: inline-block; width: 5px; height: 5px; background: var(--accent); border-radius: 50%; }
+
+h1.headline { font-size: 26px; font-weight: 500; line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 8px; }
+p.sub { font-size: 15px; color: var(--text-secondary); line-height: 1.5; }
+
+.hero { display: flex; align-items: center; gap: 24px; margin-bottom: 28px; }
+.hero-text { flex: 1; }
+
+.card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.card { background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); padding: 20px; display: flex; flex-direction: column; }
+.card.recommended { border: 1px solid var(--accent); }
+.card-title { font-size: 17px; font-weight: 500; margin-bottom: 6px; }
+.card-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 18px; flex: 1; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; font-size: 14px; font-weight: 500; border-radius: var(--r-md); border: none; transition: background 120ms ease; width: 100%; }
+.btn-primary { background: var(--accent); color: var(--text-on-accent); }
+.btn-primary:hover:not(:disabled) { background: #5EEADB; }
+.btn-ghost { background: transparent; color: var(--text-primary); border: 0.5px solid var(--border-strong); }
+.btn-ghost:hover { background: var(--bg-panel-2); }
+.btn-link { background: transparent; color: var(--accent); padding: 6px 12px; font-size: 12px; border: 0.5px solid var(--accent-edge); border-radius: var(--r-sm); width: auto; }
+.btn-link:hover { background: var(--accent-soft); }
+.btn-text { background: transparent; color: var(--accent); border: none; padding: 6px 8px; width: auto; font-size: 13px; }
+.btn-text:hover { text-decoration: underline; }
+.btn-sm { padding: 8px 14px; font-size: 12px; width: auto; flex-shrink: 0; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.pill { display: inline-flex; align-items: center; gap: 6px; background: var(--accent-soft); border: 0.5px solid var(--accent-edge); color: var(--accent); font-size: 11px; padding: 4px 10px; border-radius: 20px; margin-bottom: 14px; align-self: flex-start; }
+.pill-spacer { height: 22px; margin-bottom: 14px; }
+
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
+.field-hint { font-size: 12px; color: var(--text-tertiary); margin-top: 6px; }
+.input { width: 100%; padding: 10px 12px; background: var(--bg-panel); color: var(--text-primary); border: 0.5px solid var(--border-muted); border-radius: var(--r-md); font-size: 14px; outline: none; transition: border-color 120ms ease, box-shadow 120ms ease; }
+.input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-edge); }
+textarea.input { resize: vertical; min-height: 80px; line-height: 1.5; }
+select.input { appearance: none; -webkit-appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--text-secondary) 50%), linear-gradient(135deg, var(--text-secondary) 50%, transparent 50%); background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 32px; }
+
+.foot { font-size: 12px; color: var(--text-tertiary); text-align: center; margin-top: 20px; }
+.steps { display: flex; gap: 4px; margin-bottom: 24px; }
+.step { flex: 1; height: 3px; background: var(--border-muted); border-radius: 2px; transition: background 200ms; }
+.step.active { background: var(--accent); }
+.step.done { background: var(--accent); opacity: 0.4; }
+
+.options { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.options-rich { grid-template-columns: 1fr 1fr; gap: 10px; }
+.option { background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); padding: 16px; cursor: pointer; transition: border-color 120ms ease; text-align: left; color: inherit; }
+.option:hover { border-color: var(--border-strong); }
+.option.selected { border: 1px solid var(--accent); }
+.option-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+.option-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+.option-tag { font-size: 10px; color: var(--accent); background: var(--accent-soft); padding: 2px 6px; border-radius: 4px; font-weight: 500; }
+
+.options-list { display: flex; flex-direction: column; gap: 10px; }
+.options-list .option { display: flex; gap: 12px; align-items: center; }
+.options-list .option-body { flex: 1; }
+.option-mark { width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--border-strong); flex-shrink: 0; position: relative; transition: border-color 120ms; }
+.options-list .option.selected .option-mark { border-color: var(--accent); }
+.options-list .option.selected .option-mark::after { content: ''; position: absolute; inset: 4px; background: var(--accent); border-radius: 50%; }
+
+.persona-card { padding: 18px; }
+.persona-name { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+.persona-tag { font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; }
+.persona-sample { font-size: 12px; color: var(--text-primary); background: var(--bg-panel-2); padding: 10px 12px; border-radius: var(--r-sm); margin-bottom: 10px; line-height: 1.5; font-style: italic; border-left: 2px solid var(--accent); }
+.persona-best { font-size: 11px; color: var(--text-tertiary); }
+.persona-best strong { color: var(--text-secondary); font-weight: 500; }
+
+.comm-sample { font-size: 13px; color: var(--text-primary); background: var(--bg-panel-2); padding: 10px 12px; border-radius: var(--r-sm); margin-top: 10px; line-height: 1.5; font-style: italic; border-left: 2px solid var(--accent); }
+
+.usecase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.usecase { display: flex; align-items: center; gap: 10px; background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-md); padding: 12px; cursor: pointer; color: inherit; text-align: left; transition: border-color 120ms; width: 100%; }
+.usecase:hover { border-color: var(--border-strong); }
+.usecase.selected { border-color: var(--accent); }
+.usecase-check { width: 16px; height: 16px; border-radius: 4px; border: 1px solid var(--border-strong); flex-shrink: 0; position: relative; transition: all 120ms; }
+.usecase.selected .usecase-check { background: var(--accent); border-color: var(--accent); }
+.usecase.selected .usecase-check::after { content: ''; position: absolute; left: 4px; top: 1px; width: 4px; height: 8px; border: 2px solid var(--text-on-accent); border-top: 0; border-left: 0; transform: rotate(45deg); }
+.usecase-label { font-size: 13px; flex: 1; }
+
+.soul-note { background: var(--accent-soft); border: 0.5px solid var(--accent-edge); border-radius: var(--r-md); padding: 12px 14px; margin-top: 18px; font-size: 12px; color: var(--accent); line-height: 1.5; }
+.soul-note strong { color: var(--text-primary); font-weight: 500; }
+
+.actions { display: flex; gap: 12px; margin-top: 28px; align-items: center; }
+.actions .btn { flex: 1; }
+.actions .btn-back { flex: 0 0 auto; width: auto; padding: 10px 18px; }
+.actions .btn-skip { flex: 0 0 auto; width: auto; padding: 10px 18px; }
+
+/* Setup forms */
+.setup { background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); padding: 18px; }
+.setup-step { display: flex; gap: 12px; padding: 14px 0; border-bottom: 0.5px solid var(--border-muted); }
+.setup-step:last-child { border-bottom: 0; padding-bottom: 0; }
+.setup-step:first-child { padding-top: 0; }
+.setup-num { width: 22px; height: 22px; border-radius: 50%; background: var(--bg-panel-2); color: var(--text-secondary); font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.setup-step.done .setup-num { background: var(--accent); color: var(--text-on-accent); }
+.setup-step-body { flex: 1; min-width: 0; }
+.setup-step-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+.setup-step-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+.setup-step-action { margin-top: 10px; }
+
+.setup-cta { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 18px; font-size: 14px; font-weight: 500; border-radius: var(--r-md); width: 100%; background: var(--bg-panel-2); color: var(--text-primary); border: 0.5px solid var(--border-strong); cursor: pointer; transition: all 120ms; }
+.setup-cta:hover { border-color: var(--accent-edge); background: var(--bg-panel); }
+.setup-cta:disabled { opacity: 0.5; cursor: not-allowed; }
+.setup-status { display: flex; align-items: center; gap: 8px; padding: 12px 14px; background: var(--accent-soft); border: 0.5px solid var(--accent-edge); border-radius: var(--r-md); font-size: 13px; color: var(--accent); }
+
+.voice-pick { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.voice { padding: 12px; background: var(--bg-page); border: 0.5px solid var(--border-muted); border-radius: var(--r-md); cursor: pointer; text-align: left; color: inherit; transition: border-color 120ms; position: relative; }
+.voice:hover { border-color: var(--border-strong); }
+.voice.selected { border-color: var(--accent); }
+.voice-name { font-size: 13px; font-weight: 500; margin-bottom: 2px; display: flex; justify-content: space-between; align-items: center; }
+.voice-desc { font-size: 11px; color: var(--text-tertiary); }
+.voice-play { font-size: 10px; color: var(--accent); cursor: pointer; padding: 2px 6px; border: 0.5px solid var(--accent-edge); border-radius: 4px; background: transparent; }
+
+.permissions { display: flex; flex-direction: column; gap: 0; }
+.permissions .toggle-row { padding: 12px 0; }
+.permissions .toggle-row:first-child { padding-top: 4px; }
+.permissions .toggle-row:last-child { padding-bottom: 4px; }
+
+.skip-hint { font-size: 12px; color: var(--text-tertiary); text-align: center; margin-top: 14px; }
+
+/* Beginner integration list */
+.integrations { display: flex; flex-direction: column; gap: 8px; }
+.integration { display: flex; align-items: center; gap: 12px; background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-md); padding: 14px; transition: border-color 120ms; }
+.integration.connected { border-color: var(--accent); }
+.integration-icon { width: 36px; height: 36px; border-radius: var(--r-sm); background: var(--bg-panel-2); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; color: var(--accent); flex-shrink: 0; letter-spacing: 0.04em; }
+.integration-body { flex: 1; min-width: 0; }
+.integration-name { font-size: 14px; font-weight: 500; margin-bottom: 2px; color: var(--text-primary); }
+.integration-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.45; }
+
+.checkbox { display: flex; align-items: center; gap: 10px; cursor: pointer; margin-top: 14px; font-size: 13px; color: var(--text-secondary); background: none; border: none; padding: 0; text-align: left; width: 100%; }
+.checkbox-mark { width: 16px; height: 16px; border-radius: 4px; border: 1px solid var(--border-strong); position: relative; flex-shrink: 0; transition: all 120ms; }
+.checkbox.checked .checkbox-mark { background: var(--accent); border-color: var(--accent); }
+.checkbox.checked .checkbox-mark::after { content: ''; position: absolute; left: 4px; top: 1px; width: 4px; height: 8px; border: 2px solid var(--text-on-accent); border-top: 0; border-left: 0; transform: rotate(45deg); }
+
+.toggle-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 0.5px solid var(--border-muted); }
+.toggle-row:last-child { border-bottom: 0; }
+.toggle-info { flex: 1; }
+.toggle-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.toggle-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+.toggle { width: 36px; height: 20px; border-radius: 10px; background: var(--border-muted); position: relative; cursor: pointer; flex-shrink: 0; transition: background 160ms; border: none; padding: 0; margin-top: 2px; }
+.toggle.on { background: var(--accent); }
+.toggle::after { content: ''; position: absolute; left: 2px; top: 2px; width: 16px; height: 16px; background: var(--text-primary); border-radius: 50%; transition: transform 160ms; }
+.toggle.on::after { background: var(--text-on-accent); transform: translateX(16px); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.day-row { display: flex; gap: 6px; margin-top: 8px; }
+.day { flex: 1; padding: 10px 4px; font-size: 12px; background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-sm); cursor: pointer; text-align: center; color: var(--text-secondary); transition: all 120ms; }
+.day:hover { border-color: var(--border-strong); }
+.day.selected { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+
+.summary { display: flex; flex-direction: column; gap: 0; background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); }
+.summary-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 16px; border-bottom: 0.5px solid var(--border-muted); font-size: 13px; gap: 12px; }
+.summary-row:last-child { border-bottom: 0; }
+.summary-section-title { font-size: 11px; color: var(--accent); padding: 10px 16px 6px; letter-spacing: 0.04em; text-transform: uppercase; font-weight: 500; }
+.summary-label { color: var(--text-secondary); flex-shrink: 0; }
+.summary-value { color: var(--text-primary); font-weight: 500; text-align: right; }
+
+/* Dashboard */
+.dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.dash-greeting h2 { font-size: 22px; font-weight: 500; margin-bottom: 4px; }
+.dash-greeting p { font-size: 13px; color: var(--text-secondary); }
+.dash-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.metric { background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); padding: 16px; }
+.metric-label { font-size: 11px; color: var(--text-tertiary); margin-bottom: 6px; }
+.metric-value { font-size: 22px; font-weight: 500; }
+.metric-trend { font-size: 11px; color: var(--status-success); margin-top: 4px; }
+.dash-section { margin-top: 22px; }
+.dash-section h3 { font-size: 14px; font-weight: 500; margin-bottom: 10px; color: var(--text-secondary); }
+.activity { background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); }
+.activity-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 0.5px solid var(--border-muted); font-size: 13px; }
+.activity-row:last-child { border-bottom: 0; }
+.activity-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.activity-text { flex: 1; }
+.activity-time { font-size: 11px; color: var(--text-tertiary); }
+
+.container-card { background: var(--bg-panel); border: 0.5px solid var(--accent-edge); border-radius: var(--r-lg); padding: 16px; margin-top: 22px; }
+.container-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.container-title { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; }
+.container-status { font-size: 11px; color: var(--accent); display: flex; align-items: center; gap: 5px; }
+.container-status::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+.container-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; font-size: 12px; }
+.container-meta-label { color: var(--text-tertiary); }
+.container-meta-value { color: var(--text-primary); font-family: 'JetBrains Mono', SFMono-Regular, Menlo, monospace; font-size: 11px; }
+
+/* Help pages */
+.help-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.help-card { background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); padding: 18px; cursor: pointer; transition: border-color 120ms; text-align: left; color: inherit; display: flex; flex-direction: column; gap: 6px; }
+.help-card:hover { border-color: var(--accent-edge); }
+.help-card-title { font-size: 15px; font-weight: 500; }
+.help-card-summary { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+.help-back { background: transparent; border: none; color: var(--text-secondary); font-size: 13px; padding: 0; margin-bottom: 16px; cursor: pointer; }
+.help-back:hover { color: var(--accent); }
+.help-h1 { font-size: 28px; font-weight: 500; margin-bottom: 8px; letter-spacing: -0.01em; }
+.help-tagline { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.5; }
+.help-cat-title { font-size: 11px; color: var(--text-tertiary); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 12px; font-weight: 500; }
+.help-section { margin-bottom: 24px; }
+.help-section h3 { font-size: 16px; font-weight: 500; margin-bottom: 10px; }
+.help-section p { font-size: 14px; color: var(--text-primary); line-height: 1.65; margin-bottom: 8px; }
+.help-section ul, .help-section ol { padding-left: 0; list-style: none; }
+.help-section li { font-size: 14px; color: var(--text-primary); line-height: 1.65; margin-bottom: 8px; padding-left: 18px; position: relative; }
+.help-section ul li::before { content: '•'; color: var(--accent); position: absolute; left: 4px; top: 0; }
+.help-section ol { counter-reset: step; }
+.help-section ol li { padding-left: 32px; counter-increment: step; }
+.help-section ol li::before { content: counter(step); color: var(--accent); background: var(--accent-soft); border: 0.5px solid var(--accent-edge); border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; left: 0; top: 4px; font-weight: 500; position: absolute; }
+.help-related { background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); padding: 16px; margin-top: 24px; }
+.help-related-title { font-size: 11px; color: var(--text-tertiary); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; font-weight: 500; }
+.help-related a { display: block; font-size: 13px; color: var(--accent); padding: 8px 0; border-bottom: 0.5px solid var(--border-muted); cursor: pointer; }
+.help-related a:last-child { border-bottom: 0; }
+.help-related a:hover { padding-left: 4px; transition: padding-left 120ms; }
+.help-cta { background: var(--bg-panel); border: 0.5px solid var(--accent-edge); border-radius: var(--r-lg); padding: 16px; margin-top: 18px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.help-cta-text { font-size: 13px; color: var(--text-secondary); flex: 1; }
+
+/* Support widget */
+.sw-pill { position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; border-radius: 50%; background: var(--bg-panel); border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 120ms ease; z-index: 100; padding: 0; }
+.sw-pill:hover { transform: scale(1.05); }
+.sw-panel { position: fixed; bottom: 24px; right: 24px; width: 360px; height: 480px; max-height: calc(100vh - 48px); background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); display: flex; flex-direction: column; z-index: 100; overflow: hidden; animation: sw-open 180ms ease-out; transform-origin: bottom right; }
+@keyframes sw-open { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+.sw-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 0.5px solid var(--border-muted); }
+.sw-header-info { display: flex; align-items: center; gap: 10px; }
+.sw-header-name { font-size: 13px; font-weight: 500; }
+.sw-header-status { font-size: 11px; color: var(--accent); display: flex; align-items: center; gap: 4px; margin-top: 2px; }
+.sw-status-dot { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; display: inline-block; }
+.sw-close { background: transparent; color: var(--text-tertiary); border: none; font-size: 22px; line-height: 1; width: 24px; height: 24px; padding: 0; }
+.sw-close:hover { color: var(--text-primary); }
+.sw-messages { flex: 1; padding: 14px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+.bubble { max-width: 85%; padding: 8px 12px; font-size: 13px; line-height: 1.5; word-wrap: break-word; animation: bubble-in 200ms ease-out; }
+@keyframes bubble-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+.bubble.bot { background: var(--bg-panel-2); color: var(--text-primary); border-radius: 12px 12px 12px 4px; align-self: flex-start; }
+.bubble.user { background: var(--accent); color: var(--text-on-accent); border-radius: 12px 12px 4px 12px; align-self: flex-end; }
+.bubble.escalate-cta { padding: 0; background: transparent; align-self: flex-start; }
+.investigating { font-size: 11px; color: var(--accent); padding: 4px 12px; background: var(--accent-soft); border-radius: 12px; align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; }
+.investigating::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 1.2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+.typing { display: flex; gap: 4px; padding: 12px 14px; background: var(--bg-panel-2); border-radius: 12px 12px 12px 4px; align-self: flex-start; }
+.typing-dot { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; opacity: 0.5; animation: typing-pulse 1.2s infinite ease-in-out; }
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.30s; }
+@keyframes typing-pulse { 0%, 60%, 100% { opacity: 0.4; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-2px); } }
+.sw-quick { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 0; }
+.sw-chip { background: transparent; border: 0.5px solid var(--border-strong); color: var(--text-primary); font-size: 12px; padding: 5px 10px; border-radius: 14px; cursor: pointer; font-family: inherit; transition: all 120ms; }
+.sw-chip:hover { border-color: var(--accent-edge); color: var(--accent); }
+.sw-action-btn { align-self: flex-start; background: transparent; color: var(--accent); padding: 7px 14px; font-size: 12px; font-weight: 500; border: 0.5px solid var(--accent-edge); border-radius: var(--r-sm); cursor: pointer; font-family: inherit; }
+.sw-action-btn:hover { background: var(--accent-soft); }
+.sw-input-row { display: flex; gap: 8px; padding: 12px 14px; border-top: 0.5px solid var(--border-muted); }
+.sw-input-row .input { padding: 8px 10px; font-size: 12px; }
+.sw-send { background: var(--accent); color: var(--text-on-accent); border: none; border-radius: var(--r-sm); padding: 0 14px; font-size: 12px; font-weight: 500; }
+.sw-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 16px; animation: fade-in 160ms ease-out; }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+.modal { background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: 16px; padding: 24px; width: 520px; max-width: 100%; max-height: 90vh; overflow-y: auto; animation: modal-in 200ms ease-out; }
+@keyframes modal-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.modal h3 { font-size: 18px; font-weight: 500; margin-bottom: 6px; }
+.modal-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
+
+.chip-row { display: flex; gap: 8px; }
+.chip { flex: 1; padding: 8px 12px; font-size: 13px; background: var(--bg-page); border: 0.5px solid var(--border-muted); border-radius: var(--r-sm); cursor: pointer; text-align: center; color: var(--text-primary); transition: border-color 120ms; }
+.chip:hover { border-color: var(--border-strong); }
+.chip.selected { border: 1px solid var(--accent); color: var(--accent); }
+
+.toast { position: fixed; bottom: 96px; right: 24px; background: var(--bg-panel); border: 0.5px solid var(--accent); border-radius: var(--r-md); padding: 12px 16px; font-size: 13px; color: var(--text-primary); z-index: 150; animation: toast-in 200ms ease-out; max-width: 320px; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 640px) {
+  .card-grid { grid-template-columns: 1fr; }
+  .options { grid-template-columns: 1fr; }
+  .options-rich { grid-template-columns: 1fr; }
+  .usecase-grid { grid-template-columns: 1fr; }
+  .voice-pick { grid-template-columns: 1fr; }
+  .dash-grid { grid-template-columns: 1fr 1fr; }
+  .container-meta { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .hero { flex-direction: column; align-items: flex-start; }
+  .sw-panel { width: calc(100vw - 32px); right: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+</style>
+<!-- Functional Launchpad flow copied from launchpad-final.html; entry art lives in launchpad-onboarding.html. -->
+</head>
+<body>
+<div id="root"></div>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel" data-presets="env,react">
+const { useState, useEffect, useRef } = React;
+
+/* ─── Mascot ─────────────────────────────────────────────────────── */
+function Eye({ cx, cy, pupilCx, pupilCy }) {
+  return (<g><circle cx={cx} cy={cy} r="4.8" fill="#F5F0E8" /><circle cx={pupilCx} cy={pupilCy} r="2.3" fill="#18181B" /><circle cx={pupilCx - 1} cy={pupilCy - 1} r="1.1" fill="#F5F0E8" /></g>);
+}
+function Mascot({ pose = 'greeting', size = 120 }) {
+  return (
+    <svg viewBox="0 0 160 200" width={size} height={size * 200 / 160} aria-hidden="true">
+      <g><path d="M 110 142 Q 145 144 148 114 Q 148 94 132 92 Q 128 108 132 124 Q 132 138 110 142 Z" fill="#D4D4D8" /><path d="M 132 96 Q 138 99 140 106" stroke="#3F3F46" strokeWidth="5" fill="none" strokeLinecap="round" /><path d="M 142 116 Q 145 122 145 128" stroke="#3F3F46" strokeWidth="5" fill="none" strokeLinecap="round" /></g>
+      <rect x="62" y="152" width="14" height="22" rx="2" fill="#1E293B" /><rect x="84" y="152" width="14" height="22" rx="2" fill="#1E293B" />
+      <ellipse cx="69" cy="176" rx="9" ry="4" fill="#18181B" /><ellipse cx="91" cy="176" rx="9" ry="4" fill="#18181B" />
+      <path d="M 52 100 Q 42 116 44 142 Q 46 150 53 148 Q 56 128 60 105 Z" fill="#1E293B" />
+      <ellipse cx="48" cy="146" rx="6" ry="4" fill="#3F3F46" />
+      <path d="M 108 100 Q 122 92 128 74 Q 132 62 124 60 Q 118 70 116 84 Q 113 96 105 105 Z" fill="#1E293B" />
+      <circle cx="126" cy="62" r="6" fill="#3F3F46" />
+      <path d="M 55 100 L 60 152 L 100 152 L 105 100 Q 92 92 80 94 Q 68 92 55 100 Z" fill="#1E293B" />
+      <path d="M 60 100 L 73 100 L 78 122 Z" fill="#0F172A" /><path d="M 100 100 L 87 100 L 82 122 Z" fill="#0F172A" />
+      <path d="M 73 100 L 80 125 L 87 100 Z" fill="#F5F0E8" />
+      <path d="M 70 113 L 80 118 L 70 123 Z" fill="#5EEAD4" /><path d="M 90 113 L 80 118 L 90 123 Z" fill="#5EEAD4" />
+      <rect x="77" y="115" width="6" height="6" rx="1" fill="#A0F0DC" />
+      <path d="M 92 110 L 96 110 L 94 115 Z" fill="#5EEAD4" />
+      <g>
+        <circle cx="80" cy="50" r="36" fill="#D4D4D8" />
+        <path d="M 47 33 L 52 8 L 65 30 Z" fill="#3F3F46" /><path d="M 113 33 L 108 8 L 95 30 Z" fill="#3F3F46" />
+        <path d="M 52 26 L 55 14 L 60 26 Z" fill="#18181B" /><path d="M 108 26 L 105 14 L 100 26 Z" fill="#18181B" />
+        <path d="M 46 48 Q 62 41 80 46 Q 98 41 114 48 Q 110 60 98 58 Q 84 51 80 52 Q 76 51 62 58 Q 50 60 46 48 Z" fill="#18181B" />
+        <Eye cx={63} cy={51} pupilCx={64} pupilCy={52} /><Eye cx={97} cy={51} pupilCx={98} pupilCy={52} />
+        <ellipse cx="51" cy="66" rx="4.5" ry="2.5" fill="#F87171" opacity="0.3" /><ellipse cx="109" cy="66" rx="4.5" ry="2.5" fill="#F87171" opacity="0.3" />
+        <ellipse cx="80" cy="68" rx="12" ry="8" fill="#F5F0E8" /><ellipse cx="80" cy="63" rx="3.2" ry="2.5" fill="#18181B" />
+        <path d="M 80 67 L 80 71 M 80 71 Q 75 75 72 73 M 80 71 Q 85 75 88 73" stroke="#18181B" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+      </g>
+    </svg>
+  );
+}
+function HeadMascot({ size = 32 }) {
+  return (<svg viewBox="0 0 40 40" width={size} height={size} aria-hidden="true"><circle cx="20" cy="22" r="13" fill="#D4D4D8" /><path d="M 10 15 L 12 7 L 17 13 Z" fill="#3F3F46" /><path d="M 30 15 L 28 7 L 23 13 Z" fill="#3F3F46" /><path d="M 12 12 L 13 9 L 15 12 Z" fill="#18181B" /><path d="M 28 12 L 27 9 L 25 12 Z" fill="#18181B" /><path d="M 9 21 Q 14 18 20 20 Q 26 18 31 21 Q 28 26 24 24 Q 22 22 20 23 Q 18 22 16 24 Q 12 26 9 21 Z" fill="#18181B" /><circle cx="15" cy="21" r="1.3" fill="#F5F0E8" /><circle cx="25" cy="21" r="1.3" fill="#F5F0E8" /><ellipse cx="20" cy="27" rx="4" ry="3" fill="#F5F0E8" /><ellipse cx="20" cy="26" rx="1.3" ry="1" fill="#18181B" /></svg>);
+}
+
+const Brand = () => (<div className="brand"><span className="brand-name">Heyron</span><span className="brand-dot" /></div>);
+const Steps = ({ current, total }) => (<div className="steps">{Array.from({ length: total }).map((_, i) => (<div key={i} className={`step ${i < current ? 'done' : ''} ${i === current ? 'active' : ''}`} />))}</div>);
+
+function StatusOK({ children }) {
+  return (<div className="setup-status"><span style={{ position: 'relative', display: 'inline-block', width: 14, height: 14, borderRadius: '50%', background: 'var(--accent)' }}><span style={{ position: 'absolute', left: 4, top: 1, width: 4, height: 8, border: '2px solid var(--text-on-accent)', borderTop: 0, borderLeft: 0, transform: 'rotate(45deg)' }} /></span>{children}</div>);
+}
+
+function SetupRow({ num, title, desc, children, done }) {
+  return (
+    <div className={`setup-step ${done ? 'done' : ''}`}>
+      <div className="setup-num">{done ? '✓' : num}</div>
+      <div className="setup-step-body">
+        <p className="setup-step-title">{title}</p>
+        {desc && <p className="setup-step-desc">{desc}</p>}
+        {children && <div className="setup-step-action">{children}</div>}
+      </div>
+    </div>
+  );
+}
+
+/* ─── Welcome, Names, Use cases ──────────────────────────────────── */
+function LaunchpadWelcome({ data, onChoose }) {
+  return (
+    <div className="panel">
+      <Brand />
+      <div className="hero">
+        <Mascot pose="greeting" size={118} />
+        <div className="hero-text">
+          <h1 className="headline">Hey {data.email ? data.email.split('@')[0] : 'there'}, let's get set up.</h1>
+          <p className="sub">Pick a path. You can change anything later.</p>
+        </div>
+      </div>
+      <div className="card-grid">
+        <div className="card recommended">
+          <div className="pill">Recommended</div>
+          <p className="card-title">Beginner</p>
+          <p className="card-desc">Six quick screens. Smart defaults so you can start using your agent today.</p>
+          <button className="btn btn-primary" onClick={() => onChoose('beginner')}>Start as Beginner</button>
+        </div>
+        <div className="card">
+          <div className="pill-spacer" />
+          <p className="card-title">Expert</p>
+          <p className="card-desc">Real per-tool setup with tokens, scopes, and permissions. About 5 minutes.</p>
+          <button className="btn btn-ghost" onClick={() => onChoose('expert')}>Configure manually</button>
+        </div>
+      </div>
+      <p className="foot">You can switch modes from settings anytime.</p>
+    </div>
+  );
+}
+
+function NamesScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const valid = data.yourName.trim() && data.agentName.trim();
+  return (
+    <div className="panel">
+      <Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero">
+        <img src="assets/raccoon2.png" alt="" style={{width: 120, height: 120, objectFit: 'contain'}} />
+        <div className="hero-text">
+          <h1 className="headline">Some quick names.</h1>
+          <p className="sub">What should we call you, and what should we call your agent?</p>
+        </div>
+      </div>
+      <div className="field"><label>Your name</label><input className="input" value={data.yourName} onChange={(e) => onUpdate({ yourName: e.target.value })} placeholder="Cassie" autoFocus /></div>
+      <div className="field"><label>Your agent's name</label><input className="input" value={data.agentName} onChange={(e) => onUpdate({ agentName: e.target.value })} placeholder="e.g. Heyron, Otto, Sage" /><p className="field-hint">Pick something you'll enjoy seeing in your inbox every morning.</p></div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={!valid}>Continue</button></div>
+    </div>
+  );
+}
+
+const USE_CASES = [
+  { id: 'email', label: 'Email triage & replies' }, { id: 'calendar', label: 'Calendar & scheduling' },
+  { id: 'research', label: 'Research & summaries' }, { id: 'writing', label: 'Writing & editing' },
+  { id: 'code', label: 'Code & technical work' }, { id: 'support', label: 'Customer support' },
+  { id: 'sales', label: 'Sales & outreach' }, { id: 'data', label: 'Data analysis' },
+  { id: 'pm', label: 'Project management' }, { id: 'personal', label: 'Personal tasks & errands' },
+];
+
+function UseCasesScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const toggle = (id) => { const next = new Set(data.useCases); next.has(id) ? next.delete(id) : next.add(id); onUpdate({ useCases: Array.from(next) }); };
+  return (
+    <div className="panel">
+      <Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero">
+        <img src="assets/raccoon3.png" alt="" style={{width: 96, height: 96, objectFit: 'contain'}} />
+        <div className="hero-text">
+          <h1 className="headline">What should {data.agentName || 'your agent'} focus on?</h1>
+          <p className="sub">Pick everything that applies — these become your agent's priorities.</p>
+        </div>
+      </div>
+      <div className="usecase-grid">
+        {USE_CASES.map((u) => {
+          const on = data.useCases.includes(u.id);
+          return (<button key={u.id} className={`usecase ${on ? 'selected' : ''}`} onClick={() => toggle(u.id)}><div className="usecase-check" /><div className="usecase-label">{u.label}</div></button>);
+        })}
+      </div>
+      <div className="soul-note">
+        <strong>Where this goes:</strong> these get written into {data.agentName || 'your agent'}'s <strong>soul</strong> — the always-on identity that shapes every reply. Memory holds facts ("Cassie's standup is at 9am"); soul holds priorities ("focus on email and calendar"). Edit anytime in <strong>Settings → Soul</strong>.
+      </div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={data.useCases.length === 0}>Continue</button></div>
+    </div>
+  );
+}
+
+/* ─── Personality, Comm style, Model ────────────────────────────── */
+const PERSONAS = [
+  { id: 'steady', name: 'Steady', tag: 'Calm, clear, no-frills.', sample: '"Sent. Three more in the queue."', best: 'Focused work with tight deadlines.' },
+  { id: 'curious', name: 'Curious', tag: 'Asks before acting.', sample: '"Quick check — should I include the design team on this?"', best: 'Ambiguous projects with many stakeholders.' },
+  { id: 'sharp', name: 'Sharp', tag: 'Terse and high-signal.', sample: '"Done. Doc here. Anything else?"', best: 'Power users who hate small talk.' },
+  { id: 'warm', name: 'Warm', tag: 'Friendly, encouraging, on your team.', sample: '"Got this one covered. You take care of the harder thing."', best: 'High-stress weeks and heavy workloads.' },
+  { id: 'playful', name: 'Playful', tag: 'Witty and light.', sample: '"Five down, two to go. Worth a snack break?"', best: 'Casual teams that like a little personality.' },
+  { id: 'formal', name: 'Formal', tag: 'Polished and careful.', sample: '"I have completed the draft and saved it for your review."', best: 'Client-facing or regulated environments.' },
+];
+function PersonalityScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  return (
+    <div className="panel">
+      <Brand /><Steps current={step} total={totalSteps} />
+      <h1 className="headline">Pick a starter personality.</h1>
+      <p className="sub" style={{ marginBottom: 20 }}>This shapes how {data.agentName || 'your agent'} talks. It's part of the soul too — refine anytime.</p>
+      <div className="options options-rich">
+        {PERSONAS.map((p) => (
+          <button key={p.id} className={`option persona-card ${data.personality === p.id ? 'selected' : ''}`} onClick={() => onUpdate({ personality: p.id })}>
+            <p className="persona-name">{p.name}</p><p className="persona-tag">{p.tag}</p>
+            <p className="persona-sample">{p.sample}</p><p className="persona-best"><strong>Best for:</strong> {p.best}</p>
+          </button>
+        ))}
+      </div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={!data.personality}>Continue</button></div>
+    </div>
+  );
+}
+
+const COMM_STYLES = [
+  { id: 'concise', name: 'Concise', desc: 'Just the answer. No fluff.', sample: '"Done — saved to Drive."' },
+  { id: 'balanced', name: 'Balanced', desc: 'Answer plus useful context.', sample: '"Done — saved to Drive under /work/april. Want a recap?"' },
+  { id: 'detailed', name: 'Detailed', desc: 'Full reasoning and next steps.', sample: '"Done. Saved to Drive at /work/april/notes.md. I added the two columns you mentioned and reformatted the date parsing. Anything else to adjust?"' },
+];
+function CommStyleScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  return (
+    <div className="panel">
+      <Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero">
+        <img src="assets/raccoon5.png" alt="" style={{width: 96, height: 96, objectFit: 'contain', transform: 'scaleX(-1)'}} />
+        <div className="hero-text">
+          <h1 className="headline">How chatty should it be?</h1>
+          <p className="sub">This is on top of personality — same voice, different verbosity.</p>
+        </div>
+      </div>
+      <div className="options-list">
+        {COMM_STYLES.map((c) => (
+          <button key={c.id} className={`option ${data.commStyle === c.id ? 'selected' : ''}`} onClick={() => onUpdate({ commStyle: c.id })} style={{ flexDirection: 'column', alignItems: 'stretch', gap: 0 }}>
+            <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}><div className="option-mark" /><div className="option-body"><p className="option-title">{c.name}</p><p className="option-desc">{c.desc}</p></div></div>
+            <p className="comm-sample">{c.sample}</p>
+          </button>
+        ))}
+      </div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={!data.commStyle}>Continue</button></div>
+    </div>
+  );
+}
+
+const MODELS = [
+  { id: 'standard', name: 'Heyron Standard', desc: 'Best balance of speed and depth. Great default.', recommended: true },
+  { id: 'deep', name: 'Heyron Deep', desc: 'Slower, more thorough. For complex reasoning.' },
+  { id: 'fast', name: 'Heyron Fast', desc: 'Quickest replies. Best for chatty, low-stakes work.' },
+];
+function ModelScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  return (
+    <div className="panel">
+      <Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero">
+        <img src="assets/raccoon4.png" alt="" style={{width: 96, height: 96, objectFit: 'contain'}} />
+        <div className="hero-text">
+          <h1 className="headline">Choose a model.</h1>
+          <p className="sub">Powers reasoning and replies. Switch anytime.</p>
+        </div>
+      </div>
+      <div className="options-list">
+        {MODELS.map((m) => (
+          <button key={m.id} className={`option ${data.model === m.id ? 'selected' : ''}`} onClick={() => onUpdate({ model: m.id })}>
+            <div className="option-mark" />
+            <div className="option-body"><p className="option-title">{m.name} {m.recommended && <span className="option-tag">Recommended</span>}</p><p className="option-desc">{m.desc}</p></div>
+          </button>
+        ))}
+      </div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={!data.model}>Continue</button></div>
+    </div>
+  );
+}
+
+/* ─── Beginner integrations list ────────────────────────────────── */
+const INTEGRATIONS_LIST = [
+  { id: 'github', name: 'GitHub', icon: 'GH', desc: 'Push commits, review PRs, ship code from chat.', cta: 'Connect' },
+  { id: 'telegram', name: 'Telegram', icon: 'TG', desc: 'Talk to your agent from your phone.', cta: 'Connect' },
+  { id: 'apify', name: 'Apify', icon: 'AP', desc: 'Scrape sites and pull web data.', cta: 'Connect' },
+  { id: 'elevenlabs', name: 'ElevenLabs', icon: 'EL', desc: 'Voice replies and audio generation.', cta: 'Connect' },
+  { id: 'obsidian', name: 'Obsidian', icon: 'OB', desc: 'Sync notes and let your agent read your vault.', cta: 'Connect' },
+  { id: 'discord', name: 'Discord', icon: 'DC', desc: 'Join the Heyron community.', cta: 'Join server' },
+  { id: 'cron', name: 'Cron', icon: 'CR', desc: 'Schedule recurring tasks.', cta: 'Set up' },
+  { id: 'browser', name: 'Web Browser', icon: 'WB', desc: 'Let your agent navigate the web.', cta: 'Connect' },
+];
+function IntegrationsListScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const toggle = (id) => { const next = new Set(data.tools); next.has(id) ? next.delete(id) : next.add(id); onUpdate({ tools: Array.from(next) }); };
+  return (
+    <div className="panel">
+      <Brand /><Steps current={step} total={totalSteps} />
+      <h1 className="headline">Connect your tools.</h1>
+      <p className="sub" style={{ marginBottom: 20 }}>Tap to connect. Skip anything you don't need — Expert mode walks each one through real setup if you want.</p>
+      <div className="integrations">
+        {INTEGRATIONS_LIST.map((i) => {
+          const connected = data.tools.includes(i.id);
+          return (<div key={i.id} className={`integration ${connected ? 'connected' : ''}`}><div className="integration-icon">{i.icon}</div><div className="integration-body"><p className="integration-name">{i.name}</p><p className="integration-desc">{i.desc}</p></div><button className={`btn ${connected ? 'btn-ghost' : 'btn-primary'} btn-sm`} onClick={() => toggle(i.id)}>{connected ? 'Connected' : i.cta}</button></div>);
+        })}
+      </div>
+      <p className="skip-hint">Skipping is fine — Continue keeps everything as-is.</p>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext}>Continue</button></div>
+    </div>
+  );
+}
+
+/* ─── Expert: pick which tools to set up ─────────────────────────── */
+function IntegrationsPickScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const toSetup = data.toSetup || [];
+  const toggle = (id) => { const next = new Set(toSetup); next.has(id) ? next.delete(id) : next.add(id); onUpdate({ toSetup: Array.from(next) }); };
+  const cta = toSetup.length === 0 ? 'Skip integrations' : `Walk through ${toSetup.length} tool${toSetup.length === 1 ? '' : 's'}`;
+  return (
+    <div className="panel">
+      <Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero">
+        <img src="assets/raccoon6.png" alt="" style={{width: 108, height: 108, objectFit: 'contain'}} />
+        <div className="hero-text">
+          <h1 className="headline">Which tools do you want to set up?</h1>
+          <p className="sub">Pick whichever you want now — we'll walk you through each one. Skip the rest, add them later.</p>
+        </div>
+      </div>
+      <div className="integrations">
+        {INTEGRATIONS_LIST.map((i) => {
+          const picked = toSetup.includes(i.id);
+          return (
+            <button key={i.id} className={`integration ${picked ? 'connected' : ''}`} onClick={() => toggle(i.id)} style={{ cursor: 'pointer', textAlign: 'left' }}>
+              <div className="integration-icon">{i.icon}</div>
+              <div className="integration-body"><p className="integration-name">{i.name}</p><p className="integration-desc">{i.desc}</p></div>
+              <div className="usecase-check" style={{ alignSelf: 'center' }} />
+            </button>
+          );
+        })}
+      </div>
+      <p className="skip-hint">{toSetup.length === 0 ? 'You can add tools any time from Settings → Connections.' : `Next: ${toSetup.map(t => (INTEGRATIONS_LIST.find(i => i.id === t) || {}).name).join(' → ')}`}</p>
+      <div className="actions">
+        <button className="btn btn-ghost btn-back" onClick={onBack}>Back</button>
+        <button className="btn btn-primary" onClick={onNext}>{cta}</button>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Expert per-integration setup screens ──────────────────────── */
+function IntegrationStep({ name, desc, step, totalSteps, onSkip, onConnect, onBack, connected, canConnect, children }) {
+  return (
+    <div className="panel">
+      <Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero">
+        <img src="assets/raccoon7.png" alt="" style={{width: 108, height: 108, objectFit: 'contain'}} />
+        <div className="hero-text"><h1 className="headline">Would you like to add {name}?</h1><p className="sub">{desc}</p></div>
+      </div>
+      {children}
+      <div className="actions">
+        <button className="btn btn-ghost btn-back" onClick={onBack}>Back</button>
+        <button className="btn btn-ghost btn-skip" onClick={onSkip}>Skip for now</button>
+        <button className="btn btn-primary" onClick={onConnect} disabled={!canConnect && !connected}>{connected ? 'Continue' : 'Connect'}</button>
+      </div>
+    </div>
+  );
+}
+
+/* GITHUB — full setup */
+function GitHubSetup({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [authMethod, setAuthMethod] = useState(data.githubAuthMethod || null);
+  const [authed, setAuthed] = useState(data.githubAuthed || false);
+  const [pat, setPat] = useState(data.githubPat || '');
+  const [account, setAccount] = useState(data.githubAccount || 'cassielee');
+  const [repos, setRepos] = useState(data.githubRepos || []);
+  const [perms, setPerms] = useState(data.githubPerms || { readCode: true, readPRs: true, writeCommits: false, mergePRs: false });
+  const [tested, setTested] = useState(false);
+  const [testing, setTesting] = useState(false);
+  const REPOS = ['heyron-app', 'heyron-api', 'heyron-docs', 'heyron-mobile', 'heyron-marketing'];
+  const ACCOUNTS = ['cassielee (personal)', 'heyron-team (org)'];
+  const authComplete = (authMethod === 'oauth' && authed) || (authMethod === 'pat' && pat.length >= 10);
+  const valid = authComplete && repos.length > 0 && tested;
+  const test = () => { setTesting(true); setTimeout(() => { setTesting(false); setTested(true); }, 800); };
+  const handleConnect = () => { onUpdate({ tools: Array.from(new Set([...data.tools, 'github'])), githubAuthMethod: authMethod, githubAuthed: authed, githubPat: pat ? '••••••••' : '', githubAccount: account, githubRepos: repos, githubPerms: perms }); onNext(); };
+  return (
+    <IntegrationStep name="GitHub" desc="Push commits, review PRs, and let your agent ship code without leaving chat." step={step} totalSteps={totalSteps} onBack={onBack} onSkip={onNext} onConnect={handleConnect} connected={data.tools.includes('github')} canConnect={valid}>
+      <div className="setup">
+        <SetupRow num="1" title="Choose how to connect" desc="OAuth is easiest. Personal Access Token is best if you need fine-grained scopes.">
+          <div className="chip-row">
+            <button className={`chip ${authMethod === 'oauth' ? 'selected' : ''}`} onClick={() => setAuthMethod('oauth')}>OAuth</button>
+            <button className={`chip ${authMethod === 'pat' ? 'selected' : ''}`} onClick={() => setAuthMethod('pat')}>Personal Access Token</button>
+          </div>
+        </SetupRow>
+        {authMethod === 'oauth' && (
+          <SetupRow num="2" title="Sign in with GitHub" desc="We'll redirect you to GitHub. Approve the Heyron app and come back here." done={authed}>
+            {!authed ? (<button className="setup-cta" onClick={() => setAuthed(true)}><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .3a12 12 0 0 0-3.79 23.4c.6.1.83-.26.83-.58v-2.04c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5.99.1-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18a4.65 4.65 0 0 1 1.24 3.22c0 4.61-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .3"/></svg>Continue with GitHub</button>) : (<StatusOK>Signed in as <strong style={{ color: 'var(--accent)', marginLeft: 4 }}>@cassielee</strong></StatusOK>)}
+          </SetupRow>
+        )}
+        {authMethod === 'pat' && (
+          <SetupRow num="2" title="Generate a token" desc={<>Open <code>github.com/settings/tokens</code> → Generate new token (classic) → tick <code>repo</code>, <code>read:org</code>, <code>read:user</code>. Copy and paste below.</>} done={pat.length >= 10}>
+            <button className="setup-cta" onClick={() => window.open('https://github.com/settings/tokens/new?scopes=repo,read:org,read:user&description=Heyron', '_blank')} style={{ marginBottom: 10 }}>Open GitHub token settings</button>
+            <input className="input" type="password" value={pat} onChange={(e) => setPat(e.target.value)} placeholder="ghp_..." />
+          </SetupRow>
+        )}
+        {authComplete && (
+          <SetupRow num="3" title="Pick an account or org">
+            <select className="input" value={account} onChange={(e) => setAccount(e.target.value)}>{ACCOUNTS.map(a => <option key={a}>{a}</option>)}</select>
+          </SetupRow>
+        )}
+        {authComplete && (
+          <SetupRow num="4" title="Pick repos to connect" desc="You can add more later from Settings → Connections." done={repos.length > 0}>
+            <div style={{display: 'flex', flexDirection: 'column', gap: 6}}>
+              {REPOS.map(r => (<button key={r} className={`usecase ${repos.includes(r) ? 'selected' : ''}`} onClick={() => setRepos(p => p.includes(r) ? p.filter(x => x !== r) : [...p, r])}><div className="usecase-check" /><div className="usecase-label">{r}</div></button>))}
+            </div>
+          </SetupRow>
+        )}
+        {repos.length > 0 && (
+          <SetupRow num="5" title="What can your agent do?" desc="You can change permissions any time.">
+            <div className="permissions">
+              <div className="toggle-row"><div className="toggle-info"><p className="toggle-title">Read code</p><p className="toggle-desc">Browse repo contents, files, and history.</p></div><button className={`toggle ${perms.readCode ? 'on' : ''}`} onClick={() => setPerms(p => ({...p, readCode: !p.readCode}))} aria-label="toggle"/></div>
+              <div className="toggle-row"><div className="toggle-info"><p className="toggle-title">Read PRs and issues</p><p className="toggle-desc">View pull requests, comments, and issue threads.</p></div><button className={`toggle ${perms.readPRs ? 'on' : ''}`} onClick={() => setPerms(p => ({...p, readPRs: !p.readPRs}))} aria-label="toggle"/></div>
+              <div className="toggle-row"><div className="toggle-info"><p className="toggle-title">Write commits & open PRs</p><p className="toggle-desc">Push to feature branches and open PRs for your review.</p></div><button className={`toggle ${perms.writeCommits ? 'on' : ''}`} onClick={() => setPerms(p => ({...p, writeCommits: !p.writeCommits}))} aria-label="toggle"/></div>
+              <div className="toggle-row"><div className="toggle-info"><p className="toggle-title">Merge PRs</p><p className="toggle-desc">Sensitive — only enable if you trust your agent to ship.</p></div><button className={`toggle ${perms.mergePRs ? 'on' : ''}`} onClick={() => setPerms(p => ({...p, mergePRs: !p.mergePRs}))} aria-label="toggle"/></div>
+            </div>
+          </SetupRow>
+        )}
+        {repos.length > 0 && (
+          <SetupRow num="6" title="Test the connection" done={tested}>
+            {tested ? (<StatusOK>Verified. Latest commit on <code>{repos[0]}</code>: 14 minutes ago.</StatusOK>) : (<button className="setup-cta" onClick={test} disabled={testing}>{testing ? 'Testing…' : 'Test connection'}</button>)}
+          </SetupRow>
+        )}
+      </div>
+    </IntegrationStep>
+  );
+}
+
+/* TELEGRAM — full setup */
+function TelegramSetup({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [opened, setOpened] = useState(data.telegramOpened || false);
+  const [code, setCode] = useState(data.telegramCode || '');
+  const [tested, setTested] = useState(false);
+  const [chat, setChat] = useState(data.telegramChat || 'dm');
+  const [trigger, setTrigger] = useState(data.telegramTrigger || 'important');
+  const valid = opened && code.length === 6 && tested;
+  const test = () => setTimeout(() => setTested(true), 600);
+  const handleConnect = () => { onUpdate({ tools: Array.from(new Set([...data.tools, 'telegram'])), telegramOpened: opened, telegramCode: '••••••', telegramChat: chat, telegramTrigger: trigger }); onNext(); };
+  return (
+    <IntegrationStep name="Telegram" desc="Talk to your agent from your phone. Tasks in, summaries out, anywhere you have signal." step={step} totalSteps={totalSteps} onBack={onBack} onSkip={onNext} onConnect={handleConnect} connected={data.tools.includes('telegram')} canConnect={valid}>
+      <div className="setup">
+        <SetupRow num="1" title="Open the Heyron bot" desc={<>Search <code>@HeyronBot</code> in Telegram, or tap below to open it directly.</>} done={opened}>
+          <button className="setup-cta" onClick={() => { window.open('https://t.me/HeyronBot', '_blank'); setOpened(true); }}>Open @HeyronBot in Telegram</button>
+        </SetupRow>
+        {opened && <SetupRow num="2" title="Send /start to the bot" desc="The bot will reply with a 6-digit pairing code." />}
+        {opened && (
+          <SetupRow num="3" title="Paste your code below" done={code.length === 6}>
+            <input className="input" value={code} onChange={(e) => { setCode(e.target.value.replace(/\D/g,'').slice(0, 6)); setTested(false); }} placeholder="123456" maxLength={6} style={{ letterSpacing: '0.3em', fontFamily: 'JetBrains Mono, SFMono-Regular, Menlo, monospace', textAlign: 'center', fontSize: 18 }} />
+          </SetupRow>
+        )}
+        {code.length === 6 && (
+          <SetupRow num="4" title="Test the link" done={tested}>
+            {tested ? (<StatusOK>Linked to chat ID <code>3982174</code>. Test message delivered.</StatusOK>) : (<button className="setup-cta" onClick={test}>Send a test message</button>)}
+          </SetupRow>
+        )}
+        {tested && (
+          <SetupRow num="5" title="Where should alerts go?" desc="You can pipe Heyron into a DM, a group chat, or both.">
+            <div className="chip-row">
+              <button className={`chip ${chat === 'dm' ? 'selected' : ''}`} onClick={() => setChat('dm')}>Direct message</button>
+              <button className={`chip ${chat === 'group' ? 'selected' : ''}`} onClick={() => setChat('group')}>Specific group</button>
+              <button className={`chip ${chat === 'both' ? 'selected' : ''}`} onClick={() => setChat('both')}>Both</button>
+            </div>
+          </SetupRow>
+        )}
+        {tested && (
+          <SetupRow num="6" title="What should it message you about?">
+            <div className="chip-row">
+              <button className={`chip ${trigger === 'all' ? 'selected' : ''}`} onClick={() => setTrigger('all')}>Everything</button>
+              <button className={`chip ${trigger === 'important' ? 'selected' : ''}`} onClick={() => setTrigger('important')}>Important only</button>
+              <button className={`chip ${trigger === 'mentions' ? 'selected' : ''}`} onClick={() => setTrigger('mentions')}>@-mentions only</button>
+            </div>
+          </SetupRow>
+        )}
+      </div>
+    </IntegrationStep>
+  );
+}
+
+/* APIFY — full setup */
+function ApifySetup({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [token, setToken] = useState(data.apifyToken || '');
+  const [tested, setTested] = useState(false);
+  const [testing, setTesting] = useState(false);
+  const [actors, setActors] = useState(data.apifyActors || []);
+  const [dailyCap, setDailyCap] = useState(data.apifyDailyCap || '50');
+  const ACTORS = ['apify/web-scraper', 'apify/google-search-scraper', 'apify/linkedin-scraper', 'apify/instagram-scraper', 'apify/twitter-scraper'];
+  const valid = token.length >= 10 && tested && actors.length > 0;
+  const test = () => { setTesting(true); setTimeout(() => { setTesting(false); setTested(true); }, 900); };
+  const handleConnect = () => { onUpdate({ tools: Array.from(new Set([...data.tools, 'apify'])), apifyToken: '••••••', apifyActors: actors, apifyDailyCap: dailyCap }); onNext(); };
+  return (
+    <IntegrationStep name="Apify" desc="Scrape sites and automate web data extraction. Drop in your API token and you're set." step={step} totalSteps={totalSteps} onBack={onBack} onSkip={onNext} onConnect={handleConnect} connected={data.tools.includes('apify')} canConnect={valid}>
+      <div className="setup">
+        <SetupRow num="1" title="Open Apify integrations" desc={<>Sign in at <code>console.apify.com</code> → Settings → Integrations → Personal API tokens.</>}>
+          <button className="setup-cta" onClick={() => window.open('https://console.apify.com/account/integrations', '_blank')}>Open Apify integrations</button>
+        </SetupRow>
+        <SetupRow num="2" title="Create a new token" desc='Click "+ Create new token", name it "Heyron Agent", and copy the value (it only shows once).' />
+        <SetupRow num="3" title="Paste your token here" done={token.length >= 10}>
+          <input className="input" type="password" value={token} onChange={(e) => { setToken(e.target.value); setTested(false); }} placeholder="apify_api_xxxxxxxxxxxxxxxx" />
+        </SetupRow>
+        <SetupRow num="4" title="Test the connection" done={tested}>
+          {tested ? (<StatusOK>Connected. Plan: Personal · 5 actors · 4.5 GB usage left this month.</StatusOK>) : (<button className="setup-cta" onClick={test} disabled={token.length < 10 || testing}>{testing ? 'Testing…' : 'Test connection'}</button>)}
+        </SetupRow>
+        {tested && (
+          <SetupRow num="5" title="Pick which actors Heyron can run" desc="You can add more from Settings → Connections → Apify." done={actors.length > 0}>
+            <div style={{display: 'flex', flexDirection: 'column', gap: 6}}>
+              {ACTORS.map(a => (<button key={a} className={`usecase ${actors.includes(a) ? 'selected' : ''}`} onClick={() => setActors(p => p.includes(a) ? p.filter(x => x !== a) : [...p, a])}><div className="usecase-check" /><div className="usecase-label">{a}</div></button>))}
+            </div>
+          </SetupRow>
+        )}
+        {actors.length > 0 && (
+          <SetupRow num="6" title="Daily run cap" desc="Hard ceiling. Heyron will stop and ask before exceeding this.">
+            <input className="input" type="number" value={dailyCap} onChange={(e) => setDailyCap(e.target.value)} min="1" placeholder="50" />
+          </SetupRow>
+        )}
+      </div>
+    </IntegrationStep>
+  );
+}
+
+/* ELEVENLABS — full setup */
+function ElevenLabsSetup({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [apiKey, setApiKey] = useState(data.elevenLabsKey || '');
+  const [tested, setTested] = useState(false);
+  const [testing, setTesting] = useState(false);
+  const [voice, setVoice] = useState(data.elevenLabsVoice || '');
+  const [stability, setStability] = useState(data.elevenLabsStability || 50);
+  const [similarity, setSimilarity] = useState(data.elevenLabsSimilarity || 75);
+  const [useFor, setUseFor] = useState(data.elevenLabsUseFor || 'on-request');
+  const [previewing, setPreviewing] = useState(null);
+  const VOICES = [
+    { id: 'rachel', name: 'Rachel', desc: 'Clear, neutral, mid-pitch.' },
+    { id: 'james', name: 'James', desc: 'Warm, narrative, mid-low.' },
+    { id: 'sarah', name: 'Sarah', desc: 'Bright, friendly, mid-high.' },
+    { id: 'custom', name: 'Custom voice ID', desc: 'Bring your own from ElevenLabs.' },
+  ];
+  const valid = apiKey.length >= 10 && tested && voice;
+  const test = () => { setTesting(true); setTimeout(() => { setTesting(false); setTested(true); }, 900); };
+  const previewVoice = (id) => { setPreviewing(id); setTimeout(() => setPreviewing(null), 1500); };
+  const handleConnect = () => { onUpdate({ tools: Array.from(new Set([...data.tools, 'elevenlabs'])), elevenLabsKey: '••••••', elevenLabsVoice: voice, elevenLabsStability: stability, elevenLabsSimilarity: similarity, elevenLabsUseFor: useFor }); onNext(); };
+  return (
+    <IntegrationStep name="ElevenLabs" desc="Voice replies and audio generation. Your agent can talk back, in any voice you like." step={step} totalSteps={totalSteps} onBack={onBack} onSkip={onNext} onConnect={handleConnect} connected={data.tools.includes('elevenlabs')} canConnect={valid}>
+      <div className="setup">
+        <SetupRow num="1" title="Open your ElevenLabs profile" desc="Profile → API Key. Click reveal, then copy.">
+          <button className="setup-cta" onClick={() => window.open('https://elevenlabs.io/app/settings/api-keys', '_blank')}>Open ElevenLabs API keys</button>
+        </SetupRow>
+        <SetupRow num="2" title="Paste your API key" done={apiKey.length >= 10}>
+          <input className="input" type="password" value={apiKey} onChange={(e) => { setApiKey(e.target.value); setTested(false); }} placeholder="sk_xxxxxxxxxxxxxxxx" />
+        </SetupRow>
+        <SetupRow num="3" title="Verify your account" done={tested}>
+          {tested ? (<StatusOK>Connected. Tier: Creator · 100,000 chars left this month.</StatusOK>) : (<button className="setup-cta" onClick={test} disabled={apiKey.length < 10 || testing}>{testing ? 'Verifying…' : 'Verify connection'}</button>)}
+        </SetupRow>
+        {tested && (
+          <SetupRow num="4" title="Pick a voice" desc="Tap Preview to hear a 2-second sample." done={!!voice}>
+            <div className="voice-pick">
+              {VOICES.map((v) => (
+                <button key={v.id} className={`voice ${voice === v.id ? 'selected' : ''}`} onClick={() => setVoice(v.id)}>
+                  <div className="voice-name">{v.name}<span className="voice-play" onClick={(e) => { e.stopPropagation(); previewVoice(v.id); }}>{previewing === v.id ? 'Playing…' : 'Preview'}</span></div>
+                  <p className="voice-desc">{v.desc}</p>
+                </button>
+              ))}
+            </div>
+          </SetupRow>
+        )}
+        {voice && (
+          <SetupRow num="5" title="Voice settings" desc="Lower stability = more expressive. Higher similarity = closer to the source voice.">
+            <div style={{ marginBottom: 12 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--text-secondary)', marginBottom: 4 }}><span>Stability</span><span>{stability}%</span></div>
+              <input type="range" min="0" max="100" value={stability} onChange={(e) => setStability(parseInt(e.target.value))} style={{ width: '100%' }} />
+            </div>
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--text-secondary)', marginBottom: 4 }}><span>Similarity</span><span>{similarity}%</span></div>
+              <input type="range" min="0" max="100" value={similarity} onChange={(e) => setSimilarity(parseInt(e.target.value))} style={{ width: '100%' }} />
+            </div>
+          </SetupRow>
+        )}
+        {voice && (
+          <SetupRow num="6" title="When should it speak?">
+            <div className="chip-row">
+              <button className={`chip ${useFor === 'always' ? 'selected' : ''}`} onClick={() => setUseFor('always')}>Always</button>
+              <button className={`chip ${useFor === 'on-request' ? 'selected' : ''}`} onClick={() => setUseFor('on-request')}>Only if I ask</button>
+              <button className={`chip ${useFor === 'summaries' ? 'selected' : ''}`} onClick={() => setUseFor('summaries')}>Summaries only</button>
+            </div>
+          </SetupRow>
+        )}
+      </div>
+    </IntegrationStep>
+  );
+}
+
+/* OBSIDIAN — full setup */
+function ObsidianSetup({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [installed, setInstalled] = useState(data.obsidianInstalled || false);
+  const [pairCode, setPairCode] = useState(data.obsidianCode || '');
+  const [vaultPath, setVaultPath] = useState(data.obsidianPath || '');
+  const [direction, setDirection] = useState(data.obsidianDirection || 'bidirectional');
+  const [frequency, setFrequency] = useState(data.obsidianFreq || 'realtime');
+  const [excludes, setExcludes] = useState(data.obsidianExcludes || '/private, /journal');
+  const [conflict, setConflict] = useState(data.obsidianConflict || 'newer');
+  const valid = installed && pairCode.length >= 6 && vaultPath.trim();
+  const handleConnect = () => { onUpdate({ tools: Array.from(new Set([...data.tools, 'obsidian'])), obsidianInstalled: installed, obsidianCode: '••••••', obsidianPath: vaultPath, obsidianDirection: direction, obsidianFreq: frequency, obsidianExcludes: excludes, obsidianConflict: conflict }); onNext(); };
+  return (
+    <IntegrationStep name="Obsidian" desc="Sync notes and let your agent read, search, and write into your vault." step={step} totalSteps={totalSteps} onBack={onBack} onSkip={onNext} onConnect={handleConnect} connected={data.tools.includes('obsidian')} canConnect={valid}>
+      <div className="setup">
+        <SetupRow num="1" title="Install the Heyron plugin" desc={<>In Obsidian: Settings → Community plugins → Browse → search <code>Heyron</code> → Install → Enable.</>} done={installed}>
+          {!installed ? (<button className="setup-cta" onClick={() => { window.open('obsidian://show-plugin?id=heyron', '_blank'); setInstalled(true); }}>Open Obsidian to install</button>) : (<StatusOK>Plugin installed in Obsidian.</StatusOK>)}
+        </SetupRow>
+        {installed && <SetupRow num="2" title="Generate a pairing code" desc="In Obsidian: Settings → Heyron → Pair new device. Copy the 6-character code." />}
+        {installed && (
+          <SetupRow num="3" title="Paste the pairing code" done={pairCode.length >= 6}>
+            <input className="input" value={pairCode} onChange={(e) => setPairCode(e.target.value.toUpperCase().slice(0, 6))} placeholder="A4B2X9" maxLength={6} style={{ letterSpacing: '0.3em', fontFamily: 'JetBrains Mono, SFMono-Regular, Menlo, monospace', textAlign: 'center', fontSize: 18 }} />
+          </SetupRow>
+        )}
+        {pairCode.length >= 6 && (
+          <SetupRow num="4" title="Confirm vault path" desc="Auto-detected by the plugin. Edit if you have multiple vaults.">
+            <input className="input" value={vaultPath} onChange={(e) => setVaultPath(e.target.value)} placeholder="/Users/you/Documents/Obsidian/Main" />
+          </SetupRow>
+        )}
+        {vaultPath.trim() && (
+          <SetupRow num="5" title="Sync direction">
+            <div className="chip-row">
+              <button className={`chip ${direction === 'read' ? 'selected' : ''}`} onClick={() => setDirection('read')}>Read-only</button>
+              <button className={`chip ${direction === 'write' ? 'selected' : ''}`} onClick={() => setDirection('write')}>Write-only</button>
+              <button className={`chip ${direction === 'bidirectional' ? 'selected' : ''}`} onClick={() => setDirection('bidirectional')}>Bidirectional</button>
+            </div>
+          </SetupRow>
+        )}
+        {vaultPath.trim() && (
+          <SetupRow num="6" title="Sync frequency">
+            <select className="input" value={frequency} onChange={(e) => setFrequency(e.target.value)}>
+              <option value="realtime">Real-time</option><option value="5min">Every 5 minutes</option><option value="hourly">Hourly</option><option value="daily">Daily</option>
+            </select>
+          </SetupRow>
+        )}
+        {vaultPath.trim() && (
+          <SetupRow num="7" title="Folders to exclude" desc="Comma-separated. These stay private.">
+            <input className="input" value={excludes} onChange={(e) => setExcludes(e.target.value)} placeholder="/private, /journal" />
+          </SetupRow>
+        )}
+        {vaultPath.trim() && (
+          <SetupRow num="8" title="Conflict resolution" desc="If a note is edited in both places at once.">
+            <div className="chip-row">
+              <button className={`chip ${conflict === 'newer' ? 'selected' : ''}`} onClick={() => setConflict('newer')}>Newer wins</button>
+              <button className={`chip ${conflict === 'mine' ? 'selected' : ''}`} onClick={() => setConflict('mine')}>I always win</button>
+              <button className={`chip ${conflict === 'ask' ? 'selected' : ''}`} onClick={() => setConflict('ask')}>Ask me</button>
+            </div>
+          </SetupRow>
+        )}
+      </div>
+    </IntegrationStep>
+  );
+}
+
+/* DISCORD — full setup */
+function DiscordSetup({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [opened, setOpened] = useState(data.discordOpened || false);
+  const [linked, setLinked] = useState(data.discordLinked || false);
+  const [username, setUsername] = useState(data.discordUsername || '');
+  const [notifs, setNotifs] = useState(data.discordNotifs || ['announcements', 'mentions']);
+  const handleConnect = () => { onUpdate({ tools: Array.from(new Set([...data.tools, 'discord'])), discordOpened: opened, discordLinked: linked, discordUsername: username, discordNotifs: notifs }); onNext(); };
+  const toggleNotif = (n) => setNotifs(p => p.includes(n) ? p.filter(x => x !== n) : [...p, n]);
+  return (
+    <IntegrationStep name="Discord" desc="Heyron has an active community Discord — get help, see what others are building, tell us what to build next." step={step} totalSteps={totalSteps} onBack={onBack} onSkip={onNext} onConnect={handleConnect} connected={data.tools.includes('discord')} canConnect={opened}>
+      <div className="setup">
+        <SetupRow num="1" title="Open the Heyron Discord invite" desc="Permanent invite, no password." done={opened}>
+          <button className="setup-cta" onClick={() => { window.open('https://discord.gg/heyron', '_blank'); setOpened(true); }}>Open Discord invite</button>
+        </SetupRow>
+        {opened && <SetupRow num="2" title="Sign in or create a Discord account" desc="Free. Takes 30 seconds if you don't have one." />}
+        {opened && <SetupRow num="3" title="Accept the invite" desc="You'll land in #welcome. Say hi if you like." />}
+        {opened && (
+          <SetupRow num="4" title="Link your Discord (optional)" desc="If you link, the team can @-mention you in the server when there's news.">
+            <button className={`checkbox ${linked ? 'checked' : ''}`} onClick={() => setLinked(!linked)} style={{ marginTop: 0 }}><span className="checkbox-mark" />Link my Discord username for in-server mentions</button>
+            {linked && (<input className="input" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="username#1234 or username" style={{ marginTop: 10 }} />)}
+          </SetupRow>
+        )}
+        {opened && (
+          <SetupRow num="5" title="Notification preferences in the server" desc="You can change these in Discord too — these match the Heyron server defaults.">
+            <button className={`checkbox ${notifs.includes('announcements') ? 'checked' : ''}`} onClick={() => toggleNotif('announcements')} style={{ marginTop: 0 }}><span className="checkbox-mark" />#announcements</button>
+            <button className={`checkbox ${notifs.includes('mentions') ? 'checked' : ''}`} onClick={() => toggleNotif('mentions')}><span className="checkbox-mark" />@-mentions</button>
+            <button className={`checkbox ${notifs.includes('all') ? 'checked' : ''}`} onClick={() => toggleNotif('all')}><span className="checkbox-mark" />All messages (loud)</button>
+          </SetupRow>
+        )}
+      </div>
+    </IntegrationStep>
+  );
+}
+
+/* CRON — full setup */
+function CronSetup({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [taskName, setTaskName] = useState(data.cronTask || '');
+  const [freq, setFreq] = useState(data.cronFreq || 'weekly');
+  const [time, setTime] = useState(data.cronTime || '08:00');
+  const [day, setDay] = useState(data.cronDay || 'monday');
+  const [tz, setTz] = useState(data.cronTz || 'Pacific (PT)');
+  const [action, setAction] = useState(data.cronAction || '');
+  const [output, setOutput] = useState(data.cronOutput || 'email');
+  const [failure, setFailure] = useState(data.cronFailure || 'retry');
+  const valid = taskName.trim() && action.trim();
+  const handleConnect = () => { onUpdate({ tools: Array.from(new Set([...data.tools, 'cron'])), cronTask: taskName, cronFreq: freq, cronTime: time, cronDay: day, cronTz: tz, cronAction: action, cronOutput: output, cronFailure: failure }); onNext(); };
+  const previewLine = (() => {
+    const when = freq === 'daily' ? `every day at ${time}` : freq === 'weekly' ? `every ${day} at ${time}` : freq === 'monthly' ? `1st of the month at ${time}` : 'on a custom schedule';
+    return `${taskName || 'Untitled'} — ${when} ${tz}, output to ${output}`;
+  })();
+  return (
+    <IntegrationStep name="Cron" desc="Schedule recurring tasks. Daily summaries, weekly cleanups, custom intervals — whatever rhythm you work in." step={step} totalSteps={totalSteps} onBack={onBack} onSkip={onNext} onConnect={handleConnect} connected={data.tools.includes('cron')} canConnect={valid}>
+      <div className="setup">
+        <SetupRow num="1" title="Task name" desc="Just for your reference.">
+          <input className="input" value={taskName} onChange={(e) => setTaskName(e.target.value)} placeholder="Morning briefing" />
+        </SetupRow>
+        <SetupRow num="2" title="How often">
+          <div className="chip-row">
+            <button className={`chip ${freq === 'daily' ? 'selected' : ''}`} onClick={() => setFreq('daily')}>Daily</button>
+            <button className={`chip ${freq === 'weekly' ? 'selected' : ''}`} onClick={() => setFreq('weekly')}>Weekly</button>
+            <button className={`chip ${freq === 'monthly' ? 'selected' : ''}`} onClick={() => setFreq('monthly')}>Monthly</button>
+            <button className={`chip ${freq === 'custom' ? 'selected' : ''}`} onClick={() => setFreq('custom')}>Custom cron</button>
+          </div>
+        </SetupRow>
+        <SetupRow num="3" title="When">
+          <div className="two-col">
+            <input className="input" type="time" value={time} onChange={(e) => setTime(e.target.value)} />
+            {freq === 'weekly' ? (<select className="input" value={day} onChange={(e) => setDay(e.target.value)}><option>monday</option><option>tuesday</option><option>wednesday</option><option>thursday</option><option>friday</option><option>saturday</option><option>sunday</option></select>) : (<select className="input" value={tz} onChange={(e) => setTz(e.target.value)}><option>Pacific (PT)</option><option>Mountain (MT)</option><option>Central (CT)</option><option>Eastern (ET)</option><option>UK (GMT/BST)</option><option>Central Europe (CET)</option></select>)}
+          </div>
+        </SetupRow>
+        <SetupRow num="4" title="What should it do?" desc="Plain English. The agent will treat this as a prompt at trigger time.">
+          <textarea className="input" value={action} onChange={(e) => setAction(e.target.value)} placeholder="Pull my unread Slack DMs, summarize them, flag anything urgent." rows={3} />
+        </SetupRow>
+        <SetupRow num="5" title="Where should the output go?">
+          <div className="chip-row">
+            <button className={`chip ${output === 'email' ? 'selected' : ''}`} onClick={() => setOutput('email')}>Email</button>
+            <button className={`chip ${output === 'push' ? 'selected' : ''}`} onClick={() => setOutput('push')}>Push</button>
+            <button className={`chip ${output === 'telegram' ? 'selected' : ''}`} onClick={() => setOutput('telegram')}>Telegram</button>
+            <button className={`chip ${output === 'memory' ? 'selected' : ''}`} onClick={() => setOutput('memory')}>Save to memory</button>
+          </div>
+        </SetupRow>
+        <SetupRow num="6" title="If it fails">
+          <div className="chip-row">
+            <button className={`chip ${failure === 'retry' ? 'selected' : ''}`} onClick={() => setFailure('retry')}>Retry 3×</button>
+            <button className={`chip ${failure === 'alert' ? 'selected' : ''}`} onClick={() => setFailure('alert')}>Alert me</button>
+            <button className={`chip ${failure === 'skip' ? 'selected' : ''}`} onClick={() => setFailure('skip')}>Skip silently</button>
+          </div>
+        </SetupRow>
+        {valid && (
+          <SetupRow num="7" title="Preview" done>
+            <StatusOK><span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11 }}>{previewLine}</span></StatusOK>
+          </SetupRow>
+        )}
+      </div>
+    </IntegrationStep>
+  );
+}
+
+/* WEB BROWSER — full setup */
+function BrowserSetup({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [tier, setTier] = useState(data.browserTier || null);
+  const [domains, setDomains] = useState(data.browserDomainMode || 'any');
+  const [allowlist, setAllowlist] = useState(data.browserAllowlist || '');
+  const [blocklist, setBlocklist] = useState(data.browserBlocklist || 'mybank.com, irs.gov');
+  const [maxPages, setMaxPages] = useState(data.browserMaxPages || 25);
+  const [timeout, setTimeoutVal] = useState(data.browserTimeout || 60);
+  const [persistCookies, setPersistCookies] = useState(data.browserCookies !== undefined ? data.browserCookies : false);
+  const valid = tier !== null;
+  const handleConnect = () => { onUpdate({ tools: Array.from(new Set([...data.tools, 'browser'])), browserTier: tier, browserDomainMode: domains, browserAllowlist: allowlist, browserBlocklist: blocklist, browserMaxPages: maxPages, browserTimeout: timeout, browserCookies: persistCookies }); onNext(); };
+  return (
+    <IntegrationStep name="Web Browser" desc="Let your agent navigate sites, fill forms, and pull info from the open web." step={step} totalSteps={totalSteps} onBack={onBack} onSkip={onNext} onConnect={handleConnect} connected={data.tools.includes('browser')} canConnect={valid}>
+      <div className="setup">
+        <SetupRow num="1" title="Pick a permission tier" desc="You can change this later. Higher tiers can do more, but require more trust.">
+          <div style={{display: 'flex', flexDirection: 'column', gap: 6}}>
+            <button className={`option ${tier === 'read' ? 'selected' : ''}`} onClick={() => setTier('read')} style={{display: 'flex', gap: 12, alignItems: 'center'}}><div className="option-mark" /><div className="option-body"><p className="option-title">Read-only <span className="option-tag">Safest</span></p><p className="option-desc">Open URLs and extract content. No clicking, no forms.</p></div></button>
+            <button className={`option ${tier === 'interactive' ? 'selected' : ''}`} onClick={() => setTier('interactive')} style={{display: 'flex', gap: 12, alignItems: 'center'}}><div className="option-mark" /><div className="option-body"><p className="option-title">Interactive <span className="option-tag">Recommended</span></p><p className="option-desc">Read pages, click links, fill forms. No downloads or scripts.</p></div></button>
+            <button className={`option ${tier === 'full' ? 'selected' : ''}`} onClick={() => setTier('full')} style={{display: 'flex', gap: 12, alignItems: 'center'}}><div className="option-mark" /><div className="option-body"><p className="option-title">Full</p><p className="option-desc">Above plus downloads and script execution. Use carefully.</p></div></button>
+          </div>
+        </SetupRow>
+        {tier && (
+          <SetupRow num="2" title="Domain access">
+            <div className="chip-row">
+              <button className={`chip ${domains === 'any' ? 'selected' : ''}`} onClick={() => setDomains('any')}>Any domain</button>
+              <button className={`chip ${domains === 'allowlist' ? 'selected' : ''}`} onClick={() => setDomains('allowlist')}>Allowlist only</button>
+            </div>
+          </SetupRow>
+        )}
+        {tier && domains === 'allowlist' && (
+          <SetupRow num="3" title="Allowed domains" desc="Comma-separated. Wildcards OK.">
+            <textarea className="input" value={allowlist} onChange={(e) => setAllowlist(e.target.value)} placeholder="github.com, *.notion.so, docs.heyron.ai" rows={2} />
+          </SetupRow>
+        )}
+        {tier && (
+          <SetupRow num={domains === 'allowlist' ? '4' : '3'} title="Block these domains" desc="Always blocked, even if explicitly requested.">
+            <textarea className="input" value={blocklist} onChange={(e) => setBlocklist(e.target.value)} placeholder="mybank.com, irs.gov, hr-portal.company.com" rows={2} />
+          </SetupRow>
+        )}
+        {tier && (
+          <SetupRow num={domains === 'allowlist' ? '5' : '4'} title="Session limits">
+            <div className="two-col">
+              <div><label style={{ fontSize: 12, color: 'var(--text-secondary)', display: 'block', marginBottom: 4 }}>Max pages per session</label><input className="input" type="number" value={maxPages} onChange={(e) => setMaxPages(parseInt(e.target.value) || 1)} min="1" /></div>
+              <div><label style={{ fontSize: 12, color: 'var(--text-secondary)', display: 'block', marginBottom: 4 }}>Timeout (seconds)</label><input className="input" type="number" value={timeout} onChange={(e) => setTimeoutVal(parseInt(e.target.value) || 1)} min="5" /></div>
+            </div>
+          </SetupRow>
+        )}
+        {tier && (
+          <SetupRow num={domains === 'allowlist' ? '6' : '5'} title="Cookie & session persistence" desc="Helps with logged-in sites — but means cookies stay in the container.">
+            <div className="toggle-row" style={{ padding: 0, border: 0 }}><div className="toggle-info"><p className="toggle-title">Persist cookies between sessions</p><p className="toggle-desc">Off by default — Heyron will re-auth each session.</p></div><button className={`toggle ${persistCookies ? 'on' : ''}`} onClick={() => setPersistCookies(!persistCookies)} aria-label="toggle"/></div>
+          </SetupRow>
+        )}
+      </div>
+    </IntegrationStep>
+  );
+}
+
+/* ─── Memory, Hours, Notifications, Privacy, Preview ─────────────── */
+const MEMORY_OPTIONS = [
+  { id: 'short', name: 'Short', desc: 'Forgets after each session. Most private.' },
+  { id: 'standard', name: 'Standard', desc: 'Remembers across sessions, scoped to projects.', recommended: true },
+  { id: 'deep', name: 'Deep', desc: 'Full long-term memory across everything.' },
+];
+function MemoryScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  return (
+    <div className="panel">
+      <Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero">
+        <img src="assets/raccoon8.png" alt="" style={{width: 96, height: 96, objectFit: 'contain'}} />
+        <div className="hero-text">
+          <h1 className="headline">How much should it remember?</h1>
+          <p className="sub">Memory holds facts and history (vs. soul, which holds priorities). You can view and edit memory anytime.</p>
+        </div>
+      </div>
+      <div className="options-list">
+        {MEMORY_OPTIONS.map((m) => (
+          <button key={m.id} className={`option ${data.memory === m.id ? 'selected' : ''}`} onClick={() => onUpdate({ memory: m.id })}>
+            <div className="option-mark" />
+            <div className="option-body"><p className="option-title">{m.name} {m.recommended && <span className="option-tag">Recommended</span>}</p><p className="option-desc">{m.desc}</p></div>
+          </button>
+        ))}
+      </div>
+      <button className={`checkbox ${data.editableMemory ? 'checked' : ''}`} onClick={() => onUpdate({ editableMemory: !data.editableMemory })}><span className="checkbox-mark" />Let me view and edit memory at any time</button>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={!data.memory}>Continue</button></div>
+    </div>
+  );
+}
+
+const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+function HoursScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const toggleDay = (d) => { const next = new Set(data.workDays); next.has(d) ? next.delete(d) : next.add(d); onUpdate({ workDays: Array.from(next) }); };
+  return (
+    <div className="panel">
+      <Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero">
+        <img src="assets/raccoon9.png" alt="" style={{width: 96, height: 96, objectFit: 'contain'}} />
+        <div className="hero-text">
+          <h1 className="headline">When are you working?</h1>
+          <p className="sub">Your agent will batch updates and stay quiet outside these hours.</p>
+        </div>
+      </div>
+      <div className="field"><label>Timezone</label><select className="input" value={data.timezone} onChange={(e) => onUpdate({ timezone: e.target.value })}><option>Pacific (PT)</option><option>Mountain (MT)</option><option>Central (CT)</option><option>Eastern (ET)</option><option>UK (GMT/BST)</option><option>Central Europe (CET)</option><option>Other</option></select></div>
+      <div className="two-col"><div className="field"><label>Start</label><input className="input" type="time" value={data.workStart} onChange={(e) => onUpdate({ workStart: e.target.value })} /></div><div className="field"><label>End</label><input className="input" type="time" value={data.workEnd} onChange={(e) => onUpdate({ workEnd: e.target.value })} /></div></div>
+      <div className="field"><label>Days</label><div className="day-row">{DAYS.map((d) => (<button key={d} className={`day ${data.workDays.includes(d) ? 'selected' : ''}`} onClick={() => toggleDay(d)}>{d}</button>))}</div></div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext}>Continue</button></div>
+    </div>
+  );
+}
+
+function NotificationsScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  return (
+    <div className="panel">
+      <Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero">
+        <img src="assets/raccoon10.png" alt="" style={{width: 96, height: 96, objectFit: 'contain'}} />
+        <div className="hero-text">
+          <h1 className="headline">How should we reach you?</h1>
+          <p className="sub">You'll get the daily briefing either way.</p>
+        </div>
+      </div>
+      <div>
+        <div className="toggle-row"><div className="toggle-info"><p className="toggle-title">Email</p><p className="toggle-desc">Daily summary and anything urgent.</p></div><button className={`toggle ${data.notifyEmail ? 'on' : ''}`} onClick={() => onUpdate({ notifyEmail: !data.notifyEmail })} aria-label="Toggle email" /></div>
+        <div className="toggle-row"><div className="toggle-info"><p className="toggle-title">Push</p><p className="toggle-desc">Real-time alerts on desktop and mobile.</p></div><button className={`toggle ${data.notifyPush ? 'on' : ''}`} onClick={() => onUpdate({ notifyPush: !data.notifyPush })} aria-label="Toggle push" /></div>
+      </div>
+      <div className="field" style={{ marginTop: 20 }}><label>How often</label><div className="chip-row">{[{id:'always',n:'Always'},{id:'important',n:'Important only'},{id:'daily',n:'Daily digest'}].map((p) => (<button key={p.id} className={`chip ${data.notifyFreq === p.id ? 'selected' : ''}`} onClick={() => onUpdate({ notifyFreq: p.id })}>{p.n}</button>))}</div></div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext}>Continue</button></div>
+    </div>
+  );
+}
+
+function PrivacyScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  return (
+    <div className="panel">
+      <Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero">
+        <img src="assets/raccoon11.png" alt="" style={{width: 96, height: 96, objectFit: 'contain'}} />
+        <div className="hero-text">
+          <h1 className="headline">A few privacy choices.</h1>
+          <p className="sub">You're in control. Change these anytime.</p>
+        </div>
+      </div>
+      <div>
+        <div className="toggle-row"><div className="toggle-info"><p className="toggle-title">Learn from my interactions</p><p className="toggle-desc">Lets your agent improve at the things you do most.</p></div><button className={`toggle ${data.learnFromMe ? 'on' : ''}`} onClick={() => onUpdate({ learnFromMe: !data.learnFromMe })} aria-label="Toggle learning" /></div>
+        <div className="toggle-row"><div className="toggle-info"><p className="toggle-title">Share anonymous usage data</p><p className="toggle-desc">Helps us improve Heyron. Never includes content.</p></div><button className={`toggle ${data.shareUsage ? 'on' : ''}`} onClick={() => onUpdate({ shareUsage: !data.shareUsage })} aria-label="Toggle usage sharing" /></div>
+      </div>
+      <div className="field" style={{ marginTop: 20 }}><label>Auto-delete chat history</label><select className="input" value={data.autoDelete} onChange={(e) => onUpdate({ autoDelete: e.target.value })}><option>Never</option><option>After 30 days</option><option>After 90 days</option><option>After 1 year</option></select></div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext}>Continue</button></div>
+    </div>
+  );
+}
+
+function PreviewScreen({ data, onLaunch, onBack, step, totalSteps, expert }) {
+  const persona = PERSONAS.find((p) => p.id === data.personality);
+  const comm = COMM_STYLES.find((c) => c.id === data.commStyle);
+  const model = MODELS.find((m) => m.id === data.model);
+  const memory = MEMORY_OPTIONS.find((m) => m.id === data.memory);
+  const useCaseLabels = data.useCases.map(id => (USE_CASES.find(u => u.id === id) || {}).label).filter(Boolean);
+  return (
+    <div className="panel">
+      <Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero"><img src="assets/raccoon14.png" alt="" style={{width: 120, height: 120, objectFit: 'contain'}} /><div className="hero-text"><h1 className="headline">Here's your setup.</h1><p className="sub">Look it over. You can change any of this from settings.</p></div></div>
+      <div className="summary">
+        <div className="summary-section-title">Identity</div>
+        <div className="summary-row"><span className="summary-label">Your name</span><span className="summary-value">{data.yourName}</span></div>
+        <div className="summary-row"><span className="summary-label">Agent name</span><span className="summary-value">{data.agentName}</span></div>
+
+        <div className="summary-section-title">Soul</div>
+        <div className="summary-row"><span className="summary-label">Focus areas</span><span className="summary-value" style={{ maxWidth: '60%' }}>{useCaseLabels.length ? useCaseLabels.join(', ') : 'None set'}</span></div>
+        {persona && <div className="summary-row"><span className="summary-label">Personality</span><span className="summary-value">{persona.name}</span></div>}
+        {comm && <div className="summary-row"><span className="summary-label">Verbosity</span><span className="summary-value">{comm.name}</span></div>}
+
+        {expert && (model || memory) && (<><div className="summary-section-title">Brain</div>
+        {expert && model && <div className="summary-row"><span className="summary-label">Model</span><span className="summary-value">{model.name}</span></div>}
+        {expert && memory && <div className="summary-row"><span className="summary-label">Memory</span><span className="summary-value">{memory.name}</span></div>}</>)}
+
+        <div className="summary-section-title">Connections</div>
+        <div className="summary-row"><span className="summary-label">Tools connected</span><span className="summary-value" style={{ maxWidth: '60%' }}>{data.tools.length === 0 ? 'None yet' : data.tools.join(', ')}</span></div>
+
+        {expert && (<><div className="summary-section-title">Schedule & alerts</div>
+        <div className="summary-row"><span className="summary-label">Working hours</span><span className="summary-value">{data.workStart}–{data.workEnd}, {data.workDays.length} days</span></div>
+        <div className="summary-row"><span className="summary-label">Notifications</span><span className="summary-value">{[data.notifyEmail && 'Email', data.notifyPush && 'Push'].filter(Boolean).join(' + ') || 'Off'}</span></div></>)}
+      </div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onLaunch}>Open dashboard</button></div>
+    </div>
+  );
+}
+
+/* ─── Help pages ─────────────────────────────────────────────────── */
+const HELP_PAGES = {
+  // Integrations
+  github: {
+    title: 'GitHub', cat: 'Integrations',
+    summary: 'Push commits, review PRs, and ship code through your agent.',
+    sections: [
+      { h: 'What it does', body: 'Your agent can read repos, browse code and history, view pull requests and issues, and — with the right permissions — push commits and open PRs on your behalf.' },
+      { h: 'Setting it up', steps: [
+        'Pick OAuth (easiest) or Personal Access Token (granular).',
+        'OAuth: tap Continue with GitHub, approve the Heyron app, you\'re in.',
+        'PAT: generate at github.com/settings/tokens with scopes "repo", "read:org", "read:user".',
+        'Pick the account or org you want to expose.',
+        'Pick which repos Heyron can see (you can add more later).',
+        'Choose permissions: read code, read PRs, write commits, merge PRs.',
+        'Test the connection. Heyron pulls the latest commit timestamp to verify.',
+      ] },
+      { h: 'Permissions explained', list: [
+        'Read code — browse files, history, branches.',
+        'Read PRs and issues — view threads, comments, labels.',
+        'Write commits — push to feature branches and open PRs for your review.',
+        'Merge PRs — sensitive. Only enable for agents you trust to ship.',
+      ] },
+      { h: 'Common issues', list: [
+        '"Repo not visible" — OAuth missing org access. Re-auth and tick the org under Organization access.',
+        'PAT expired — GitHub PATs expire on a schedule. Regenerate and paste the new value.',
+        'Webhook delivery failed — check Settings → Connections → GitHub for retry logs.',
+      ] },
+      { h: 'Disconnecting', body: 'Settings → Connections → GitHub → Disconnect. Heyron drops the token immediately and stops syncing.' },
+    ],
+    related: ['troubleshooting', 'soul-memory'],
+  },
+  telegram: {
+    title: 'Telegram', cat: 'Integrations',
+    summary: 'Talk to your agent from your phone — tasks in, summaries out.',
+    sections: [
+      { h: 'What it does', body: 'Connects @HeyronBot to your Telegram. Send messages from anywhere, get summaries pushed back. Supports DMs, groups, or both.' },
+      { h: 'Pairing the bot', steps: [
+        'Search @HeyronBot in Telegram, or open t.me/HeyronBot.',
+        'Tap Start. The bot replies with a 6-digit pairing code.',
+        'Paste the code in Heyron Settings → Connections → Telegram.',
+        'Pick where alerts go: DM, a specific group, or both.',
+        'Choose what to alert on: everything, important only, or @-mentions only.',
+      ] },
+      { h: 'Group chats', body: 'To use Heyron in a group, add @HeyronBot to the group as a member, then re-pair from inside the group.' },
+      { h: 'Common issues', list: [
+        '"Code expired" — pairing codes are valid for 10 minutes. Tap /start again for a fresh one.',
+        'Bot not responding — confirm t.me/HeyronBot is the right handle. Hold off on impostor bots.',
+        'Group messages not routing — bot needs to be a member, and group privacy mode must be off.',
+      ] },
+    ],
+    related: ['notifications', 'troubleshooting'],
+  },
+  apify: {
+    title: 'Apify', cat: 'Integrations',
+    summary: 'Scrape sites and pull web data through your agent.',
+    sections: [
+      { h: 'What it does', body: 'Lets your agent run Apify actors — pre-built scrapers for common sites — and pipe the data into memory or downstream tasks.' },
+      { h: 'Getting your API token', steps: [
+        'Sign in at console.apify.com.',
+        'Settings → Integrations → Personal API tokens.',
+        'Click "+ Create new token". Name it "Heyron Agent" so it\'s easy to revoke later.',
+        'Copy the token. It only shows once — if you miss it, regenerate.',
+        'Paste in Heyron Settings → Connections → Apify, then click Test connection.',
+      ] },
+      { h: 'Picking actors', body: 'You decide which actors Heyron can run — common ones include web-scraper, google-search-scraper, and linkedin-scraper. Anything not on your allowlist is blocked.' },
+      { h: 'Daily run cap', body: 'A hard ceiling on actor runs per day. Heyron stops and asks before exceeding. Defaults to 50, raise it if you need more.' },
+      { h: 'Common issues', list: [
+        '401 Unauthorized — token expired or wrong. Regenerate and re-paste.',
+        'Rate-limited — your Apify plan has a quota. Upgrade or wait it out.',
+        'Actor failed mid-run — check the actor\'s own logs in console.apify.com.',
+      ] },
+    ],
+    related: ['troubleshooting'],
+  },
+  elevenlabs: {
+    title: 'ElevenLabs', cat: 'Integrations',
+    summary: 'Voice replies and audio generation — your agent talks back.',
+    sections: [
+      { h: 'What it does', body: 'Generates spoken audio replies in any voice you pick. Useful for accessibility, multitasking, or just hearing your agent think out loud.' },
+      { h: 'Getting your API key', steps: [
+        'Sign in at elevenlabs.io.',
+        'Click your profile avatar → Profile → API Key.',
+        'Tap reveal, then copy.',
+        'Paste in Heyron Settings → Connections → ElevenLabs.',
+        'Click Verify connection — Heyron checks your tier and remaining character allowance.',
+      ] },
+      { h: 'Picking a voice', body: 'Choose Rachel (clear, neutral), James (warm, narrative), Sarah (bright, friendly), or paste a custom voice ID from your ElevenLabs library.' },
+      { h: 'Voice settings', list: [
+        'Stability — lower = more expressive, higher = more consistent. 50% is a solid default.',
+        'Similarity — closer adherence to the source voice. 75% works well for most.',
+      ] },
+      { h: 'When to use voice', list: [
+        'Always — every reply gets spoken.',
+        'On request — only when you ask for audio.',
+        'Summaries only — daily briefings get voiced, replies stay text.',
+      ] },
+      { h: 'Common issues', list: [
+        'Tier limits hit — you\'ve burned through your monthly characters. Upgrade or wait for the next cycle.',
+        'Voice ID not found — custom voices need to be saved in your ElevenLabs library first.',
+      ] },
+    ],
+    related: ['troubleshooting'],
+  },
+  obsidian: {
+    title: 'Obsidian', cat: 'Integrations',
+    summary: 'Sync notes and let your agent read your vault.',
+    sections: [
+      { h: 'What it does', body: 'Two-way sync between your agent and your Obsidian vault. The agent can search notes, write new ones, and act on what\'s in your vault.' },
+      { h: 'Installing the plugin', steps: [
+        'In Obsidian: Settings → Community plugins → Browse.',
+        'Search "Heyron" and install.',
+        'Enable the plugin in Community plugins.',
+        'Open Settings → Heyron in Obsidian.',
+        'Tap "Pair new device" to generate a 6-character code.',
+        'Paste the code in Heyron Settings → Connections → Obsidian.',
+      ] },
+      { h: 'Sync direction', list: [
+        'Read-only — agent can browse and search but never writes.',
+        'Write-only — agent writes new notes but doesn\'t read existing ones.',
+        'Bidirectional — full sync. Most flexible.',
+      ] },
+      { h: 'Sync frequency', body: 'Real-time uses websockets and is instant. Every 5 minutes, hourly, and daily are polled — pick a slower interval if your vault is huge.' },
+      { h: 'Folders & exclusions', body: 'Anything listed in the exclusion field stays private — typical defaults are /private and /journal. Comma-separated paths.' },
+      { h: 'Conflict resolution', list: [
+        'Newer wins — whichever side edited last takes precedence.',
+        'I always win — your manual edits override the agent.',
+        'Ask me — both sides survive, you choose later.',
+      ] },
+      { h: 'Common issues', list: [
+        'Plugin won\'t install — make sure Community plugins are enabled (Settings → Community plugins → Turn on).',
+        'Pairing code expired — regenerate from the plugin settings.',
+        'Conflicting edits — flip to "Ask me" to see both versions.',
+      ] },
+    ],
+    related: ['soul-memory', 'troubleshooting'],
+  },
+  discord: {
+    title: 'Discord', cat: 'Integrations',
+    summary: 'Join the Heyron community for help and feature talk.',
+    sections: [
+      { h: 'What you get', body: 'The Heyron Discord is the fastest path to community help, sneak peeks, and feature input. We hang out there too.' },
+      { h: 'Joining', steps: [
+        'Open the invite at discord.gg/heyron.',
+        'Sign in to Discord (or create a free account).',
+        'Accept the invite. You\'ll land in #welcome.',
+        'Optionally: link your Discord username so the team can @-mention you when there\'s news.',
+      ] },
+      { h: 'Notification preferences', body: 'You can mute the server entirely from inside Discord (right-click server → Notification settings). Recommended: keep #announcements and @-mentions on, mute the rest.' },
+    ],
+    related: ['troubleshooting'],
+  },
+  cron: {
+    title: 'Cron', cat: 'Integrations',
+    summary: 'Schedule recurring tasks for your agent.',
+    sections: [
+      { h: 'What it does', body: 'Runs prompts on a schedule. Daily summaries, weekly reviews, hourly checks — whatever rhythm you work in.' },
+      { h: 'Setting up a task', steps: [
+        'Settings → Cron → New task.',
+        'Name it for yourself (e.g. "Morning briefing").',
+        'Pick frequency: daily, weekly, monthly, or a custom cron string.',
+        'Pick the time (and day, if weekly).',
+        'Write the action in plain English — your agent treats it as a prompt at trigger time.',
+        'Pick where the output goes: email, push, Telegram, or save to memory.',
+        'Pick failure behavior: retry 3×, alert you, or skip silently.',
+      ] },
+      { h: 'Custom cron strings', body: 'Five-field standard cron: minute, hour, day-of-month, month, day-of-week. crontab.guru is a great reference.' },
+      { h: 'Output destinations', list: [
+        'Email — full-form digest, good for long output.',
+        'Push — quick alerts, good for short status.',
+        'Telegram — needs Telegram connected first.',
+        'Save to memory — feeds the result back into your agent\'s context.',
+      ] },
+      { h: 'Common issues', list: [
+        'Job didn\'t fire — check your timezone is set right (Settings → Schedule).',
+        'Output never arrived — make sure the destination tool is connected and healthy.',
+      ] },
+    ],
+    related: ['notifications', 'troubleshooting'],
+  },
+  browser: {
+    title: 'Web Browser', cat: 'Integrations',
+    summary: 'Let your agent navigate the open web.',
+    sections: [
+      { h: 'What it does', body: 'Headless browsing — your agent opens URLs, reads pages, optionally clicks links and fills forms. Useful for research, monitoring, and automating things without a real API.' },
+      { h: 'Permission tiers', list: [
+        'Read-only — opens URLs and extracts content. No clicks, no forms. Safest.',
+        'Interactive — read pages, click links, fill forms. Recommended default.',
+        'Full — above plus downloads and script execution. Use carefully.',
+      ] },
+      { h: 'Domain access', body: 'Either let the agent visit any domain, or restrict to an allowlist. Allowlist supports wildcards (e.g. *.notion.so).' },
+      { h: 'Block list', body: 'Always-blocked domains. Add anything sensitive — your bank, your HR portal, your tax site. The agent refuses these even if explicitly asked.' },
+      { h: 'Session limits', list: [
+        'Max pages per session — protects against runaway loops.',
+        'Timeout — kills long-running navigation.',
+      ] },
+      { h: 'Cookie persistence', body: 'Off by default — the agent re-authenticates each session, more private but slower. Turn on if you want sticky logins to specific sites.' },
+      { h: 'Common issues', list: [
+        'Page not loading — site might block headless browsers. Try a different user agent in Settings → Browser.',
+        '2FA breaks the flow — the agent can\'t solve 2FA. Use service-specific integrations (Slack, Gmail, etc.) where possible.',
+      ] },
+    ],
+    related: ['troubleshooting'],
+  },
+
+  // Account
+  cancel: {
+    title: 'Cancel my account', cat: 'Account',
+    summary: 'How to cancel your subscription, and what happens after.',
+    sections: [
+      { h: 'How to cancel', steps: [
+        'Open the cancellation form at heyron.ai/cancel (or ask Ron — he\'ll link it).',
+        'Tell us briefly why so we can make it better.',
+        'Confirm. The cancellation is queued for the end of your current billing cycle.',
+      ] },
+      { h: 'What happens immediately', list: [
+        'Your subscription is flagged for cancellation.',
+        'You keep full access until the end of the current billing cycle.',
+        'No further charges — you won\'t be auto-renewed.',
+      ] },
+      { h: 'What happens at the end of the cycle', list: [
+        'Your container is paused (not deleted).',
+        'Integrations stop syncing.',
+        'Memory and soul are frozen but preserved for 90 days.',
+      ] },
+      { h: 'Reactivating', body: 'Sign in any time within 90 days and click Reactivate. Everything comes back where you left it.' },
+      { h: 'Permanent deletion', body: 'After 90 days, your data is permanently deleted unless you reactivate or extend retention from Settings → Privacy.' },
+    ],
+    related: ['refund', 'soul-memory'],
+  },
+  refund: {
+    title: 'Request a refund', cat: 'Account',
+    summary: 'Refund policy and how to ask for one.',
+    sections: [
+      { h: 'When you\'re eligible', list: [
+        'Within 14 days of your first paid charge — full refund, no questions.',
+        'Service outage that affected your work — pro-rated refund.',
+        'Billing error or duplicate charge — full refund.',
+      ] },
+      { h: 'How to request', steps: [
+        'Open the refund form at heyron.ai/refund (or ask Ron — he\'ll link it).',
+        'Pick the reason. Attach context if helpful.',
+        'Submit. Accounting reviews within 3 business days.',
+        'Approved refunds process within 5 business days. Money lands back on the original payment method.',
+      ] },
+      { h: 'What\'s not refundable', list: [
+        'Past 14 days for one-time first-charge refunds (unless billing error).',
+        'Custom add-ons and one-off setup fees that you\'ve already used.',
+      ] },
+      { h: 'If something goes wrong', body: 'Open a ticket and the team will get back to you within a day. Ron can do this from chat — just ask.' },
+    ],
+    related: ['cancel', 'troubleshooting'],
+  },
+
+  // Agent concepts
+  'soul-memory': {
+    title: 'Soul vs memory', cat: 'Your agent',
+    summary: 'Two layers of context — what your agent IS, vs. what it KNOWS.',
+    sections: [
+      { h: 'Soul', body: 'Your agent\'s identity. The always-on layer that shapes every reply. It includes: focus areas (the use cases you picked during onboarding), personality, communication style. Soul is small, intentional, and slow-changing — you edit it deliberately.' },
+      { h: 'Memory', body: 'Facts, history, and context. Built up over time as you use your agent. Includes preferences, recurring people, project specifics, past decisions. Memory grows constantly and is editable.' },
+      { h: 'Why the difference matters', list: [
+        'Soul: "I primarily help with email and calendar, and I prefer concise replies."',
+        'Memory: "Cassie\'s standup is at 9am Mondays. Her co-founder is Ron. She prefers Notion to Confluence."',
+      ] },
+      { h: 'Editing soul', body: 'Settings → Soul. Add or remove focus areas, swap personality, change verbosity. Changes apply on the next reply.' },
+      { h: 'Editing memory', body: 'Settings → Memory. Browse entries, edit, delete, or wipe everything. Useful when something changes (you switch jobs, your team grows, a project ends).' },
+      { h: 'Memory size options', list: [
+        'Short — forgets after each session. Most private.',
+        'Standard — remembers across sessions, scoped to projects. Default.',
+        'Deep — full long-term memory across everything.',
+      ] },
+    ],
+    related: ['container-access', 'troubleshooting'],
+  },
+  'container-access': {
+    title: 'What Ron can see', cat: 'Your agent',
+    summary: 'How container access works, and how to revoke it.',
+    sections: [
+      { h: 'What "container access" means', body: 'Each Heyron user gets an isolated container — a small private compute environment that runs your agent and holds your integrations, memory, and config. Ron (the support bot) has read access to your container so he can answer specific questions and fix things in real time.' },
+      { h: 'What Ron can read', list: [
+        'Active integrations and their health.',
+        'Recent agent logs (last 24 hours by default).',
+        'Memory entries (count and topics, not full text unless you ask).',
+        'Settings (model, hours, notification prefs, soul focus areas).',
+        'Container health (memory, uptime, region).',
+      ] },
+      { h: 'What Ron cannot read', list: [
+        'Your tokens or API keys (they\'re encrypted and not visible).',
+        'Your message content with your agent (only metadata).',
+        'Your linked integrations\' data (Slack messages, GitHub code, etc.).',
+      ] },
+      { h: 'What Ron can do', list: [
+        'Restart your agent process.',
+        'Pull and surface log entries.',
+        'Suggest config changes (he asks before applying).',
+        'Open a ticket with a container snapshot attached.',
+      ] },
+      { h: 'Revoking access', body: 'Settings → Privacy → Container access. Turn it off and Ron loses read access immediately. He can still answer general questions, but not container-specific ones.' },
+    ],
+    related: ['soul-memory', 'troubleshooting'],
+  },
+
+  // Troubleshooting
+  troubleshooting: {
+    title: 'Common errors', cat: 'Troubleshooting',
+    summary: 'Quick fixes for the most frequent issues.',
+    sections: [
+      { h: 'Agent not responding', list: [
+        'Ask Ron "restart my agent" — he\'ll bounce the process in your container.',
+        'Check Settings → Connections — a stuck integration can hang the agent.',
+        'If the issue persists more than 10 minutes, open a ticket. Ron auto-attaches a container snapshot.',
+      ] },
+      { h: 'Integration sync issues', list: [
+        'Check the integration\'s health page (Settings → Connections → [tool]).',
+        'Re-authenticate if the token has expired.',
+        'For OAuth tools (GitHub, Telegram, etc.), the issue is usually a missing scope.',
+      ] },
+      { h: 'Memory full', body: 'Settings → Memory → Cleanup. You can wipe by date range, by topic, or all at once. Heyron also auto-prunes the lowest-relevance entries when you hit 80% capacity.' },
+      { h: 'Wrong replies / wrong personality', list: [
+        'Settings → Soul → Personality — make sure it matches what you want.',
+        'Settings → Soul → Focus areas — remove anything that no longer applies.',
+        'Memory may have outdated facts. Settings → Memory → Search and edit.',
+      ] },
+      { h: 'Notifications not arriving', list: [
+        'Settings → Notifications — confirm the channel is on.',
+        'Working hours — your agent stays quiet outside them.',
+        'For Telegram/Discord, confirm the bot/server is connected.',
+      ] },
+      { h: 'Still stuck?', body: 'Ask Ron — he can read your container and usually has the fix in one or two replies. If he can\'t, he opens a ticket.' },
+    ],
+    related: ['cancel', 'refund'],
+  },
+};
+
+function HelpIndex({ onSelect, onBack }) {
+  const cats = {};
+  Object.entries(HELP_PAGES).forEach(([slug, p]) => { (cats[p.cat] = cats[p.cat] || []).push({ slug, ...p }); });
+  return (
+    <div className="panel">
+      <Brand />
+      <button className="help-back" onClick={onBack}>← Back to dashboard</button>
+      <h1 className="help-h1">Help</h1>
+      <p className="help-tagline">Browse by category, or just ask Ron — he can pull container info and answer most things directly.</p>
+      {Object.entries(cats).map(([cat, pages]) => (
+        <div key={cat} style={{ marginBottom: 28 }}>
+          <p className="help-cat-title">{cat}</p>
+          <div className="help-grid">
+            {pages.map(p => (
+              <button key={p.slug} className="help-card" onClick={() => onSelect(p.slug)}>
+                <div className="help-card-title">{p.title}</div>
+                <div className="help-card-summary">{p.summary}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function HelpPage({ slug, onSelect, onBack }) {
+  const page = HELP_PAGES[slug];
+  if (!page) return null;
+  return (
+    <div className="panel">
+      <Brand />
+      <button className="help-back" onClick={onBack}>← Help</button>
+      <p className="help-cat-title">{page.cat}</p>
+      <h1 className="help-h1">{page.title}</h1>
+      <p className="help-tagline">{page.summary}</p>
+      {page.sections.map((s, i) => (
+        <div key={i} className="help-section">
+          <h3>{s.h}</h3>
+          {s.body && <p>{s.body}</p>}
+          {s.steps && <ol>{s.steps.map((l, j) => <li key={j}>{l}</li>)}</ol>}
+          {s.list && <ul>{s.list.map((l, j) => <li key={j}>{l}</li>)}</ul>}
+        </div>
+      ))}
+      <div className="help-cta">
+        <span className="help-cta-text">Still need a hand? Ron can dig into your container.</span>
+        <button className="btn btn-primary" style={{ width: 'auto', padding: '8px 14px', fontSize: 12 }} onClick={onBack}>Ask Ron</button>
+      </div>
+      {page.related?.length > 0 && (
+        <div className="help-related">
+          <p className="help-related-title">Related</p>
+          {page.related.filter(rs => HELP_PAGES[rs]).map(rs => (<a key={rs} onClick={() => onSelect(rs)}>{HELP_PAGES[rs].title} →</a>))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ─── Dashboard with container card ─────────────────────────────── */
+function Dashboard({ data, onReset, onHelp, onNavigateHelp }) {
+  return (
+    <>
+      <div className="placeholder-note">Stand-in for your existing dashboard. The container card, the help link, and the support widget below are the new pieces — drop them onto your real dashboard.</div>
+      <div className="panel">
+        <div className="dash-header">
+          <div className="dash-greeting"><h2>Hey, {data.yourName || 'friend'}.</h2><p>{data.agentName || 'Your agent'} is online and ready.</p></div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}><button className="btn-text" onClick={onHelp}>Help</button><button className="btn-text" onClick={onReset}>Restart demo</button><HeadMascot size={36} /></div>
+        </div>
+        <div className="dash-grid">
+          <div className="metric"><p className="metric-label">Tasks today</p><p className="metric-value">14</p><p className="metric-trend">+3 vs yesterday</p></div>
+          <div className="metric"><p className="metric-label">Avg response</p><p className="metric-value">1.2s</p><p className="metric-trend">stable</p></div>
+          <div className="metric"><p className="metric-label">Connected tools</p><p className="metric-value">{data.tools.length || 0}</p><p className="metric-trend" style={{ color: 'var(--text-tertiary)' }}>{data.tools.length === 0 ? 'add some' : 'all healthy'}</p></div>
+        </div>
+        <div className="container-card">
+          <div className="container-head"><span className="container-title"><HeadMascot size={20} /> Your container</span><span className="container-status">Running</span></div>
+          <div className="container-meta">
+            <span className="container-meta-label">ID</span><span className="container-meta-value">heyron-prod-{(data.email || 'cassie').split('@')[0].slice(0,8)}</span>
+            <span className="container-meta-label">Region</span><span className="container-meta-value">us-east-1</span>
+            <span className="container-meta-label">Memory</span><span className="container-meta-value">2.1 / 4.0 GB</span>
+            <span className="container-meta-label">Uptime</span><span className="container-meta-value">14d 3h</span>
+            <span className="container-meta-label">Active integrations</span><span className="container-meta-value">{data.tools.length}</span>
+            <span className="container-meta-label">Last deploy</span><span className="container-meta-value">2h ago</span>
+          </div>
+          <p style={{ fontSize: 11, color: 'var(--text-tertiary)', marginTop: 12, lineHeight: 1.5 }}>Ron has read access to this container. He can pull logs, restart processes, and check integration health when you ask.</p>
+        </div>
+        <div className="dash-section">
+          <h3>Recent activity</h3>
+          <div className="activity">
+            <div className="activity-row"><span className="activity-dot" style={{ background: 'var(--status-success)' }} /><span className="activity-text">Replied to 3 messages in Slack</span><span className="activity-time">2m ago</span></div>
+            <div className="activity-row"><span className="activity-dot" style={{ background: 'var(--accent)' }} /><span className="activity-text">Updated calendar block for Friday</span><span className="activity-time">12m ago</span></div>
+            <div className="activity-row"><span className="activity-dot" style={{ background: 'var(--text-tertiary)' }} /><span className="activity-text">Drafted weekly summary</span><span className="activity-time">1h ago</span></div>
+          </div>
+        </div>
+      </div>
+      <SupportWidget userEmail={data.email || 'you@heyron.app'} userData={data} onNavigateHelp={onNavigateHelp} />
+    </>
+  );
+}
+
+/* ─── Hey Ron — container-aware support widget ───────────────────── */
+const ESCALATE_KEYWORDS = ['billing','refund','cancel','outage','data loss','security','breach','urgent','emergency','production down','human','support team','real person','ticket','can\'t access','locked out'];
+const TOOL_LABELS = { github: 'GitHub', telegram: 'Telegram', apify: 'Apify', elevenlabs: 'ElevenLabs', obsidian: 'Obsidian', discord: 'Discord', cron: 'Cron', browser: 'Web Browser' };
+function buildFAQ(data) {
+  const tools = data.tools || [];
+  const installedList = tools.length ? tools.map(t => TOOL_LABELS[t] || t).join(', ') : 'nothing yet';
+  return [
+    { match: /(what|which).{0,30}(installed|connected|integration)|installed|integrations? do I have/i,
+      reply: tools.length ? `Looking at your container — ${tools.length} active: ${installedList}. Want a status check on any?` : 'No integrations connected yet. Settings → Connections to add some.',
+      investigate: true },
+    { match: /cancel.{0,30}(account|subscription|plan)?|how (do|can) I cancel|stop my (subscription|plan)|delete my account/i,
+      reply: "Sad to see you go. Here's how cancellation works — full guide on what happens to your data, when billing stops, and how to reactivate.",
+      action: { type: 'help', slug: 'cancel', label: 'Open cancellation guide →' } },
+    { match: /refund|money back|charge back/i,
+      reply: "Refund requests go through a tracked form. The guide covers eligibility, processing time, and what's not refundable.",
+      action: { type: 'help', slug: 'refund', label: 'Open refund guide →' } },
+    { match: /log|crash|broken|not working|error|stuck|failed/i,
+      reply: "Pulling your container logs… agent process restarted twice in the last hour. Looks like rate-limit pressure on one of your integrations. I've backed off the polling — should settle. Want the troubleshooting guide for next time?",
+      investigate: true,
+      action: { type: 'help', slug: 'troubleshooting', label: 'Open troubleshooting guide →' } },
+    { match: /(what is|explain|tell me about) (the )?soul|soul vs memory|memory vs soul/i,
+      reply: "Soul is your agent's identity (focus areas, personality, voice). Memory is what it knows (facts, history). Soul is small and intentional, memory grows over time.",
+      action: { type: 'help', slug: 'soul-memory', label: 'Read the full breakdown →' } },
+    { match: /what.{0,15}(can|do).{0,15}(you|ron).{0,15}see|container access|privacy/i,
+      reply: "I have read access to your container — I can see integrations, logs, settings. I can't see your tokens or message content.",
+      action: { type: 'help', slug: 'container-access', label: 'Read what Ron can see →' } },
+    { match: /soul|priorit|focus/i, reply: `Your soul is set to focus on: ${(data.useCases || []).join(', ') || 'nothing yet'}. Settings → Soul to edit.` },
+    { match: /personality|persona/i, reply: "Settings → Soul → Personality. Or just tell me which persona — I'll switch it in your container right now." },
+    { match: /memory|forget|remember/i, reply: "Memory lives at Settings → Memory. Looking at your container — 142 entries stored. Want me to walk through cleanup?", investigate: true },
+    { match: /model|gpt|llm|switch model/i, reply: `Settings → Model. I see you're on ${(MODELS.find(m => m.id === data.model) || {}).name || 'Heyron Standard'} right now. Switch is instant.` },
+    { match: /tool|integration|connect/i, reply: `Settings → Connections. Your container has ${tools.length} integrations active. What do you want to add or troubleshoot?` },
+    { match: /log|crash|broken|not working|error|stuck/i, reply: "Checking your container... agent process restarted twice in the last hour. Looks like rate-limit pressure on one of your integrations. I've backed off the polling — should settle. Want the full stack trace?", investigate: true },
+    { match: /restart|reboot/i, reply: "Restarting your agent in the container now. Give it 5 seconds.", investigate: true },
+    { match: /github|git/i, reply: tools.includes('github') ? "GitHub is live in your container. Last sync 14 minutes ago. Want recent activity?" : "GitHub isn't connected yet. Settings → Connections to add it." , investigate: tools.includes('github') },
+    { match: /telegram/i, reply: tools.includes('telegram') ? "Telegram is connected. Last 3 messages routed through fine." : "Telegram isn't connected yet. Settings → Connections to add @HeyronBot." },
+    { match: /discord/i, reply: "Heyron Discord lives at discord.gg/heyron — happy to drop you the invite link." },
+    { match: /cron|schedule task|recurring/i, reply: tools.includes('cron') ? "You have 1 cron job running in your container. Settings → Cron to add more." : "No scheduled tasks running yet. Settings → Cron to set one up." },
+    { match: /elevenlabs|voice/i, reply: tools.includes('elevenlabs') ? "ElevenLabs is connected. Voice is set. Settings → Voice to swap." : "ElevenLabs isn't connected. Settings → Connections to add it." },
+    { match: /apify|scrape/i, reply: tools.includes('apify') ? "Apify token looks healthy. Last scrape 2h ago, no errors." : "Apify isn't connected. Drop in your token at Settings → Connections.", investigate: tools.includes('apify') },
+    { match: /obsidian|vault|notes/i, reply: tools.includes('obsidian') ? "Obsidian vault sync is healthy. Last sync 3 minutes ago." : "Obsidian isn't connected. Settings → Connections to point at your vault.", investigate: tools.includes('obsidian') },
+    { match: /browser|web browser/i, reply: tools.includes('browser') ? "Browser tool active. 7 sessions today, all clean." : "Browser tool isn't enabled. Settings → Connections to turn it on." },
+    { match: /name|rename/i, reply: "Settings → Profile, or tell me the new name and I'll update your container directly." },
+    { match: /hours|schedule|timezone/i, reply: `Settings → Schedule. You're set to ${data.workStart || '9:00'}–${data.workEnd || '18:00'} ${data.timezone || 'PT'}, ${(data.workDays || []).length} days a week.` },
+    { match: /privacy|delete/i, reply: `Settings → Privacy. Auto-delete is ${data.autoDelete === 'Never' || !data.autoDelete ? 'off' : data.autoDelete.toLowerCase()} — want me to change it?` },
+    { match: /notification|push/i, reply: `Settings → Notifications. Email is ${data.notifyEmail ? 'on' : 'off'}, push is ${data.notifyPush ? 'on' : 'off'}.` },
+    { match: /container|env|environment/i, reply: "Your container is healthy: 2.1/4.0GB memory, 14d 3h uptime, region us-east-1.", investigate: true },
+    { match: /hello|^hi$|^hey$/i, reply: "Hey! I've got your container open. What's up?" },
+  ];
+}
+function shouldEscalate(text, turnCount) { const lc = text.toLowerCase(); if (ESCALATE_KEYWORDS.some((k) => lc.includes(k))) return true; if (turnCount >= 5) return true; return false; }
+function findReply(text, faq) { const match = faq.find((f) => f.match.test(text)); return match || { reply: "Hmm, I don't know that one. Try rephrasing, or open a ticket and the team will pick it up." }; }
+
+const QUICK_ACTIONS = [
+  { label: "What's installed?", text: 'What integrations do I have installed?' },
+  { label: 'Got an error', text: "I'm getting an error" },
+  { label: 'Cancel my account', text: 'How do I cancel?' },
+  { label: 'Request a refund', text: 'I want a refund' },
+  { label: 'Open a ticket', kind: 'ticket' },
+];
+
+function SupportWidget({ userEmail, userData, onNavigateHelp }) {
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState([{ from: 'bot', text: "Hey, I'm Ron. I've got access to your container, so I can actually look things up and fix stuff. What's up?" }]);
+  const [input, setInput] = useState('');
+  const [typing, setTyping] = useState(false);
+  const [investigating, setInvestigating] = useState(false);
+  const [escalateOffered, setEscalateOffered] = useState(false);
+  const [showTicket, setShowTicket] = useState(false);
+  const [toast, setToast] = useState(null);
+  const messagesRef = useRef(null);
+  useEffect(() => { if (messagesRef.current) messagesRef.current.scrollTop = messagesRef.current.scrollHeight; }, [messages, typing, investigating]);
+  const userTurns = messages.filter((m) => m.from === 'user').length;
+  const FAQ = buildFAQ(userData || {});
+  const send = (forceText) => {
+    const userMsg = (forceText !== undefined ? forceText : input).trim();
+    if (!userMsg) return;
+    setMessages((m) => [...m, { from: 'user', text: userMsg }]);
+    if (forceText === undefined) setInput('');
+    const escalate = shouldEscalate(userMsg, userTurns + 1);
+    if (escalate && !escalateOffered) { setTyping(true); setTimeout(() => { setTyping(false); setMessages((m) => [...m, { from: 'bot', text: "This one's beyond my container access — let me hand you to the team." }, { from: 'bot', kind: 'action', action: { type: 'ticket', label: 'Open a ticket →' } }]); setEscalateOffered(true); }, 800); return; }
+    const found = findReply(userMsg, FAQ);
+    const showReply = () => { const next = [{ from: 'bot', text: found.reply }]; if (found.action) next.push({ from: 'bot', kind: 'action', action: found.action }); setMessages((m) => [...m, ...next]); };
+    if (found.investigate) { setInvestigating(true); setTimeout(() => { setInvestigating(false); setTyping(true); setTimeout(() => { setTyping(false); showReply(); }, 600); }, 1100); }
+    else { setTyping(true); setTimeout(() => { setTyping(false); showReply(); }, 700 + Math.random() * 300); }
+  };
+  const handleQuickAction = (qa) => { if (qa.kind === 'ticket') { setShowTicket(true); return; } send(qa.text); };
+  const handleAction = (action) => { if (action.type === 'link') { window.open(action.url, '_blank', 'noopener'); } else if (action.type === 'ticket') { setShowTicket(true); } else if (action.type === 'help' && onNavigateHelp) { onNavigateHelp(action.slug); setOpen(false); } };
+  const showQuickActions = userTurns === 0 && !typing && !investigating;
+  const submitTicket = (ticket) => { setShowTicket(false); const id = Math.floor(1000 + Math.random() * 9000); setToast(`Ticket #${id} sent. We'll email you within a day.`); setMessages((m) => [...m, { from: 'bot', text: `Ticket #${id} is in. Container snapshot attached. You're good — go take a break.` }]); setTimeout(() => setToast(null), 4000); console.log('TICKET PAYLOAD:', ticket); };
+  return (
+    <>
+      {!open ? (<button className="sw-pill" onClick={() => setOpen(true)} aria-label="Open support chat with Ron"><HeadMascot size={32} /></button>) : (
+        <div className="sw-panel" role="dialog" aria-labelledby="sw-title">
+          <div className="sw-header"><div className="sw-header-info"><HeadMascot size={26} /><div><p className="sw-header-name" id="sw-title">Hey Ron</p><p className="sw-header-status"><span className="sw-status-dot" /> Online · container linked</p></div></div><button className="sw-close" onClick={() => setOpen(false)} aria-label="Close chat">×</button></div>
+          <div className="sw-messages" ref={messagesRef} aria-live="polite">
+            {messages.map((m, i) => {
+              if (m.kind === 'escalate-cta') return (<div key={i} className="bubble escalate-cta"><button className="btn btn-link" onClick={() => setShowTicket(true)}>Open a ticket →</button></div>);
+              if (m.kind === 'action') return (<button key={i} className="sw-action-btn" onClick={() => handleAction(m.action)}>{m.action.label}</button>);
+              return <div key={i} className={`bubble ${m.from}`}>{m.text}</div>;
+            })}
+            {investigating && <div className="investigating">Checking your container…</div>}
+            {typing && (<div className="typing"><span className="typing-dot" /><span className="typing-dot" /><span className="typing-dot" /></div>)}
+            {showQuickActions && (
+              <div className="sw-quick">
+                {QUICK_ACTIONS.map((qa, i) => (<button key={i} className="sw-chip" onClick={() => handleQuickAction(qa)}>{qa.label}</button>))}
+              </div>
+            )}
+          </div>
+          <div className="sw-input-row"><input className="input" value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && send()} placeholder="Ask anything…" /><button className="sw-send" onClick={send} disabled={!input.trim()}>Send</button></div>
+        </div>
+      )}
+      {showTicket && <TicketModal messages={messages} email={userEmail} onClose={() => setShowTicket(false)} onSubmit={submitTicket} />}
+      {toast && <div className="toast">{toast}</div>}
+    </>
+  );
+}
+
+function TicketModal({ messages, email, onClose, onSubmit }) {
+  const transcript = messages.filter((m) => m.from && m.text).map((m) => `${m.from === 'user' ? 'User' : 'Ron'}: ${m.text}`).join('\n');
+  const [subject, setSubject] = useState('');
+  const [description, setDescription] = useState(`Conversation context:\n${transcript}\n\nContainer snapshot: auto-attached on submit\n\n---\n`);
+  const [category, setCategory] = useState('Bug');
+  const [priority, setPriority] = useState('normal');
+  const [emailValue, setEmail] = useState(email);
+  const valid = subject.trim() && description.trim() && emailValue.trim();
+  const handleSubmit = () => { if (!valid) return; onSubmit({ subject, description, category, priority, email: emailValue, source: 'in_app_widget', containerSnapshot: true }); };
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <h3>Open a ticket</h3>
+        <p className="modal-sub">A container snapshot will be attached automatically. The team will email you within a day.</p>
+        <div className="field"><label>Subject</label><input className="input" value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="Brief summary…" maxLength={100} autoFocus /></div>
+        <div className="field"><label>Description</label><textarea className="input" value={description} onChange={(e) => setDescription(e.target.value)} rows={6} /></div>
+        <div className="field"><label>Category</label><select className="input" value={category} onChange={(e) => setCategory(e.target.value)}><option>Account</option><option>Billing</option><option>Integration</option><option>Bug</option><option>Feature request</option><option>Other</option></select></div>
+        <div className="field"><label>Priority</label><div className="chip-row">{['low','normal','urgent'].map((p) => (<button key={p} className={`chip ${priority === p ? 'selected' : ''}`} onClick={() => setPriority(p)}>{p[0].toUpperCase() + p.slice(1)}</button>))}</div></div>
+        <div className="field"><label>Email</label><input className="input" type="email" value={emailValue} onChange={(e) => setEmail(e.target.value)} /></div>
+        <div className="actions"><button className="btn btn-ghost btn-back" onClick={onClose}>Cancel</button><button className="btn btn-primary" onClick={handleSubmit} disabled={!valid}>Send ticket</button></div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── App ────────────────────────────────────────────────────────── */
+const BEGINNER_FLOW = ['beginner-names','beginner-usecases','beginner-integrations','beginner-personality','beginner-comm','beginner-preview'];
+const EXPERT_FLOW = ['expert-names','expert-usecases','expert-model','expert-pick-tools','expert-github','expert-telegram','expert-apify','expert-elevenlabs','expert-obsidian','expert-discord','expert-cron','expert-browser','expert-memory','expert-personality','expert-comm','expert-hours','expert-notifications','expert-privacy','expert-preview'];
+const INTEGRATION_TOOL_SLUGS = ['github','telegram','apify','elevenlabs','obsidian','discord','cron','browser'];
+const integrationFromScreen = (s) => INTEGRATION_TOOL_SLUGS.find(t => s === `expert-${t}`);
+
+const INITIAL_DATA = {
+  email: 'you@heyron.app', yourName: '', agentName: '',
+  useCases: [], personality: null, commStyle: null,
+  model: null, tools: [], toSetup: [], memory: null, editableMemory: true,
+  timezone: 'Pacific (PT)', workStart: '09:00', workEnd: '18:00', workDays: ['Mon','Tue','Wed','Thu','Fri'],
+  notifyEmail: true, notifyPush: false, notifyFreq: 'important',
+  learnFromMe: true, shareUsage: true, autoDelete: 'Never',
+};
+
+function App() {
+  const [screen, setScreen] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('path') === 'dashboard') return 'dashboard';
+    return params.get('path') === 'expert' ? 'expert-names' : 'beginner-names';
+  });
+  const [data, setData] = useState(INITIAL_DATA);
+  const update = (patch) => setData((d) => ({ ...d, ...patch }));
+  const expertFlow = EXPERT_FLOW.filter(s => { const t = integrationFromScreen(s); return !t || (data.toSetup || []).includes(t); });
+  const back = (current) => { const flow = current.startsWith('beginner-') ? BEGINNER_FLOW : current.startsWith('expert-') ? expertFlow : null; if (!flow) { setScreen('beginner-names'); return; } const idx = flow.indexOf(current); setScreen(idx <= 0 ? 'beginner-names' : flow[idx - 1]); };
+  const reset = () => { setData(INITIAL_DATA); setScreen('beginner-names'); };
+  const totalB = BEGINNER_FLOW.length, totalE = expertFlow.length;
+  const stepB = (n) => BEGINNER_FLOW.indexOf(n), stepE = (n) => expertFlow.indexOf(n);
+  const advance = (current) => { const flow = current.startsWith('beginner-') ? BEGINNER_FLOW : expertFlow; const idx = flow.indexOf(current); setScreen(idx >= flow.length - 1 ? 'dashboard' : flow[idx + 1]); };
+
+  return (
+    <div className="app">
+      {/* Welcome screen removed - hello-screen passes path=beginner|expert */}
+      {screen === 'beginner-names' && <NamesScreen data={data} onUpdate={update} onBack={() => back('beginner-names')} onNext={() => advance('beginner-names')} step={stepB('beginner-names')} totalSteps={totalB} />}
+      {screen === 'beginner-usecases' && <UseCasesScreen data={data} onUpdate={update} onBack={() => back('beginner-usecases')} onNext={() => advance('beginner-usecases')} step={stepB('beginner-usecases')} totalSteps={totalB} />}
+      {screen === 'beginner-integrations' && <IntegrationsListScreen data={data} onUpdate={update} onBack={() => back('beginner-integrations')} onNext={() => advance('beginner-integrations')} step={stepB('beginner-integrations')} totalSteps={totalB} />}
+      {screen === 'beginner-personality' && <PersonalityScreen data={data} onUpdate={update} onBack={() => back('beginner-personality')} onNext={() => advance('beginner-personality')} step={stepB('beginner-personality')} totalSteps={totalB} />}
+      {screen === 'beginner-comm' && <CommStyleScreen data={data} onUpdate={update} onBack={() => back('beginner-comm')} onNext={() => advance('beginner-comm')} step={stepB('beginner-comm')} totalSteps={totalB} />}
+      {screen === 'beginner-preview' && <PreviewScreen data={data} onLaunch={() => setScreen('dashboard')} onBack={() => back('beginner-preview')} step={stepB('beginner-preview')} totalSteps={totalB} expert={false} />}
+      {screen === 'expert-names' && <NamesScreen data={data} onUpdate={update} onBack={() => back('expert-names')} onNext={() => advance('expert-names')} step={stepE('expert-names')} totalSteps={totalE} />}
+      {screen === 'expert-usecases' && <UseCasesScreen data={data} onUpdate={update} onBack={() => back('expert-usecases')} onNext={() => advance('expert-usecases')} step={stepE('expert-usecases')} totalSteps={totalE} />}
+      {screen === 'expert-model' && <ModelScreen data={data} onUpdate={update} onBack={() => back('expert-model')} onNext={() => advance('expert-model')} step={stepE('expert-model')} totalSteps={totalE} />}
+      {screen === 'expert-pick-tools' && <IntegrationsPickScreen data={data} onUpdate={update} onBack={() => back('expert-pick-tools')} onNext={() => advance('expert-pick-tools')} step={stepE('expert-pick-tools')} totalSteps={totalE} />}
+      {screen === 'expert-github' && <GitHubSetup data={data} onUpdate={update} onBack={() => back('expert-github')} onNext={() => advance('expert-github')} step={stepE('expert-github')} totalSteps={totalE} />}
+      {screen === 'expert-telegram' && <TelegramSetup data={data} onUpdate={update} onBack={() => back('expert-telegram')} onNext={() => advance('expert-telegram')} step={stepE('expert-telegram')} totalSteps={totalE} />}
+      {screen === 'expert-apify' && <ApifySetup data={data} onUpdate={update} onBack={() => back('expert-apify')} onNext={() => advance('expert-apify')} step={stepE('expert-apify')} totalSteps={totalE} />}
+      {screen === 'expert-elevenlabs' && <ElevenLabsSetup data={data} onUpdate={update} onBack={() => back('expert-elevenlabs')} onNext={() => advance('expert-elevenlabs')} step={stepE('expert-elevenlabs')} totalSteps={totalE} />}
+      {screen === 'expert-obsidian' && <ObsidianSetup data={data} onUpdate={update} onBack={() => back('expert-obsidian')} onNext={() => advance('expert-obsidian')} step={stepE('expert-obsidian')} totalSteps={totalE} />}
+      {screen === 'expert-discord' && <DiscordSetup data={data} onUpdate={update} onBack={() => back('expert-discord')} onNext={() => advance('expert-discord')} step={stepE('expert-discord')} totalSteps={totalE} />}
+      {screen === 'expert-cron' && <CronSetup data={data} onUpdate={update} onBack={() => back('expert-cron')} onNext={() => advance('expert-cron')} step={stepE('expert-cron')} totalSteps={totalE} />}
+      {screen === 'expert-browser' && <BrowserSetup data={data} onUpdate={update} onBack={() => back('expert-browser')} onNext={() => advance('expert-browser')} step={stepE('expert-browser')} totalSteps={totalE} />}
+      {screen === 'expert-memory' && <MemoryScreen data={data} onUpdate={update} onBack={() => back('expert-memory')} onNext={() => advance('expert-memory')} step={stepE('expert-memory')} totalSteps={totalE} />}
+      {screen === 'expert-personality' && <PersonalityScreen data={data} onUpdate={update} onBack={() => back('expert-personality')} onNext={() => advance('expert-personality')} step={stepE('expert-personality')} totalSteps={totalE} />}
+      {screen === 'expert-comm' && <CommStyleScreen data={data} onUpdate={update} onBack={() => back('expert-comm')} onNext={() => advance('expert-comm')} step={stepE('expert-comm')} totalSteps={totalE} />}
+      {screen === 'expert-hours' && <HoursScreen data={data} onUpdate={update} onBack={() => back('expert-hours')} onNext={() => advance('expert-hours')} step={stepE('expert-hours')} totalSteps={totalE} />}
+      {screen === 'expert-notifications' && <NotificationsScreen data={data} onUpdate={update} onBack={() => back('expert-notifications')} onNext={() => advance('expert-notifications')} step={stepE('expert-notifications')} totalSteps={totalE} />}
+      {screen === 'expert-privacy' && <PrivacyScreen data={data} onUpdate={update} onBack={() => back('expert-privacy')} onNext={() => advance('expert-privacy')} step={stepE('expert-privacy')} totalSteps={totalE} />}
+      {screen === 'expert-preview' && <PreviewScreen data={data} onLaunch={() => setScreen('dashboard')} onBack={() => back('expert-preview')} step={stepE('expert-preview')} totalSteps={totalE} expert={true} />}
+      {screen === 'dashboard' && <Dashboard data={data} onReset={reset} onHelp={() => setScreen('help')} onNavigateHelp={(slug) => setScreen(`help-${slug}`)} />}
+      {screen === 'help' && <HelpIndex onSelect={(s) => setScreen(`help-${s}`)} onBack={() => setScreen('dashboard')} />}
+      {screen.startsWith('help-') && <HelpPage slug={screen.replace('help-', '')} onSelect={(s) => setScreen(`help-${s}`)} onBack={() => setScreen('help')} />}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
