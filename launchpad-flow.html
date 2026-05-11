@@ -372,6 +372,13 @@ button,a,input,textarea,select,.btn,.chip,.option,.usecase,.integration,.checkbo
 }
 @media(max-width:390px){h1.headline,.headline{font-size:22px!important}.hero img{width:min(92vw,320px)!important;}}
 
+
+/* Ron dynamic art labels: fill baked-in blank lines with chosen agent name */
+.agent-art{position:relative;width:180px;height:120px;flex:0 0 auto;border-radius:16px;overflow:hidden;}
+.agent-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;border-radius:16px;}
+.agent-art-name{position:absolute;left:22%;top:12.8%;width:15%;height:6%;display:flex;align-items:center;justify-content:center;color:#F8FAFC;font-weight:900;font-size:clamp(7px,1.35vw,15px);line-height:1;text-align:center;letter-spacing:-.03em;text-shadow:0 1px 3px rgba(0,0,0,.85),0 0 7px rgba(34,211,238,.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transform:rotate(-0.5deg);pointer-events:none;}
+@media(max-width:700px){.agent-art{width:min(88vw,340px)!important;height:auto!important;aspect-ratio:1672/941;}.agent-art-name{font-size:clamp(11px,3.2vw,16px);}}
+
 </style>
 <!-- Functional Launchpad flow copied from launchpad-final.html; entry art lives in launchpad-onboarding.html. -->
 </head>
@@ -504,7 +511,7 @@ function UseCasesScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
       <div className="hero">
-        <img src="assets/onboarding/use-cases.png" alt="" style={{width: 180, height: 120, objectFit: 'contain', borderRadius: 16}} />
+        <div className="agent-art agent-art-usecases"><img src="assets/onboarding/use-cases.png" alt="" /><span className="agent-art-name">{data.agentName || 'Ron'}</span></div>
         <div className="hero-text">
           <h1 className="headline">What should {data.agentName || 'your agent'} focus on?</h1>
           <p className="sub">Pick everything that applies — these become your agent's priorities.</p>
