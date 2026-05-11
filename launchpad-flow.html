@@ -304,6 +304,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: lin
 @keyframes ronOrbBreath{0%,100%{border-color:rgba(0,207,255,.78);box-shadow:0 0 18px rgba(0,207,255,.28),0 0 34px rgba(0,207,255,.10)}50%{border-color:rgba(94,234,212,.92);box-shadow:0 0 24px rgba(94,234,212,.36),0 0 46px rgba(109,40,217,.16)}}
 .sw-pill{width:92px!important;height:92px!important;border-radius:50%!important;background:#090D13!important;border:2px solid rgba(0,207,255,.78)!important;animation:ronOrbBreath 5.5s ease-in-out infinite!important;}
 .sw-pill svg{width:38px!important;height:38px!important}.sw-header-info>svg{border:2px solid rgba(0,207,255,.70);border-radius:50%;padding:7px;background:#090D13;animation:ronOrbBreath 5.5s ease-in-out infinite;box-sizing:content-box;}
+.ron-head-img{width:var(--ron-size,32px);height:var(--ron-size,32px);object-fit:contain;border-radius:50%;display:block;} .sw-pill .ron-head-img{--ron-size:68px;} .sw-header-info .ron-head-img{--ron-size:42px;border:2px solid rgba(0,207,255,.70);background:#090D13;animation:ronOrbBreath 5.5s ease-in-out infinite;}
 .btn,.option,.usecase,.integration,.chip,.setup-cta,.checkbox,.toggle{animation:launchBreath 7s ease-in-out infinite;}
 @keyframes launchBreath{0%,100%{border-color:rgba(0,229,255,.42);box-shadow:0 0 12px rgba(0,229,255,.10)}50%{border-color:rgba(255,183,230,.58);box-shadow:0 0 18px rgba(255,183,230,.16),0 0 28px rgba(94,234,212,.10)}}
 .warning-box{border:1px solid rgba(253,224,71,.35);background:rgba(253,224,71,.08);border-radius:16px;padding:14px;margin:16px 0;color:#FDE68A;font-size:13px;line-height:1.5}.ack-row{display:flex;gap:10px;align-items:flex-start;color:var(--text-primary);font-size:13px;line-height:1.45;margin:12px 0}.ack-row input{margin-top:3px}.tell-box{min-height:140px;}
@@ -352,7 +353,7 @@ function Mascot({ pose = 'greeting', size = 120 }) {
   );
 }
 function HeadMascot({ size = 32 }) {
-  return (<svg viewBox="0 0 40 40" width={size} height={size} aria-hidden="true"><circle cx="20" cy="22" r="13" fill="#D4D4D8" /><path d="M 10 15 L 12 7 L 17 13 Z" fill="#3F3F46" /><path d="M 30 15 L 28 7 L 23 13 Z" fill="#3F3F46" /><path d="M 12 12 L 13 9 L 15 12 Z" fill="#18181B" /><path d="M 28 12 L 27 9 L 25 12 Z" fill="#18181B" /><path d="M 9 21 Q 14 18 20 20 Q 26 18 31 21 Q 28 26 24 24 Q 22 22 20 23 Q 18 22 16 24 Q 12 26 9 21 Z" fill="#18181B" /><circle cx="15" cy="21" r="1.3" fill="#F5F0E8" /><circle cx="25" cy="21" r="1.3" fill="#F5F0E8" /><ellipse cx="20" cy="27" rx="4" ry="3" fill="#F5F0E8" /><ellipse cx="20" cy="26" rx="1.3" ry="1" fill="#18181B" /></svg>);
+  return (<img src="assets/clippy/clippy-ron-final.png" className="ron-head-img" style={{ '--ron-size': `${size}px` }} alt="Ron" aria-hidden="true" />);
 }
 
 const Brand = () => (<div className="brand"><span className="brand-name">Heyron</span><span className="brand-dot" /></div>);
@@ -412,7 +413,7 @@ function NamesScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
       <div className="hero">
-        <img src="assets/raccoon2.png" alt="" style={{width: 120, height: 120, objectFit: 'contain'}} />
+        <img src="assets/onboarding/names-final.png" alt="" style={{width: 220, height: 150, objectFit: 'contain', borderRadius: 18}} />
         <div className="hero-text">
           <h1 className="headline">Some quick names.</h1>
           <p className="sub">What should we call you, and what should we call your agent?</p>
@@ -1176,7 +1177,7 @@ function AboutSelfScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
   return (
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
-      <div className="hero"><Mascot pose="greeting" size={112} /><div className="hero-text"><h1 className="headline">Tell your agent about yourself.</h1><p className="sub">This is the last human context before launch. Give your agent the stuff that helps it feel useful on day one.</p></div></div>
+      <div className="hero"><img src="assets/clippy/clippy-ron-final.png" alt="" style={{width: 120, height: 120, objectFit: 'contain', borderRadius: '50%', border: '2px solid rgba(0,207,255,.70)', animation: 'ronOrbBreath 5.5s ease-in-out infinite'}} /><div className="hero-text"><h1 className="headline">Tell your agent about yourself.</h1><p className="sub">This is the last human context before launch. Give your agent the stuff that helps it feel useful on day one.</p></div></div>
       <div className="field"><label>What should your agent know about you?</label><textarea className="input tell-box" value={data.aboutSelf} onChange={(e) => onUpdate({ aboutSelf: e.target.value })} placeholder="How you work, what annoys you, what you care about, projects you’re juggling, tone preferences, reminders you need, anything important…" /></div>
       <p className="skip-hint">Minimum 20 characters. You can edit memory and soul later.</p>
       <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={!valid}>Continue</button></div>
@@ -1189,7 +1190,6 @@ function PreviewScreen({ data, onUpdate, onLaunch, onBack, step, totalSteps, exp
   const comm = COMM_STYLES.find((c) => c.id === data.commStyle);
   const model = MODELS.find((m) => m.id === data.model);
   const memory = MEMORY_OPTIONS.find((m) => m.id === data.memory);
-  data.__updateLaunchAck = (v) => onUpdate({ launchAck: v });
   const useCaseLabels = data.useCases.map(id => (USE_CASES.find(u => u.id === id) || {}).label).filter(Boolean);
   return (
     <div className="panel">
@@ -1217,8 +1217,8 @@ function PreviewScreen({ data, onUpdate, onLaunch, onBack, step, totalSteps, exp
         <div className="summary-row"><span className="summary-label">Working hours</span><span className="summary-value">{data.workStart}–{data.workEnd}, {data.workDays.length} days</span></div>
         <div className="summary-row"><span className="summary-label">Notifications</span><span className="summary-value">{[data.notifyEmail && 'Email', data.notifyPush && 'Push'].filter(Boolean).join(' + ') || 'Off'}</span></div></>)}
       </div>
-      <div className="warning-box"><strong>Final check:</strong> Your agent may remember what you provide and may use connected tools based on the access you grant. Do not paste secrets unless you intend to store them. You can change settings later, but launch means you understand what you configured.</div>
-      <label className="ack-row"><input type="checkbox" checked={!!data.launchAck} onChange={(e) => data.__updateLaunchAck ? data.__updateLaunchAck(e.target.checked) : null} /> <span>I understand this is a real agent setup and I’m ready to launch with these settings.</span></label>
+      <div className="warning-box"><strong>Final acknowledgement:</strong> Your agent may remember what you provide and may use connected tools based on the access you grant. Do not paste secrets unless you intend to store them. You can change settings later, but launch means you understand what you configured.</div>
+      <label className="ack-row"><input type="checkbox" checked={!!data.launchAck} onChange={(e) => onUpdate({ launchAck: e.target.checked })} /> <span>I understand this is a real agent setup and I’m ready to launch with these settings.</span></label>
       <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onLaunch} disabled={!data.launchAck}>Open dashboard</button></div>
     </div>
   );
