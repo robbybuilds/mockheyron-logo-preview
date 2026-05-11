@@ -400,6 +400,18 @@ button,a,input,textarea,select,.btn,.chip,.option,.usecase,.integration,.checkbo
 .btn-primary{background:linear-gradient(135deg,#22D3EE,#5EEAD4,#F9A8D4,#FDE047)!important;color:#061018!important;font-weight:800!important;}
 @media (prefers-reduced-motion: reduce){.usecase,.option,.integration,.btn,.setup-cta,.chip,.checkbox,.usecase::before,.option::before,.integration::before,.btn::before,.setup-cta::before,.chip::before,.checkbox::before{animation:none!important;}}
 
+/* Ron image-backed define-agent and final onboarding screens */
+.usecase-copy{flex:1;min-width:0;display:grid;gap:4px;}
+.usecase-desc{font-size:11.5px;line-height:1.42;color:var(--text-secondary);}
+.usecase-select{display:inline-flex;align-items:center;justify-content:center;justify-self:start;margin-top:4px;padding:4px 9px;border-radius:999px;border:1px solid rgba(125,225,255,.30);font-size:11px;font-weight:800;color:#D7F9FF;background:rgba(7,9,12,.38);}
+.usecase.selected .usecase-select{color:#061018;background:linear-gradient(135deg,#22D3EE,#5EEAD4,#F9A8D4);border-color:transparent;}
+.complete-art-wrap{position:relative;width:100%;margin:0 auto 18px;border-radius:22px;overflow:hidden;box-shadow:0 0 34px rgba(34,211,238,.18),0 18px 60px rgba(0,0,0,.42);}
+.complete-art-wrap img{display:block;width:100%;height:auto;border-radius:22px;}
+.complete-art-hotspot{position:absolute;left:49%;top:78%;width:49%;height:20%;border:0;background:transparent;border-radius:20px;cursor:pointer;-webkit-tap-highlight-color:rgba(34,211,238,.18);}
+.complete-art-hotspot:focus-visible{outline:3px solid #22D3EE;outline-offset:-6px;background:rgba(34,211,238,.10);}
+.complete-copy{text-align:center;margin-bottom:18px;}
+@media(max-width:700px){.usecase{align-items:flex-start!important}.usecase-desc{font-size:12px}.complete-art-wrap{border-radius:18px;margin-bottom:16px}.complete-art-wrap img{border-radius:18px}.complete-art-hotspot{left:48%;top:77%;width:50%;height:21%;}.complete-copy .headline{font-size:22px!important;}}
+
 </style>
 <!-- Functional Launchpad flow copied from launchpad-final.html; entry art lives in launchpad-onboarding.html. -->
 </head>
@@ -519,11 +531,12 @@ function NamesScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
 }
 
 const USE_CASES = [
-  { id: 'email', label: 'Email triage & replies' }, { id: 'calendar', label: 'Calendar & scheduling' },
-  { id: 'research', label: 'Research & summaries' }, { id: 'writing', label: 'Writing & editing' },
-  { id: 'code', label: 'Code & technical work' }, { id: 'support', label: 'Customer support' },
-  { id: 'sales', label: 'Sales & outreach' }, { id: 'data', label: 'Data analysis' },
-  { id: 'pm', label: 'Project management' }, { id: 'personal', label: 'Personal tasks & errands' },
+  { id: 'email', label: 'Email Triage', desc: 'Sort, prioritize, and summarize your inbox so you can focus on what matters.' },
+  { id: 'writing', label: 'Writing', desc: 'Draft, refine, and polish emails, reports, and documents.' },
+  { id: 'research', label: 'Research', desc: 'Find answers, gather insights, and surface credible sources.' },
+  { id: 'pm', label: 'Project Management', desc: 'Track tasks, timelines, and updates across your projects.' },
+  { id: 'data', label: 'Data Analysis', desc: 'Analyze data, uncover trends, and turn numbers into insights.' },
+  { id: 'personal', label: 'Personal Tasks', desc: 'Plan events, set reminders, manage schedules, and handle everyday tasks.' },
 ];
 
 function UseCasesScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
@@ -532,7 +545,7 @@ function UseCasesScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
       <div className="hero">
-        <div className="agent-art agent-art-usecases"><img src="assets/onboarding/use-cases.png" alt="" /><div className="agent-art-title" aria-hidden="true"><div className="agent-art-question"><span>What is</span><strong>{data.agentName || 'Ron'}</strong><span>here for?</span></div><div className="agent-art-subtitle">Choose a purpose. Focus the mission.</div></div></div>
+        <img className="agent-art agent-art-usecases" src="assets/onboarding/define-agent.png" alt="Define your agent. Choose what your agent is here to do." />
         <div className="hero-text">
           <h1 className="headline">What should {data.agentName || 'your agent'} focus on?</h1>
           <p className="sub">Pick everything that applies — these become your agent's priorities.</p>
@@ -541,7 +554,7 @@ function UseCasesScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
       <div className="usecase-grid">
         {USE_CASES.map((u) => {
           const on = data.useCases.includes(u.id);
-          return (<button key={u.id} className={`usecase ${on ? 'selected' : ''}`} onClick={() => toggle(u.id)}><div className="usecase-check" /><div className="usecase-label">{u.label}</div></button>);
+          return (<button key={u.id} className={`usecase ${on ? 'selected' : ''}`} onClick={() => toggle(u.id)}><div className="usecase-check" /><div className="usecase-copy"><div className="usecase-label">{u.label}</div>{u.desc && <div className="usecase-desc">{u.desc}</div>}<span className="usecase-select">{on ? 'Selected' : 'Select'}</span></div></button>);
         })}
       </div>
       <div className="soul-note">
@@ -1286,7 +1299,7 @@ function PreviewScreen({ data, onUpdate, onLaunch, onBack, step, totalSteps, exp
   return (
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
-      <div className="hero"><img src="assets/onboarding/final-check.png" alt="" style={{width: 210, height: 145, objectFit: 'contain', borderRadius: 16}} /><div className="hero-text"><h1 className="headline">Here's your setup.</h1><p className="sub">Look it over. You can change any of this from settings.</p></div></div>
+      <div className="complete-art-wrap"><img src="assets/onboarding/onboarding-complete.png" alt="Onboarding complete. Welcome to the crew. Continue this way." /><button type="button" className="complete-art-hotspot" onClick={onLaunch} aria-label="Continue to Mission Control" /></div><div className="hero-text complete-copy"><h1 className="headline">You're ready for Mission Control.</h1><p className="sub">Tap the card's continue button, or review the setup below first.</p></div>
       <div className="summary">
         <div className="summary-section-title">Identity</div>
         <div className="summary-row"><span className="summary-label">Your name</span><span className="summary-value">{data.yourName}</span></div>
@@ -1311,7 +1324,7 @@ function PreviewScreen({ data, onUpdate, onLaunch, onBack, step, totalSteps, exp
       </div>
       <div className="warning-box"><strong>Final acknowledgement:</strong> Your agent may remember what you provide and may use connected tools based on the access you grant. Do not paste secrets unless you intend to store them. You can change settings later, but launch means you understand what you configured.</div>
       <label className="ack-row"><input type="checkbox" checked={!!data.launchAck} onChange={(e) => onUpdate({ launchAck: e.target.checked })} /> <span>I understand this is a real agent setup and I’m ready to launch with these settings.</span></label>
-      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onLaunch} disabled={!data.launchAck}>Return to Mission Control</button></div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onLaunch} disabled={!data.launchAck}>Finish in Mission Control</button></div>
     </div>
   );
 }
