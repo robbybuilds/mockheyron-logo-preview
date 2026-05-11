@@ -642,7 +642,7 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .hero,.support-hero-banner,.card,.button,.clippy-open,.faq-panel,.sw-panel{position:relative;border-color:transparent!important;background-clip:padding-box;}
 .hero::before,.support-hero-banner::before,.card::before,.button::before,.clippy-open::before,.faq-panel::before,.sw-panel::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:conic-gradient(from var(--support-angle),#075985,#0F766E,#581C87,#92400E,#CBD5E1,#075985);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;animation:supportDeepTrace 28s linear infinite;box-shadow:0 0 18px rgba(7,89,133,.18),0 0 28px rgba(88,28,135,.10);}
 .card > *,.hero > *,.button > *,.clippy-open > *,.faq-panel > *,.sw-panel > *{position:relative;z-index:1;}
-.clippy-ron-img{object-fit:contain!important;object-position:center!important;background:radial-gradient(circle at 50% 48%,rgba(7,89,133,.20),rgba(7,9,12,.08) 58%,transparent 72%);box-shadow:0 0 22px rgba(15,118,110,.16);}
+.clippy-ron-img{object-fit:contain!important;object-position:center!important;background:rgba(7,9,12,.28);box-shadow:0 0 18px rgba(7,89,133,.18);}
 .support-grid .card .clippy-ron-img{width:52px;height:52px;border-radius:14px;margin-bottom:8px;}
 .clippy-support .clippy-ron-img{width:78px;height:78px;border-radius:18px;background:radial-gradient(circle at 50% 46%,rgba(7,89,133,.22),rgba(7,9,12,.18) 62%,transparent 74%);}
 .sw-header .clippy-ron-img{width:46px;height:46px;border-radius:14px;background:radial-gradient(circle at 50% 46%,rgba(7,89,133,.22),rgba(7,9,12,.18) 62%,transparent 74%);}
@@ -734,15 +734,6 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
   <a href="#faq" class="button">Read FAQ</a>
  </div>
 
- <div class="card">
-  <div>
-   <img src="assets/support/clippy-ron-support-helper.png" alt="Clippy Ron" class="clippy-ron-img">
-   <h3>Ask Clippy Ron</h3>
-   <p>Ron can triage what you need and tell you whether to use docs, Discord, or a ticket.</p>
-  </div>
-  <button type="button" class="button clippy-open" id="supportClippyOpen">Ask Ron</button>
- </div>
-
  <div class="card featured">
   <div>
    <img src="assets/ticket.svg" alt="Billing">
@@ -754,7 +745,7 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 </div>
 
 <div class="clippy-support">
- <img src="assets/support/clippy-ron-support-helper.png" alt="Ron" class="clippy-ron-img">
+ <img src="assets/logo.png" alt="Ron" class="clippy-ron-img">
  <div>
   <h3>Ron is overseeing support.</h3>
   <p>Commander Robby and Captain Cassie are the human crew. Ron keeps the board organized, points users to the right lane, and tries not to eat the ticket queue.</p>
@@ -800,7 +791,7 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 </div>
 
 <div class="sw-panel" id="supportClippy" role="dialog" aria-modal="false" aria-labelledby="supportClippyTitle">
- <div class="sw-header"><img src="assets/support/clippy-ron-support-helper.png" alt="Ron" class="clippy-ron-img"><div><strong id="supportClippyTitle">Clippy Ron</strong><span>Support triage raccoon</span></div><button class="sw-close" id="supportClippyClose" type="button">×</button></div>
+ <div class="sw-header"><img src="assets/logo.png" alt="Ron" class="clippy-ron-img"><div><strong id="supportClippyTitle">Clippy Ron</strong><span>Support triage raccoon</span></div><button class="sw-close" id="supportClippyClose" type="button">×</button></div>
  <div class="sw-body">
   <div class="sw-msg" id="supportClippyMsg">Tell me what’s going on. I’ll help you pick: quick answer, Discord, or ticket.</div>
   <div class="sw-quick">
@@ -834,7 +825,6 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
  const input=document.getElementById('supportClippyInput');
  function open(){panel.classList.add('open'); setTimeout(()=>input&&input.focus(),50)}
  function close(){panel.classList.remove('open')}
- document.getElementById('supportClippyOpen')?.addEventListener('click',open);
  document.getElementById('supportClippyOpen2')?.addEventListener('click',open);
  document.getElementById('supportClippyClose')?.addEventListener('click',close);
  document.querySelectorAll('.sw-quick button').forEach(b=>b.addEventListener('click',()=>{msg.textContent=b.dataset.reply;}));
