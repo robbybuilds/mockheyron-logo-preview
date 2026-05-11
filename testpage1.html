@@ -86,6 +86,23 @@
 /* Ron about crest update */
 .about-brand-crest{width:32px;height:32px;border-radius:999px;object-fit:cover;border:1px solid rgba(217,164,65,.55);box-shadow:0 0 18px rgba(34,211,238,.16),0 0 24px rgba(217,164,65,.10);}
 @media(max-width:760px){.about-brand-crest{width:30px;height:30px}}
+
+/* Ron About Den copy mobile gutter polish */
+@media(max-width:760px){
+  .hero,.nav,.section{width:calc(100% - 22px)!important;max-width:calc(100% - 22px)!important;}
+  .button{width:calc(100% - 28px)!important;max-width:calc(100% - 28px)!important;margin-right:28px!important;}
+  .hero-art,.crew-art{width:calc(100% - 28px)!important;max-width:calc(100% - 28px)!important;}
+  .cta-row{gap:10px!important;margin-top:4px!important;}
+}
+
+
+/* Ron About absolute phone width fix */
+@media(max-width:760px){
+  .shell{padding-left:14px!important;padding-right:14px!important;}
+  .hero,.section,.nav{width:calc(100vw - 42px)!important;max-width:calc(100vw - 42px)!important;margin-right:14px!important;}
+  .button,.hero-art,.crew-art{width:100%!important;max-width:100%!important;margin-right:0!important;}
+}
+
 </style>
 </head>
 <body>
@@ -98,27 +115,37 @@
   <section class="hero">
     <div>
       <p class="eyebrow">About Heyron</p>
-      <h2>Meet Heyron.</h2>
-      <p class="hero-copy">Heyron helps people learn AI agents with a real workspace: memory, tools, support, and a clear path.</p>
+      <h2>Personal AI that is actually yours.</h2>
+      <p class="hero-copy">Heyron gives you your own personal AI assistant, not a shared chatbot. You choose what it knows, how it talks, what it helps with, and where it shows up.</p>
       <div class="cta-row"><a class="button primary" href="launchpad-start.html">Start Launchpad</a><a class="button" href="index.html">Open Mission Control</a></div>
-      <p class="mini-note">Preview lane for Robby.</p>
+      <p class="mini-note">Your conversations, your data, your rules.</p>
     </div>
     <div class="hero-art"><img src="assets/about/heyron-crew-hero.png" alt="Heyron crew gathered around a mission table"></div>
   </section>
 
   <section class="section">
-    <h3>What this is for</h3>
-    <p>Heyron teaches people how to use agents by giving them a real one: memory, tools, support, and a clear path from onboarding to daily use.</p>
+    <h3>What makes Heyron different</h3>
+    <p>Heyron is built for people who want AI to feel useful in real life, not trapped in one chat box. It can become a private workspace with memory, tools, channels, and support around the way you already work.</p>
     <div class="grid">
-      <div class="tile"><strong>Launchpad</strong><span>A guided setup flow that turns choices into a usable agent profile.</span></div>
-      <div class="tile"><strong>Mission Control</strong><span>The signed-in dashboard for progress, support, learning, and tools.</span></div>
-      <div class="tile"><strong>Ron</strong><span>The guide layer: helpful, honest, a little chaotic, and pointed at getting unstuck.</span></div>
+      <div class="tile"><strong>Private by default</strong><span>Your agent runs for you. Your conversations, your data, your rules.</span></div>
+      <div class="tile"><strong>Built around you</strong><span>You shape the personality, memory, style, and tasks. It can sound and work the way you need.</span></div>
+      <div class="tile"><strong>Where you already are</strong><span>Bring your agent into Discord, Telegram, email, dashboard, and the tools you actually use.</span></div>
+    </div>
+  </section>
+
+  <section class="section founder-section">
+    <h3>Why it exists</h3>
+    <p>Heyron started from a simple question: what if AI was not just a website you visited, but a helper you could shape, name, teach, and bring with you? Robby did not just talk to an AI. He built one, then kept pulling the thread until it became a path other people could use too.</p>
+    <div class="grid">
+      <div class="tile"><strong>No coding required</strong><span>If you can type a message, you can start shaping your agent.</span></div>
+      <div class="tile"><strong>Setup with a path</strong><span>Launchpad turns the blank-slate feeling into clear next steps.</span></div>
+      <div class="tile"><strong>Community nearby</strong><span>The Den gives people a place to learn, ask, share, and get unstuck.</span></div>
     </div>
   </section>
 
   <section class="section" id="crew">
     <h3>About the crew</h3>
-    <p>The full crew art belongs here as brand flavor and reference. Onboarding should stay focused on user setup, not lore.</p>
+    <p>The crew art belongs here as brand flavor and reference. Onboarding should stay focused on setup, while About can carry the bigger story.</p>
     <div class="crew-block" style="margin-top:14px">
       <img class="crew-art" src="assets/about/heyron-crew-board.png" alt="Heyron agent crew reference artwork">
       <div class="crew-list">
@@ -133,7 +160,7 @@
     </div>
   </section>
 
-  <p class="footer-note">Preview lane: robbybuilds/mockheyron-logo-preview</p>
+  <p class="footer-note">Source notes adapted from The Den. Preview lane: robbybuilds/mockheyron-logo-preview</p>
 </div>
 </body>
 </html>
