@@ -129,6 +129,8 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .community-modal.open{display:flex;}
 .community-card{width:min(560px,100%);padding:22px;border-radius:24px;background:linear-gradient(180deg,rgba(15,20,28,.97),rgba(7,9,12,.98));border:1px solid rgba(249,168,212,.38);box-shadow:0 0 42px rgba(249,168,212,.14),0 0 52px rgba(0,207,255,.08),inset 0 1px 0 rgba(255,255,255,.05);}
 .community-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;}.community-orb{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(249,168,212,.45);box-shadow:0 0 22px rgba(249,168,212,.18);font-size:25px;}.community-card h2{font-size:22px;margin:0;}.community-card p{color:var(--text-muted);font-size:13px;line-height:1.55;margin:8px 0 14px;}.community-list{display:grid;gap:9px;margin:12px 0 14px;}.community-item{padding:10px 11px;border-radius:14px;border:1px solid rgba(125,225,255,.18);background:rgba(7,9,12,.42);}.community-item strong{display:block;color:#F8FAFC;font-size:13px;margin-bottom:3px;}.community-item a{color:#D7F9FF;text-decoration:none;font-size:12px;}.community-actions{display:flex;gap:10px;flex-wrap:wrap}.community-actions a,.community-actions button{border-radius:12px;padding:10px 12px;border:1px solid rgba(249,168,212,.35);background:rgba(7,9,12,.50);color:#FCE7F3;text-decoration:none;cursor:pointer;font-size:12px;}.community-actions .primary{border-color:rgba(249,168,212,.55);color:#fff;background:linear-gradient(135deg,rgba(249,168,212,.18),rgba(0,207,255,.12),rgba(7,9,12,.58));}.billing-form{display:grid;gap:9px;margin-top:12px}.billing-form input,.billing-form textarea{width:100%;border:1px solid rgba(125,225,255,.24);border-radius:13px;background:rgba(5,7,11,.72);color:#E6EDF3;padding:10px;outline:none}.billing-form textarea{min-height:82px;resize:vertical}.billing-buttons{display:flex;gap:10px;flex-wrap:wrap}.billing-buttons button{border:1px solid rgba(249,168,212,.40);border-radius:999px;background:rgba(7,9,12,.52);color:#FCE7F3;padding:10px 14px;cursor:pointer}
+.jam-art{width:100%;display:block;border-radius:22px;margin:12px 0 14px;border:1px solid rgba(125,225,255,.24);box-shadow:0 0 34px rgba(125,225,255,.18),0 18px 60px rgba(0,0,0,.38);}
+@media(max-width:700px){.jam-art{border-radius:16px;margin:10px 0 12px;}}
 .jam-hero{border:1px solid rgba(249,168,212,.24);border-radius:20px;padding:16px;background:radial-gradient(circle at top left,rgba(249,168,212,.13),rgba(7,9,12,.40) 58%);margin:12px 0 14px;}
 .jam-hero strong{display:block;color:#FCE7F3;font-size:15px;margin-bottom:5px}.jam-hero span{display:block;color:#D6E4F5;font-size:13px;line-height:1.45}.jam-section-title{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#D7F9FF;margin:16px 0 8px}.jam-submit-panel{display:none;border:1px solid rgba(249,168,212,.24);border-radius:18px;padding:13px;background:rgba(7,9,12,.46);margin-top:12px}.jam-submit-panel.open{display:block}.jam-submit-toggle{border:1px solid rgba(249,168,212,.42);border-radius:999px;background:linear-gradient(135deg,rgba(249,168,212,.18),rgba(0,207,255,.10));color:#FCE7F3;padding:10px 13px;cursor:pointer;font-weight:700}.jam-actions-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.jam-actions-row a,.jam-actions-row button{border:1px solid rgba(125,225,255,.28);border-radius:999px;background:rgba(7,9,12,.52);color:#D7F9FF;padding:10px 13px;text-decoration:none;cursor:pointer;font-size:12px}.jam-actions-row .primary{border-color:rgba(249,168,212,.44);color:#FCE7F3;background:rgba(249,168,212,.10)}
 
@@ -443,8 +445,9 @@ img,svg{max-width:100%;}
 
 <div class="community-modal" id="jamGate" role="dialog" aria-modal="false" aria-labelledby="jamTitle">
   <div class="community-card large">
-    <div class="community-head"><div class="community-orb">🫙</div><div><h2 id="jamTitle">Huckleberry Agent Jam</h2><p style="margin:2px 0 0">A weekly build challenge from the community jar.</p></div></div>
-    <div class="jam-hero"><strong>Last week’s jam is in the jar.</strong><span>Winners, source links, Robby/Cassie recap video, next prompt, and entry submissions all live here so people know exactly what to do.</span></div>
+    <div class="community-head"><div class="community-orb">🫙</div><div><h2 id="jamTitle">Agent Jam</h2><p style="margin:2px 0 0">Build together. Create smarter.</p></div></div>
+    <img class="jam-art" src="assets/agent-jam/agent-jam-command-bridge.png" alt="Heyron Agent Jam. Build together. Create smarter." />
+    <div class="jam-hero"><strong>Agent Jam lives on the bridge.</strong><span>Collaborate in real time, use powerful tools, turn ideas into action, and share what you build with the crew.</span></div>
 
     <div class="jam-section-title">Last week’s winners</div>
     <div class="community-grid">
@@ -456,7 +459,7 @@ img,svg{max-width:100%;}
     <div class="resource-card"><span class="tag">Video</span><h3>Robby + Cassie Winner Announcement</h3><p>Drop the clipped live announcement here after Robby films it, so the week has receipts.</p><a href="#" data-soon="Agent Jam announcement video">Watch announcement video →</a></div>
 
     <div class="jam-section-title">Next prompt</div>
-    <div class="resource-card"><span class="tag">Coming up</span><h3>Tiny agents that save 10 minutes</h3><p>Build something small, useful, and easy for someone else to remix. Bonus points if the setup is clear and the files are clean.</p></div>
+    <div class="resource-card"><span class="tag">Coming up</span><h3>Ideate → Plan → Build → Share</h3><p>Bring one useful idea, shape it with your agent, build a tiny working thing, then share the proof so others can remix it.</p></div>
 
     <div class="jam-section-title">How to submit</div>
     <div class="community-grid">
