@@ -22,18 +22,6 @@ html,body{width:100%;min-height:100%;background:var(--bg);font-family:'DM Sans',
 .launchpad-welcome::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(7,9,12,.12) 0%,rgba(7,9,12,0) 42%,rgba(7,9,12,.62) 100%),radial-gradient(circle at 50% 72%,rgba(34,211,238,.10),transparent 42%)}
 .hotspot-welcome-cadet{position:absolute;z-index:3;left:48.5%;top:72.5%;width:42%;height:23.5%;display:block;border-radius:22px;text-indent:-9999px;overflow:hidden;cursor:pointer;}
 .hotspot-welcome-cadet:focus-visible{outline:2px solid rgba(34,211,238,.9);outline-offset:4px;}
-.window-motion{position:absolute;z-index:2;left:51%;top:7%;width:41%;height:38%;pointer-events:none;overflow:hidden;mix-blend-mode:screen;opacity:.62;filter:blur(.25px);mask-image:radial-gradient(ellipse at center,#000 44%,rgba(0,0,0,.72) 72%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse at center,#000 44%,rgba(0,0,0,.72) 72%,transparent 100%);}
-.window-motion .drift-light{position:absolute;width:3px;height:3px;border-radius:50%;background:rgba(215,249,255,.70);box-shadow:0 0 6px rgba(82,201,255,.55);opacity:.25;animation:starDrift 22s linear infinite;}
-.window-motion .l1{left:8%;top:18%;animation-delay:0s}.window-motion .l2{left:24%;top:31%;animation-delay:5s}.window-motion .l3{left:42%;top:14%;animation-delay:9s}.window-motion .l4{left:68%;top:38%;animation-delay:13s}.window-motion .l5{left:82%;top:22%;animation-delay:17s}
-.window-motion .distant-ship{position:absolute;left:-8%;top:54%;width:16px;height:5px;border-radius:999px;background:linear-gradient(90deg,rgba(125,225,255,.18),rgba(125,225,255,.62),rgba(217,164,65,.42));box-shadow:0 0 5px rgba(82,201,255,.35);opacity:0;animation:shipAcross 28s linear infinite;}
-.window-motion .distant-ship.s2{top:28%;animation-delay:14s;animation-duration:34s;transform:scale(.65)}
-.window-motion .meteor{position:absolute;left:-20%;top:26%;width:44px;height:1px;background:linear-gradient(90deg,transparent,rgba(215,249,255,.55),transparent);opacity:0;transform:rotate(-17deg);filter:blur(.45px) drop-shadow(0 0 4px rgba(82,201,255,.45));animation:meteorPass 16s linear infinite;}
-.window-motion .meteor.m2{top:42%;animation-delay:8s;animation-duration:22s;width:30px;opacity:.45}
-@keyframes starDrift{0%{transform:translate3d(0,0,0);opacity:.15}50%{opacity:.55}100%{transform:translate3d(38px,-18px,0);opacity:.16}}
-@keyframes shipAcross{0%{transform:translateX(0) scale(.8);opacity:0}12%{opacity:.36}75%{opacity:.26}100%{transform:translateX(620px) translateY(-34px) scale(.8);opacity:0}}
-@keyframes meteorPass{0%{transform:translateX(0) translateY(0) rotate(-17deg);opacity:0}8%{opacity:.45}18%{opacity:.24}32%,100%{transform:translateX(620px) translateY(120px) rotate(-17deg);opacity:0}}
-@media (prefers-reduced-motion: reduce){.window-motion *{animation:none!important;opacity:.18!important}}
-@media(max-width:760px){.window-motion{left:48%;top:6%;width:48%;height:34%;}}
 
 @media(max-width:760px){.launchpad-art{object-position:center top}.hotspot-welcome-cadet{left:45%;top:70%;width:51%;height:26%;}}
 </style>
@@ -41,11 +29,6 @@ html,body{width:100%;min-height:100%;background:var(--bg);font-family:'DM Sans',
 <body>
 <main class="launchpad-welcome" aria-label="Heyron Launchpad welcome">
   <img src="assets/final-onboarding-art.png" alt="Welcome to Heyron Launchpad" class="launchpad-art" />
-  <div class="window-motion" aria-hidden="true">
-    <span class="drift-light l1"></span><span class="drift-light l2"></span><span class="drift-light l3"></span><span class="drift-light l4"></span><span class="drift-light l5"></span>
-    <span class="distant-ship s1"></span><span class="distant-ship s2"></span>
-    <span class="meteor m1"></span><span class="meteor m2"></span>
-  </div>
   <a class="hotspot-welcome-cadet" href="launchpad-final.html?demo=1" aria-label="Enter Launchpad">Enter Launchpad</a>
 </main>
 </body>
