@@ -140,6 +140,13 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .soon-modal.open{display:flex;}
 .soon-card{width:min(420px,100%);border-radius:24px;padding:22px;background:linear-gradient(180deg,rgba(15,20,28,.98),rgba(7,9,12,.99));border:1px solid rgba(0,207,255,.42);box-shadow:0 0 38px rgba(0,207,255,.16),0 0 44px rgba(109,40,217,.12),inset 0 1px 0 rgba(255,255,255,.06);text-align:center;}
 .soon-card h2{margin:0 0 8px;font-size:24px;}.soon-card p{margin:0 0 16px;color:var(--text-muted);font-size:13px;line-height:1.5;}.soon-card button{border:1px solid rgba(125,225,255,.35);border-radius:999px;background:rgba(7,9,12,.52);color:#D7F9FF;padding:10px 14px;cursor:pointer;}
+.stat-card-button{width:100%;text-align:left;color:inherit;font:inherit;cursor:pointer;}
+.stat-card-button:hover{filter:brightness(1.12);transform:translateY(-1px);}
+.agent-modal{position:fixed;inset:0;z-index:1001;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(3,5,8,.68);backdrop-filter:blur(10px);}
+.agent-modal.open{display:flex;}
+.agent-card{width:min(620px,100%);border-radius:24px;padding:22px;background:linear-gradient(180deg,rgba(15,20,28,.98),rgba(7,9,12,.99));border:1px solid rgba(0,207,255,.42);box-shadow:0 0 42px rgba(0,207,255,.16),0 0 52px rgba(109,40,217,.14),inset 0 1px 0 rgba(255,255,255,.06);}
+.agent-card h2{margin:0 0 6px;font-size:24px;}.agent-card p{margin:0 0 14px;color:var(--text-muted);font-size:13px;line-height:1.5;}.agent-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0 16px;}.agent-chip{border:1px solid rgba(125,225,255,.18);border-radius:16px;padding:11px;background:rgba(7,9,12,.46);}.agent-chip strong{display:block;color:#F8FAFC;margin-bottom:3px;}.agent-chip span{display:block;color:#9BAAC4;font-size:12px;line-height:1.35;}.agent-card button{border:1px solid rgba(125,225,255,.35);border-radius:999px;background:rgba(7,9,12,.52);color:#D7F9FF;padding:10px 14px;cursor:pointer;}@media(max-width:620px){.agent-grid{grid-template-columns:1fr}}
+
 
 @media(max-width:700px){.community-grid{grid-template-columns:1fr}.community-card.large{max-height:86vh}}
 
@@ -290,14 +297,14 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 <div class="grid grid-4" style="margin-top:16px;">
   <div class="card">
     <div class="stat-title">Agent Jams Hosted</div>
-    <div class="stat-value">Soon</div>
+    <div class="stat-value">1</div>
     <svg class="graph" viewBox="0 0 100 30"><path d="M0 20 L20 18 L40 22 L60 15 L80 17 L100 10"/></svg>
   </div>
-  <div class="card">
+  <button type="button" class="card stat-card-button" id="agentCrewOpen" aria-label="Open Robby's AI agent crew">
     <div class="stat-title">Robby's Agent Crew</div>
     <div class="stat-value">7</div>
     <svg class="graph" viewBox="0 0 100 30"><path d="M0 25 L20 20 L40 18 L60 16 L80 12 L100 8"/></svg>
-  </div>
+  </button>
   <div class="card">
     <div class="stat-title">Memory Cabinet Files</div>
     <div class="stat-value">33</div>
@@ -435,6 +442,19 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 </div>
 <script>
 
+(function(){
+  const open = document.getElementById('agentCrewOpen');
+  const modal = document.getElementById('agentCrewModal');
+  const close = document.getElementById('agentCrewClose');
+  function show(){ modal && modal.classList.add('open'); }
+  function hide(){ modal && modal.classList.remove('open'); }
+  open && open.addEventListener('click', show);
+  close && close.addEventListener('click', hide);
+  modal && modal.addEventListener('click', e => { if(e.target === modal) hide(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') hide(); });
+})();
+
+
 
 (function(){
   function bind(openId, modalId, closeId){
@@ -515,6 +535,24 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 </script>
 
 
+
+
+<div class="agent-modal" id="agentCrewModal" role="dialog" aria-modal="true" aria-labelledby="agentCrewTitle">
+  <div class="agent-card">
+    <h2 id="agentCrewTitle">Robby's AI Agent Crew</h2>
+    <p>The exposed/merch-worthy character roster for the Heyron universe. Tiny trading-card mode.</p>
+    <div class="agent-grid">
+      <div class="agent-chip"><strong>Ron</strong><span>Main raccoon guide, brand ambassador, Mission Control gremlin in a business suit.</span></div>
+      <div class="agent-chip"><strong>Eloise</strong><span>Elegant, sharp support/strategy energy. Polished but not corporate.</span></div>
+      <div class="agent-chip"><strong>Mac</strong><span>Practical builder/helper energy. Gets the machine room unstuck.</span></div>
+      <div class="agent-chip"><strong>Ari</strong><span>Creative spark, ideas, art direction, and playful exploration.</span></div>
+      <div class="agent-chip"><strong>Navi</strong><span>Navigation brain. Helps people find the right path, tool, or next step.</span></div>
+      <div class="agent-chip"><strong>Carter</strong><span>Local/personal agent energy. Careful, grounded, and close to the user’s world.</span></div>
+      <div class="agent-chip"><strong>Spencer</strong><span>Community-facing helper with merch/lore potential. Still room to define the exact lane.</span></div>
+    </div>
+    <button type="button" id="agentCrewClose">Close</button>
+  </div>
+</div>
 
 <div class="soon-modal" id="soonModal" role="dialog" aria-modal="true" aria-labelledby="soonTitle">
   <div class="soon-card">
