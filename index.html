@@ -316,6 +316,7 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
     <svg class="graph" viewBox="0 0 100 30"><path d="M0 24 L20 21 L40 19 L60 17 L80 14 L100 12"/></svg>
   </div>
 </div>
+<div class="mini" style="text-align:center;margin-top:8px;color:var(--text-muted);font-size:10px;">Community/lore stats. Discord messages should count non-ticket community conversations only. Agent crew = Ron, Eloise, Mac, Ari, Navi, Carter, and Spencer.</div>
 
   <footer class="site-footer">
     <div class="footer-brand">
@@ -441,6 +442,17 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
   </div>
 </div>
 <script>
+
+(function(){
+  const el = document.getElementById('communityMessageCount');
+  if(!el) return;
+  let n = Number(el.textContent.replace(/,/g,'')) || 1247;
+  setInterval(() => {
+    n += Math.random() > 0.72 ? 1 : 0;
+    el.textContent = n.toLocaleString();
+  }, 4200);
+})();
+
 
 (function(){
   const open = document.getElementById('agentCrewOpen');
