@@ -53,8 +53,8 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .status{display:block;margin-top:18px;position:relative;}
 .status-left{display:none;}
 .status-right{width:100%;position:relative;overflow:hidden;border-radius:26px;min-height:600px;border:1px solid rgba(125,225,255,.46);background:linear-gradient(180deg,rgba(7,9,12,.10),rgba(7,9,12,.34));box-shadow:0 -22px 60px rgba(7,9,12,.65),0 0 34px rgba(82,201,255,.24),0 0 80px rgba(34,211,238,.12),inset 0 1px 0 rgba(255,255,255,.07);}
-.status-right::before{content:'';position:absolute;inset:-34px -18px -18px;background-image:url("assets/mission-control-status-square-wide.png");background-size:cover;background-position:center top;background-repeat:no-repeat;transform:scale(1.03);filter:saturate(1.08) brightness(.92);}
-.status-right::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,9,12,.88) 0%,rgba(7,9,12,.35) 16%,rgba(7,9,12,.04) 42%,rgba(7,9,12,.22) 100%),radial-gradient(circle at 50% 0%,rgba(82,201,255,.22),transparent 46%);pointer-events:none;}
+.status-right::before{content:'';position:absolute;z-index:0;inset:-34px -18px -18px;background-image:url("assets/mission-control-status-square-wide.png");background-size:cover;background-position:center top;background-repeat:no-repeat;transform:scale(1.03);filter:saturate(1.08) brightness(.92);}
+.status-right::after{content:'';position:absolute;z-index:2;inset:0;background:linear-gradient(180deg,rgba(7,9,12,.88) 0%,rgba(7,9,12,.35) 16%,rgba(7,9,12,.04) 42%,rgba(7,9,12,.22) 100%),radial-gradient(circle at 50% 0%,rgba(82,201,255,.22),transparent 46%);pointer-events:none;}
 .quick-card{display:flex;flex-direction:column;align-items:center;justify-start;text-align:center;min-height:180px;padding-bottom:12px;}
 .quick-card h3{font-size:12px;margin:4px 0;}
 .quick-card p{font-size:10px;color:var(--text-muted);text-align:center;margin-bottom:10px;flex-grow:1;}
@@ -79,19 +79,19 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .bridge-button.primary{border-color:rgba(217,164,65,.58);color:#FFF4D6;background:linear-gradient(135deg,rgba(217,164,65,.20),rgba(7,9,12,.52));box-shadow:0 0 26px rgba(217,164,65,.16),0 0 22px rgba(82,201,255,.10),inset 0 1px 0 rgba(255,255,255,.08);}
 .bridge-button:hover{transform:translateY(-1px);}
 @media(max-width:700px){.bridge-actions{width:100%;}.bridge-button{width:100%;}}
-.space-motion{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden;border-radius:26px;mix-blend-mode:screen;}
-.shooting-star{position:absolute;width:92px;height:1px;background:linear-gradient(90deg,transparent,rgba(215,249,255,.95),transparent);opacity:0;filter:drop-shadow(0 0 7px rgba(82,201,255,.9));transform:rotate(-18deg);animation:shootStar 8s linear infinite;}
-.shooting-star.s1{top:22%;left:-18%;animation-delay:.8s;animation-duration:9s;}
-.shooting-star.s2{top:36%;left:-26%;animation-delay:4.2s;animation-duration:11s;width:70px;}
-.shooting-star.s3{top:18%;left:-30%;animation-delay:7.5s;animation-duration:13s;width:110px;opacity:.75;}
-.tiny-ship{position:absolute;width:34px;height:12px;border-radius:999px;background:linear-gradient(90deg,rgba(20,32,48,.25),rgba(125,225,255,.85),rgba(217,164,65,.7));box-shadow:0 0 9px rgba(82,201,255,.35);opacity:.0;animation:driftShip 18s linear infinite;}
-.tiny-ship::before{content:'';position:absolute;right:-6px;top:4px;width:8px;height:3px;border-radius:999px;background:rgba(168,85,247,.75);box-shadow:0 0 8px rgba(168,85,247,.65);}
-.tiny-ship.ship1{top:28%;left:-10%;animation-delay:2s;}
-.tiny-ship.ship2{top:44%;left:-16%;animation-delay:10s;animation-duration:24s;transform:scale(.72);}
-.nebula-pulse{position:absolute;inset:8% 12% 42% 18%;background:radial-gradient(circle at 50% 45%,rgba(82,201,255,.10),transparent 50%),radial-gradient(circle at 70% 35%,rgba(168,85,247,.09),transparent 42%);opacity:.5;animation:nebulaBreathe 7s ease-in-out infinite alternate;}
-@keyframes shootStar{0%{transform:translateX(0) translateY(0) rotate(-18deg);opacity:0;}8%{opacity:.9;}18%{opacity:.65;}30%,100%{transform:translateX(1500px) translateY(310px) rotate(-18deg);opacity:0;}}
-@keyframes driftShip{0%{transform:translateX(0) translateY(0) scale(.85);opacity:0;}10%{opacity:.55;}70%{opacity:.45;}100%{transform:translateX(1550px) translateY(-65px) scale(.85);opacity:0;}}
-@keyframes nebulaBreathe{from{opacity:.25;filter:blur(0);}to{opacity:.55;filter:blur(1px);}}
+ .space-motion{position:absolute;left:13%;right:15%;top:17%;height:42%;z-index:1;pointer-events:none;overflow:hidden;border-radius:38% 38% 28% 28%;mix-blend-mode:screen;opacity:.72;filter:blur(.35px);mask-image:radial-gradient(ellipse at center,#000 42%,rgba(0,0,0,.72) 66%,transparent 100%);-webkit-mask-image:radial-gradient(ellipse at center,#000 42%,rgba(0,0,0,.72) 66%,transparent 100%);}
+.shooting-star{position:absolute;width:38px;height:1px;background:linear-gradient(90deg,transparent,rgba(196,238,255,.72),transparent);opacity:0;filter:blur(.45px) drop-shadow(0 0 3px rgba(82,201,255,.45));transform:rotate(-16deg);animation:shootStar 10s linear infinite;}
+.shooting-star.s1{top:26%;left:-12%;animation-delay:1.4s;animation-duration:11s;}
+.shooting-star.s2{top:48%;left:-18%;animation-delay:5.8s;animation-duration:14s;width:28px;opacity:.55;}
+.shooting-star.s3{top:18%;left:-20%;animation-delay:9.2s;animation-duration:17s;width:44px;opacity:.5;}
+.tiny-ship{position:absolute;width:8px;height:3px;border-radius:999px;background:rgba(150,226,255,.62);box-shadow:0 0 4px rgba(82,201,255,.42);opacity:0;animation:driftShip 24s linear infinite;}
+.tiny-ship::before{content:'';position:absolute;right:-3px;top:1px;width:3px;height:1px;border-radius:999px;background:rgba(168,85,247,.46);box-shadow:0 0 4px rgba(168,85,247,.36);}
+.tiny-ship.ship1{top:42%;left:-6%;animation-delay:3s;}
+.tiny-ship.ship2{top:62%;left:-10%;animation-delay:13s;animation-duration:31s;transform:scale(.72);}
+.nebula-pulse{position:absolute;inset:0;background:radial-gradient(circle at 46% 42%,rgba(82,201,255,.055),transparent 48%),radial-gradient(circle at 72% 34%,rgba(168,85,247,.05),transparent 44%);opacity:.32;animation:nebulaBreathe 8s ease-in-out infinite alternate;}
+@keyframes shootStar{0%{transform:translateX(0) translateY(0) rotate(-16deg);opacity:0;}10%{opacity:.42;}22%{opacity:.26;}34%,100%{transform:translateX(760px) translateY(150px) rotate(-16deg);opacity:0;}}
+@keyframes driftShip{0%{transform:translateX(0) translateY(0) scale(.85);opacity:0;}16%{opacity:.36;}72%{opacity:.28;}100%{transform:translateX(760px) translateY(-44px) scale(.85);opacity:0;}}
+@keyframes nebulaBreathe{from{opacity:.18;filter:blur(0);}to{opacity:.36;filter:blur(1px);}}
 @media (prefers-reduced-motion: reduce){.shooting-star,.tiny-ship,.nebula-pulse{animation:none;opacity:.25;}}
 
 
