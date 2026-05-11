@@ -38,13 +38,34 @@ a,button,.path-card,.back-button{min-height:44px;touch-action:manipulation;}
   .copy{padding:22px 16px;}
 }
 
+
+/* Ron Launchpad art restore: render real image, not a cropped background */
+.welcome{display:flex!important;align-items:center;justify-content:center;padding:calc(58px + env(safe-area-inset-top)) max(12px,env(safe-area-inset-left)) calc(96px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-right));}
+.welcome-art{display:none!important;}
+.welcome-frame{position:relative;width:min(100%,calc((100svh - 164px) * 1.5));max-width:1536px;aspect-ratio:3/2;margin:auto;}
+.welcome-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;border-radius:0;}
+.welcome::after{display:none!important;}
+.welcome-hotspot{right:7%;bottom:7%;width:37%;height:22%;min-height:64px;background:rgba(0,229,255,.015);}
+@media(max-width:700px){
+  .welcome{padding-top:calc(62px + env(safe-area-inset-top));padding-bottom:calc(112px + env(safe-area-inset-bottom));align-items:center;}
+  .welcome-frame{width:100%;height:auto;aspect-ratio:3/2;}
+  .welcome-img{object-fit:contain;}
+  .welcome-hotspot{right:5%;bottom:5%;width:43%;height:25%;min-height:72px;}
+}
+@media(max-width:420px){
+  .welcome{padding-left:8px;padding-right:8px;padding-bottom:calc(120px + env(safe-area-inset-bottom));}
+  .welcome-hotspot{right:4%;bottom:5%;width:46%;height:27%;}
+}
+
 </style>
 </head>
 <body>
 <div class="topbar"><a href="index.html">← Mission Control</a><a href="launchpad-flow.html?path=dashboard">Skip to demo dashboard</a></div>
 <section class="screen welcome active" id="welcome">
-  <div class="welcome-art" aria-hidden="true"></div>
-  <button class="welcome-hotspot" id="start" aria-label="Continue Launchpad onboarding">Continue</button>
+  <div class="welcome-frame">
+    <img class="welcome-img" src="assets/final-onboarding-art.png" alt="Ron says Welcome cadet. You are in the right place. Let’s launch something great." />
+    <button class="welcome-hotspot" id="start" aria-label="Continue Launchpad onboarding">Continue</button>
+  </div>
 </section>
 <section class="screen choose" id="choose">
   <div class="shell">
