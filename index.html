@@ -262,6 +262,35 @@ img,svg{max-width:100%;}
 }
 @media(min-width:701px){.app-shell{padding-bottom:40px;}}
 
+
+/* Ron bottom utility fix: stop mobile clipping/overflow */
+.site-footer{overflow:visible;}
+.footer-icons{max-width:100%;min-width:0;}
+@media(max-width:700px){
+  .site-footer{display:block;padding:16px 12px 18px;overflow:visible;}
+  .footer-brand{margin-bottom:14px;}
+  .footer-icons{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:12px 8px;
+    width:100%;
+    max-width:100%;
+    align-items:start;
+    justify-items:center;
+    overflow:visible;
+    padding:0 2px;
+  }
+  .footer-tool{min-width:0;width:100%;max-width:92px;}
+  .footer-symbol{width:50px;height:50px;font-size:23px;flex:0 0 auto;}
+  .footer-symbol img{max-width:36px;max-height:36px;object-fit:contain;}
+  .footer-tool-label{font-size:10px;line-height:1.15;max-width:92px;overflow-wrap:break-word;}
+  .footer-links{margin-top:14px;gap:10px 12px;}
+}
+@media(max-width:360px){
+  .footer-icons{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .footer-tool{max-width:110px;}
+}
+
 </style>
 </head>
 <body>
