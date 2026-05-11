@@ -52,7 +52,7 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 @keyframes draw{to{stroke-dashoffset:0;}}
 .status{display:block;margin-top:12px;}
 .status-left{display:none;}
-.status-right{width:100%;border-radius:18px;background-image:linear-gradient(90deg,rgba(7,9,12,.10),rgba(7,9,12,.04)),url("assets/mission-control-status-square.png");background-size:auto 86%;background-position:center;background-repeat:no-repeat;min-height:210px;border:1px solid rgba(125,225,255,.52);box-shadow:0 0 26px rgba(82,201,255,.22),0 0 54px rgba(34,211,238,.10),inset 0 1px 0 rgba(255,255,255,.06);}
+.status-right{width:100%;border-radius:18px;background-image:linear-gradient(90deg,rgba(7,9,12,.10),rgba(7,9,12,.04)),url("assets/mission-control-status-square.png");background-size:cover;background-position:center;background-repeat:no-repeat;min-height:240px;border:1px solid rgba(125,225,255,.52);box-shadow:0 0 26px rgba(82,201,255,.22),0 0 54px rgba(34,211,238,.10),inset 0 1px 0 rgba(255,255,255,.06);}
 .quick-card{display:flex;flex-direction:column;align-items:center;justify-start;text-align:center;min-height:180px;padding-bottom:12px;}
 .quick-card h3{font-size:12px;margin:4px 0;}
 .quick-card p{font-size:10px;color:var(--text-muted);text-align:center;margin-bottom:10px;flex-grow:1;}
@@ -62,6 +62,12 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .quick-card:first-child{border-color:rgba(217,164,65,.45);box-shadow:0 0 30px rgba(217,164,65,.08), inset 0 1px 0 rgba(255,255,255,.03);}
 .status-right + .image-glow{}
 .quick-card:first-child .icon{filter:drop-shadow(0 0 8px rgba(217,164,65,.35));}
+.featured-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px;margin-bottom:14px;}
+.featured-actions .quick-card{min-height:132px;border-color:rgba(125,225,255,.28);box-shadow:0 0 22px rgba(82,201,255,.10),inset 0 1px 0 rgba(255,255,255,.04);}
+.featured-actions .quick-card:first-child{border-color:rgba(217,164,65,.45);box-shadow:0 0 26px rgba(217,164,65,.10),0 0 18px rgba(82,201,255,.08),inset 0 1px 0 rgba(255,255,255,.04);}
+.secondary-actions{margin-top:16px;}
+@media(max-width:700px){.featured-actions{grid-template-columns:1fr;}.status-right{min-height:180px;}}
+
 .footer-nav{position:fixed;bottom:0;width:100%;background:#0a0f14;border-top:1px solid var(--border-muted);display:flex;justify-content:space-around;padding:10px 0;z-index:100;}
 .footer-nav a{color:var(--text-muted);text-decoration:none;font-size:12px;}
 /* Animation section */
@@ -107,36 +113,40 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
     <img src="assets/launchpad-crest.png" alt="Launchpad crest" class="scene-crest" />
 </div>
 
-<!-- STATUS -->
+<!-- FEATURED ACTIONS -->
+<div class="featured-actions">
+  <div class="card quick-card">
+    <img src="assets/rocket.svg" class="icon" />
+    <h3>Launchpad</h3>
+    <p>Start or continue your agent setup</p>
+    <a href="hello-screen.html" class="button">Open Launchpad</a>
+  </div>
+  <div class="card quick-card">
+    <img src="assets/monitor.svg" class="icon" />
+    <h3>Ron Academy</h3>
+    <p>Short lessons to help you build better</p>
+    <a href="https://heyron-ai.github.io/agent-library/tutorials/index.html" class="button">Browse Lessons</a>
+  </div>
+  <div class="card quick-card">
+    <img src="assets/headset.svg" class="icon" />
+    <h3>Support</h3>
+    <p>Submit tickets or get unstuck fast</p>
+    <a href="support.html" class="button">Get Help</a>
+  </div>
+</div>
+
+<!-- MISSION CONTROL IMAGE -->
 <div class="status">
   <div class="card status-right" aria-label="Mission Control bridge preview"></div>
 </div>
 
-<!-- QUICK CARDS -->
-<div class="grid grid-6" style="margin-top:16px;">
-  <div class="card quick-card">
-    <img src="assets/rocket.svg" class="icon" />
-    <h3>Initial Setup</h3>
-    <p>Configure your account, develop an agent personality</p>
-    <a href="hello-screen.html" class="button">Get Started</a>
-  </div>
+<!-- SECONDARY CARDS -->
+<div class="grid grid-6 secondary-actions">
   <div class="card quick-card">
     <img src="assets/compass.svg" class="icon" />
     <h3>Quickstart Guide</h3>
     <p>Get going fast with quick tutorials</p>
     <a href="https://catherinebb272.github.io/heyron-tutorial" class="button">Open Guide</a>
-  </div>
-  <div class="card quick-card">
-    <img src="assets/headset.svg" class="icon" />
-    <h3>Support</h3>
-    <p>How to submit tickets, get community help</p>
-    <a href="support.html" class="button">Go to Support</a>
-  </div>
-  <div class="card quick-card">
-    <img src="assets/monitor.svg" class="icon" />
-    <h3>Tutorials</h3>
-    <p>100+ short modules to help you build</p>
-    <a href="https://heyron-ai.github.io/agent-library/tutorials/index.html" class="button">Browse</a>
   </div>
   <div class="card quick-card">
     <img src="assets/bulb.svg" class="icon" />
