@@ -39,6 +39,49 @@
   .mini-note{font-size:11px!important;}
 }
 
+
+/* Ron about crew hero crop */
+.hero-art img{object-position:center center!important;}
+@media(max-width:760px){.hero-art img{object-position:center center!important;}.crew-art{max-height:360px;object-fit:cover;object-position:center top;}}
+
+/* Ron about hard viewport clamp */
+@media(max-width:760px){
+  .shell{width:100vw!important;max-width:100vw!important;margin:0!important;padding-left:14px!important;padding-right:14px!important;overflow:hidden!important;}
+  .header,.nav,.hero,.section,.footer-note{width:calc(100vw - 28px)!important;max-width:calc(100vw - 28px)!important;margin-left:0!important;margin-right:0!important;}
+  .hero *,.section *{max-width:100%!important;}
+  .hero-copy,.mini-note{display:block!important;width:100%!important;max-width:100%!important;}
+  .button{width:100%!important;max-width:100%!important;box-sizing:border-box!important;}
+}
+
+
+/* Ron about final no-overflow reset */
+@media(max-width:760px){
+  html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important;}
+  .shell{width:100%!important;max-width:100%!important;margin:0!important;padding-left:14px!important;padding-right:14px!important;overflow:hidden!important;}
+  .header,.nav,.hero,.section,.footer-note{width:100%!important;max-width:100%!important;margin-left:0!important;margin-right:0!important;}
+  .hero{padding:16px!important;}
+  .cta-row{width:100%!important;max-width:100%!important;display:grid!important;grid-template-columns:minmax(0,1fr)!important;}
+  .button{width:100%!important;max-width:100%!important;min-width:0!important;}
+  .hero-copy,.mini-note{width:100%!important;max-width:100%!important;padding-right:0!important;}
+}
+
+
+/* Ron about mobile readability crop fix */
+@media(max-width:760px){
+  .hero-copy{max-width:300px!important;font-size:14px!important;line-height:1.45!important;}
+  .mini-note{max-width:260px!important;font-size:11px!important;color:#A9B7C9!important;}
+  .hero-art{min-height:225px!important;}
+  .hero-art img{object-fit:contain!important;object-position:center center!important;background:#05070B!important;}
+}
+
+
+/* Ron about visible right gutter */
+@media(max-width:760px){
+  .hero,.nav,.section{width:calc(100% - 10px)!important;max-width:calc(100% - 10px)!important;}
+  .button{width:calc(100% - 12px)!important;max-width:calc(100% - 12px)!important;margin-left:0!important;margin-right:12px!important;}
+  .hero-art{width:calc(100% - 12px)!important;max-width:calc(100% - 12px)!important;}
+}
+
 </style>
 </head>
 <body>
@@ -52,11 +95,11 @@
     <div>
       <p class="eyebrow">About Heyron</p>
       <h2>Meet Heyron.</h2>
-      <p class="hero-copy">Heyron helps people learn AI agents by giving them a real one: memory, tools, support, and a clear path from setup to daily use.</p>
+      <p class="hero-copy">Heyron helps people learn AI agents with a real workspace: memory, tools, support, and a clear path.</p>
       <div class="cta-row"><a class="button primary" href="launchpad-start.html">Start Launchpad</a><a class="button" href="index.html">Open Mission Control</a></div>
-      <p class="mini-note">This preview is a working concept lane for Robby to review, not the production app.</p>
+      <p class="mini-note">Preview lane for Robby.</p>
     </div>
-    <div class="hero-art"><img src="assets/ron/interstellar-ron-portrait.png" alt="Ron, Heyron's interstellar raccoon guide"></div>
+    <div class="hero-art"><img src="assets/about/heyron-crew-hero.png" alt="Heyron crew gathered around a mission table"></div>
   </section>
 
   <section class="section">
@@ -73,7 +116,7 @@
     <h3>About the crew</h3>
     <p>The full crew art belongs here as brand flavor and reference. Onboarding should stay focused on user setup, not lore.</p>
     <div class="crew-block" style="margin-top:14px">
-      <img class="crew-art" src="assets/onboarding/final/agent-crew.png" alt="Heyron agent crew reference artwork">
+      <img class="crew-art" src="assets/about/heyron-crew-board.png" alt="Heyron agent crew reference artwork">
       <div class="crew-list">
         <strong>Approved reference lane</strong>
         <ul>
