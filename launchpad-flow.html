@@ -440,7 +440,7 @@ function UseCasesScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
       <div className="hero">
-        <img src="assets/raccoon3.png" alt="" style={{width: 96, height: 96, objectFit: 'contain'}} />
+        <img src="assets/onboarding/use-cases.png" alt="" style={{width: 180, height: 120, objectFit: 'contain', borderRadius: 16}} />
         <div className="hero-text">
           <h1 className="headline">What should {data.agentName || 'your agent'} focus on?</h1>
           <p className="sub">Pick everything that applies — these become your agent's priorities.</p>
@@ -498,7 +498,7 @@ function CommStyleScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
       <div className="hero">
-        <img src="assets/raccoon5.png" alt="" style={{width: 96, height: 96, objectFit: 'contain', transform: 'scaleX(-1)'}} />
+        <img src="assets/onboarding/about-you.png" alt="" style={{width: 180, height: 120, objectFit: 'contain', borderRadius: 16}} />
         <div className="hero-text">
           <h1 className="headline">How chatty should it be?</h1>
           <p className="sub">This is on top of personality — same voice, different verbosity.</p>
@@ -527,7 +527,7 @@ function ModelScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
       <div className="hero">
-        <img src="assets/raccoon4.png" alt="" style={{width: 96, height: 96, objectFit: 'contain'}} />
+        <img src="assets/onboarding/about-you.png" alt="" style={{width: 180, height: 120, objectFit: 'contain', borderRadius: 16}} />
         <div className="hero-text">
           <h1 className="headline">Choose a model.</h1>
           <p className="sub">Powers reasoning and replies. Switch anytime.</p>
@@ -585,7 +585,7 @@ function IntegrationsPickScreen({ data, onUpdate, onNext, onBack, step, totalSte
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
       <div className="hero">
-        <img src="assets/raccoon6.png" alt="" style={{width: 108, height: 108, objectFit: 'contain'}} />
+        <img src="assets/onboarding/tools.png" alt="" style={{width: 190, height: 130, objectFit: 'contain', borderRadius: 16}} />
         <div className="hero-text">
           <h1 className="headline">Which tools do you want to set up?</h1>
           <p className="sub">Pick whichever you want now — we'll walk you through each one. Skip the rest, add them later.</p>
@@ -618,7 +618,7 @@ function IntegrationStep({ name, desc, step, totalSteps, onSkip, onConnect, onBa
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
       <div className="hero">
-        <img src="assets/raccoon7.png" alt="" style={{width: 108, height: 108, objectFit: 'contain'}} />
+        <img src="assets/onboarding/tools.png" alt="" style={{width: 190, height: 130, objectFit: 'contain', borderRadius: 16}} />
         <div className="hero-text"><h1 className="headline">Would you like to add {name}?</h1><p className="sub">{desc}</p></div>
       </div>
       {children}
@@ -1089,7 +1089,7 @@ function MemoryScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
       <div className="hero">
-        <img src="assets/raccoon8.png" alt="" style={{width: 96, height: 96, objectFit: 'contain'}} />
+        <img src="assets/onboarding/tools.png" alt="" style={{width: 180, height: 120, objectFit: 'contain', borderRadius: 16}} />
         <div className="hero-text">
           <h1 className="headline">How much should it remember?</h1>
           <p className="sub">Memory holds facts and history (vs. soul, which holds priorities). You can view and edit memory anytime.</p>
@@ -1116,7 +1116,7 @@ function HoursScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
       <div className="hero">
-        <img src="assets/raccoon9.png" alt="" style={{width: 96, height: 96, objectFit: 'contain'}} />
+        <img src="assets/onboarding/tools.png" alt="" style={{width: 180, height: 120, objectFit: 'contain', borderRadius: 16}} />
         <div className="hero-text">
           <h1 className="headline">When are you working?</h1>
           <p className="sub">Your agent will batch updates and stay quiet outside these hours.</p>
@@ -1135,7 +1135,7 @@ function NotificationsScreen({ data, onUpdate, onNext, onBack, step, totalSteps 
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
       <div className="hero">
-        <img src="assets/raccoon10.png" alt="" style={{width: 96, height: 96, objectFit: 'contain'}} />
+        <img src="assets/onboarding/final-check.png" alt="" style={{width: 180, height: 120, objectFit: 'contain', borderRadius: 16}} />
         <div className="hero-text">
           <h1 className="headline">How should we reach you?</h1>
           <p className="sub">You'll get the daily briefing either way.</p>
@@ -1156,7 +1156,7 @@ function PrivacyScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
       <div className="hero">
-        <img src="assets/raccoon11.png" alt="" style={{width: 96, height: 96, objectFit: 'contain'}} />
+        <img src="assets/onboarding/final-check.png" alt="" style={{width: 180, height: 120, objectFit: 'contain', borderRadius: 16}} />
         <div className="hero-text">
           <h1 className="headline">A few privacy choices.</h1>
           <p className="sub">You're in control. Change these anytime.</p>
@@ -1177,7 +1177,7 @@ function AboutSelfScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
   return (
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
-      <div className="hero"><img src="assets/clippy/clippy-ron-final.png" alt="" style={{width: 120, height: 120, objectFit: 'contain', borderRadius: '50%', border: '2px solid rgba(0,207,255,.70)', animation: 'ronOrbBreath 5.5s ease-in-out infinite'}} /><div className="hero-text"><h1 className="headline">Tell your agent about yourself.</h1><p className="sub">This is the last human context before launch. Give your agent the stuff that helps it feel useful on day one.</p></div></div>
+      <div className="hero"><img src="assets/onboarding/about-you.png" alt="" style={{width: 220, height: 150, objectFit: 'contain', borderRadius: 18}} /><div className="hero-text"><h1 className="headline">Tell your agent about yourself.</h1><p className="sub">This is the last human context before launch. Give your agent the stuff that helps it feel useful on day one.</p></div></div>
       <div className="field"><label>What should your agent know about you?</label><textarea className="input tell-box" value={data.aboutSelf} onChange={(e) => onUpdate({ aboutSelf: e.target.value })} placeholder="How you work, what annoys you, what you care about, projects you’re juggling, tone preferences, reminders you need, anything important…" /></div>
       <p className="skip-hint">Minimum 20 characters. You can edit memory and soul later.</p>
       <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={!valid}>Continue</button></div>
@@ -1194,7 +1194,7 @@ function PreviewScreen({ data, onUpdate, onLaunch, onBack, step, totalSteps, exp
   return (
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
-      <div className="hero"><img src="assets/raccoon14.png" alt="" style={{width: 120, height: 120, objectFit: 'contain'}} /><div className="hero-text"><h1 className="headline">Here's your setup.</h1><p className="sub">Look it over. You can change any of this from settings.</p></div></div>
+      <div className="hero"><img src="assets/onboarding/final-check.png" alt="" style={{width: 210, height: 145, objectFit: 'contain', borderRadius: 16}} /><div className="hero-text"><h1 className="headline">Here's your setup.</h1><p className="sub">Look it over. You can change any of this from settings.</p></div></div>
       <div className="summary">
         <div className="summary-section-title">Identity</div>
         <div className="summary-row"><span className="summary-label">Your name</span><span className="summary-value">{data.yourName}</span></div>
