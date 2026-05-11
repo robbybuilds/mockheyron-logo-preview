@@ -1945,7 +1945,7 @@ function buildLaunchpadPayload(data, expert = false) {
 }
 
 /* ─── App ────────────────────────────────────────────────────────── */
-const BEGINNER_FLOW = ['beginner-welcome','beginner-names','beginner-usecases','beginner-integrations','beginner-personality','beginner-comm','beginner-about','beginner-crew','beginner-preview'];
+const BEGINNER_FLOW = ['beginner-welcome','beginner-names','beginner-usecases','beginner-integrations','beginner-personality','beginner-comm','beginner-about','beginner-preview'];
 const EXPERT_FLOW = ['expert-welcome','expert-names','expert-usecases','expert-model','expert-pick-tools','expert-github','expert-telegram','expert-apify','expert-elevenlabs','expert-obsidian','expert-discord','expert-cron','expert-browser','expert-memory','expert-personality','expert-comm','expert-hours','expert-notifications','expert-privacy','expert-about','expert-preview'];
 const INTEGRATION_TOOL_SLUGS = ['github','telegram','apify','elevenlabs','obsidian','discord','cron','browser'];
 const integrationFromScreen = (s) => INTEGRATION_TOOL_SLUGS.find(t => s === `expert-${t}`);
@@ -1985,7 +1985,6 @@ function App() {
       {screen === 'beginner-personality' && <PersonalityScreen data={data} onUpdate={update} onBack={() => back('beginner-personality')} onNext={() => advance('beginner-personality')} step={stepB('beginner-personality')} totalSteps={totalB} />}
       {screen === 'beginner-comm' && <CommStyleScreen data={data} onUpdate={update} onBack={() => back('beginner-comm')} onNext={() => advance('beginner-comm')} step={stepB('beginner-comm')} totalSteps={totalB} />}
       {screen === 'beginner-about' && <AboutSelfScreen data={data} onUpdate={update} onBack={() => back('beginner-about')} onNext={() => advance('beginner-about')} step={stepB('beginner-about')} totalSteps={totalB} />}
-      {screen === 'beginner-crew' && <ArtContinueScreen img="assets/onboarding/final/agent-crew.png" title="Meet the crew." sub="You’re not launching alone. Your agent has the Heyron crew behind it." onBack={() => back('beginner-crew')} onNext={() => advance('beginner-crew')} step={stepB('beginner-crew')} totalSteps={totalB} />}
       {screen === 'beginner-preview' && <PreviewScreen data={data} onUpdate={update} onLaunch={returnToMissionControl} onBack={() => back('beginner-preview')} step={stepB('beginner-preview')} totalSteps={totalB} expert={false} />}
       {screen === 'expert-welcome' && <ArtContinueScreen img="assets/onboarding/final/welcome.png" title="Welcome to Launchpad." sub="Expert setup, same mission control path." onBack={() => window.location.href='launchpad-start.html'} onNext={() => advance('expert-welcome')} step={stepE('expert-welcome')} totalSteps={totalE} />}
       {screen === 'expert-names' && <NamesScreen data={data} onUpdate={update} onBack={() => back('expert-names')} onNext={() => advance('expert-names')} step={stepE('expert-names')} totalSteps={totalE} />}

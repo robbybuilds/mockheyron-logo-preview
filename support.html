@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+html{box-sizing:border-box;}*,*::before,*::after{box-sizing:inherit;}
 :root {
  --bg-page: #07090C;
  --bg-panel: #0F141C;
@@ -671,6 +672,73 @@ a,button,.button,.card,.clippy-open,.sw-quick button{min-height:44px;touch-actio
   .sw-panel,.clippy-widget{max-width:calc(100vw - 24px)!important;right:12px!important;bottom:calc(92px + env(safe-area-inset-bottom))!important;}
 }
 
+
+
+/* Ron final mobile support repair */
+@media(max-width:760px){
+  html,body{max-width:100%;overflow-x:hidden;}
+  .app-shell{box-sizing:border-box;max-width:100vw;min-width:0;padding:0 14px calc(150px + env(safe-area-inset-bottom))!important;}
+  .header{align-items:flex-start!important;gap:12px!important;padding:14px 0 10px!important;flex-direction:column!important;}
+  .header-left{width:100%;min-width:0;}
+  .header-title h1{font-size:18px!important;}
+  .slogan{font-size:11px!important;}
+  .header-right{width:100%;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px!important;}
+  .header-link{display:flex;align-items:center;justify-content:center;min-height:40px;padding:8px 6px;border:1px solid rgba(125,225,255,.20);border-radius:999px;background:rgba(7,9,12,.48);font-size:12px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .hero{padding:18px 16px!important;margin-bottom:12px!important;text-align:left!important;}
+  .hero-title{font-size:34px!important;line-height:1!important;margin-bottom:6px!important;}
+  .hero-tagline{font-size:11px!important;letter-spacing:.12em!important;margin-bottom:8px!important;}
+  .hero-body{font-size:13px!important;line-height:1.45!important;margin:0!important;max-width:none!important;}
+  .support-path-top{margin-bottom:12px!important;padding:13px 14px!important;text-align:left!important;font-size:13px!important;}
+  .support-grid.clean,.support-grid{grid-template-columns:1fr!important;gap:10px!important;margin-bottom:14px!important;}
+  .support-grid.clean .card{min-height:0!important;}
+  .card{padding:14px!important;min-height:0!important;}
+  .card h3{font-size:17px!important;margin-bottom:4px!important;}
+  .card p{font-size:13px!important;line-height:1.42!important;}
+  .button,.clippy-open{width:100%;justify-content:center;text-align:center;box-sizing:border-box;}
+  .support-story-art{min-height:190px!important;border-radius:18px!important;margin:14px 0!important;}
+  .support-story-art img{object-fit:cover!important;object-position:center top!important;}
+  .clippy-support{margin:14px 0!important;padding:15px!important;gap:12px!important;}
+  .clippy-support .clippy-ron-img{width:64px!important;height:64px!important;}
+  .faq-panel{margin:16px 0!important;}
+  .sw-panel{right:12px!important;bottom:calc(92px + env(safe-area-inset-bottom))!important;width:calc(100vw - 24px)!important;max-height:70vh!important;}
+  .billing-card{max-height:82vh!important;padding:18px!important;}
+}
+
+
+/* Ron mobile overflow hard stop */
+@media(max-width:760px){
+  .app-shell,.header,.header-right,.hero,.command-copy,.support-grid,.card,.faq-panel,.clippy-support,.support-hero-banner{max-width:100%!important;overflow-wrap:anywhere;}
+  .header-link{min-width:0!important;}
+  .card *,.hero *,.command-copy *,.faq-panel *,.clippy-support *{max-width:100%;}
+}
+
+/* Ron support viewport lock */
+html,body{width:100%;max-width:100vw;overflow-x:hidden;}
+@media(max-width:760px){
+  .header-right{grid-template-columns:repeat(3,1fr)!important;gap:5px!important;}
+  .header-link{font-size:11px!important;padding:7px 4px!important;letter-spacing:-.01em!important;}
+  .app-shell{width:100%!important;}
+}
+
+/* Ron support final phone override */
+@media(max-width:760px){
+  .header-right{width:calc(100vw - 28px)!important;max-width:calc(100vw - 28px)!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important;}
+  .header-right .header-link:nth-child(3){display:none!important;}
+  .header-link{width:100%!important;box-sizing:border-box!important;min-width:0!important;}
+  .support-grid.clean .card p{display:none!important;}
+  .support-grid.clean .card{gap:8px!important;}
+  .support-grid.clean .card img{width:34px!important;height:34px!important;margin-bottom:4px!important;}
+  .support-grid.clean .card h3{font-size:16px!important;margin:0 0 2px!important;}
+  .support-grid.clean .button{min-height:42px!important;padding:8px 12px!important;}
+}
+
+
+/* Ron support last-mile nav fix */
+@media(max-width:760px){
+  .header-right{display:flex!important;flex-direction:column!important;width:100%!important;max-width:100%!important;gap:7px!important;}
+  .header-link{width:100%!important;max-width:100%!important;}
+}
+
 </style>
 </head>
 <body>
@@ -688,8 +756,8 @@ a,button,.button,.card,.clippy-open,.sw-quick button{min-height:44px;touch-actio
  </div>
  <div class="header-right">
  <a href="index.html" class="header-link">Home</a>
- <a href="launchpad-onboarding.html" class="header-link">Launchpad</a>
- <a href="#" class="header-link">Academy</a>
+ <a href="launchpad-start.html" class="header-link">Start</a>
+ <a href="testpage1.html#crew" class="header-link">About</a>
  </div>
 </header>
 
@@ -697,15 +765,11 @@ a,button,.button,.card,.clippy-open,.sw-quick button{min-height:44px;touch-actio
 <div class="hero">
  <h2 class="hero-title">Need Help?</h2>
  <p class="hero-tagline">Human command center online</p>
- <p class="hero-body">The human employees at the Heyron Command Center are on it. Commander Robby and Captain Cassie are here to help, with Ron overseeing the board.</p>
+ <p class="hero-body">Open a ticket or ask Ron to point you to the right lane.</p>
 </div>
 
-<div class="support-hero-banner">
- <img src="assets/support/robby-cassie-support-hero.png" alt="Commander Robby and Captain Cassie at Heyron support command with hologram Ron" />
-</div>
-
-<div class="command-copy">
- <strong>Support path:</strong> make a ticket, check your ticket, get quick answers, or ask Clippy Ron to point you in the right direction.
+<div class="command-copy support-path-top">
+ <strong>Support path:</strong> ticket, status, or Ron.
 </div>
 
 <!-- SUPPORT GRID -->
@@ -745,6 +809,10 @@ a,button,.button,.card,.clippy-open,.sw-quick button{min-height:44px;touch-actio
   </div>
   <button type="button" class="button" id="billingOpen">Open Billing</button>
  </div>
+</div>
+
+<div class="support-hero-banner support-story-art">
+ <img src="assets/support/robby-cassie-support-hero.png" alt="Commander Robby and Captain Cassie at Heyron support command with hologram Ron" />
 </div>
 
 <div class="clippy-support">

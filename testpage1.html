@@ -6,6 +6,7 @@
   <title>HeyRon</title>
 
   <style>
+html{box-sizing:border-box;}*,*::before,*::after{box-sizing:inherit;}
     * {
       margin: 0;
       padding: 0;
@@ -190,7 +191,53 @@
        === ANIMATION STYLES END (HIGHLIGHTED) ===
        ============================================ */
 
-  </style>
+
+
+    /* ABOUT / CREW HANDOFF SECTION */
+    .about-wrap{max-width:1100px;margin:28px auto 80px;padding:0 20px;}
+    .about-card{border:1px solid rgba(34,211,238,.20);border-radius:24px;background:linear-gradient(180deg,rgba(15,20,28,.96),rgba(7,9,12,.98));padding:22px;box-shadow:0 0 34px rgba(34,211,238,.10);}
+    .about-card h2{font-size:28px;margin:0 0 8px;color:#f8fafc;}
+    .about-card p{color:#aab4c3;line-height:1.55;margin:0 0 14px;}
+    .crew-strip{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;align-items:center;margin-top:14px;}
+    .crew-strip img{width:100%;border-radius:20px;border:1px solid rgba(125,225,255,.24);background:#05070B;display:block;}
+    .crew-note{border:1px solid rgba(125,225,255,.18);border-radius:18px;background:rgba(7,9,12,.46);padding:16px;}
+    .crew-note strong{display:block;color:#d7f9ff;margin-bottom:8px;}
+    .crew-note ul{margin-left:18px;color:#aab4c3;line-height:1.55;}
+    @media(max-width:760px){
+      .header{height:auto;padding:14px;align-items:flex-start;gap:12px;flex-direction:column;}
+      .logo img{height:42px}.logo span{font-size:22px;}
+      .nav-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%;}
+      .nav-links a{margin:0;display:flex;justify-content:center;align-items:center;min-height:40px;border:1px solid rgba(125,225,255,.20);border-radius:999px;background:rgba(7,9,12,.48);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+      .content-table,.content-table tbody,.content-table tr,.content-table td{display:block;width:100%;height:auto;}
+      .text-cell{width:100%;padding:18px 16px;}
+      .image-cell{width:100%;height:220px;display:block;}
+      .space-scene{height:220px;max-height:none;}
+      .ship{width:220px;right:8%;top:32%;}.raccoon{width:110px;left:16%;top:28%;}
+      .about-wrap{margin:18px auto 72px;padding:0 14px;}
+      .about-card{padding:17px;border-radius:20px;}.about-card h2{font-size:24px;}
+      .crew-strip{grid-template-columns:1fr;}.crew-note{padding:14px;}
+    }
+
+
+/* Ron about mobile overflow hard stop */
+@media(max-width:760px){
+  body{overflow-x:hidden;}
+  .header,.nav-links,.about-wrap,.about-card,.crew-strip,.crew-note,.content-table,.text-cell,.image-cell{max-width:100%!important;overflow-wrap:anywhere;}
+  .nav-links a{min-width:0!important;}
+  .about-card *,.crew-note *,.text-cell *{max-width:100%;}
+}
+
+/* Ron about viewport lock */
+html,body{width:100%;max-width:100vw;overflow-x:hidden;}
+@media(max-width:760px){
+  .nav-links{grid-template-columns:repeat(3,1fr)!important;gap:5px!important;}
+  .nav-links a{font-size:11px!important;padding:7px 4px!important;letter-spacing:-.01em!important;}
+  .content-table{max-width:100vw!important;overflow:hidden!important;}
+  .about-wrap{width:100%!important;box-sizing:border-box!important;padding-left:14px!important;padding-right:14px!important;}
+  .about-card{width:100%!important;box-sizing:border-box!important;overflow:hidden!important;}
+  .about-card p,.crew-note li{font-size:14px!important;line-height:1.5!important;word-break:normal!important;overflow-wrap:break-word!important;}
+}
+</style>
 </head>
 
 <body>
@@ -202,9 +249,9 @@
   </div>
 
   <nav class="nav-links">
-    <a href="http://Heyron.ai">Home</a>
-    <a href="hello-screen.html">Launchpad</a>
-    <a href="https://ron-vercel-dashboard.vercel.app/#academy">Ron Academy</a>
+    <a href="index.html">Home</a>
+    <a href="launchpad-start.html">Launchpad</a>
+    <a href="#crew">About</a>
   </nav>
 </div>
 
@@ -236,6 +283,26 @@
 
   </tr>
 </table>
+
+
+<section class="about-wrap" id="crew">
+  <div class="about-card">
+    <h2>About the Heyron crew</h2>
+    <p>This is the small home for the character/worldbuilding pieces. Launchpad should stay focused on setup; the crew art can live here as a light brand/lore section Robby can expand later.</p>
+    <div class="crew-strip">
+      <img src="assets/onboarding/final/agent-crew.png" alt="Heyron agent crew reference artwork">
+      <div class="crew-note">
+        <strong>Use this as approved reference art</strong>
+        <ul>
+          <li>Ron stays the main guide and mascot.</li>
+          <li>Eloise, Ari, Mac, Navi, Carter, Spencer, and Glow Cloud can be examples/supporting crew.</li>
+          <li>Keep onboarding behavior-first; use crew art here for context, examples, and brand flavor.</li>
+          <li>Avoid random generated face overlays unless the crops are clean and mobile-tested.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
 </body>
 </html>
