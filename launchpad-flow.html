@@ -1311,7 +1311,7 @@ function PreviewScreen({ data, onUpdate, onLaunch, onBack, step, totalSteps, exp
       </div>
       <div className="warning-box"><strong>Final acknowledgement:</strong> Your agent may remember what you provide and may use connected tools based on the access you grant. Do not paste secrets unless you intend to store them. You can change settings later, but launch means you understand what you configured.</div>
       <label className="ack-row"><input type="checkbox" checked={!!data.launchAck} onChange={(e) => onUpdate({ launchAck: e.target.checked })} /> <span>I understand this is a real agent setup and I’m ready to launch with these settings.</span></label>
-      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onLaunch} disabled={!data.launchAck}>Open dashboard</button></div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onLaunch} disabled={!data.launchAck}>Return to Mission Control</button></div>
     </div>
   );
 }
@@ -1920,7 +1920,8 @@ function App() {
   const reset = () => { setData(INITIAL_DATA); setScreen('beginner-names'); };
   const totalB = BEGINNER_FLOW.length, totalE = expertFlow.length;
   const stepB = (n) => BEGINNER_FLOW.indexOf(n), stepE = (n) => expertFlow.indexOf(n);
-  const advance = (current) => { const flow = current.startsWith('beginner-') ? BEGINNER_FLOW : expertFlow; const idx = flow.indexOf(current); setScreen(idx >= flow.length - 1 ? 'dashboard' : flow[idx + 1]); };
+  const returnToMissionControl = () => { window.location.href = 'index.html?launchpad=complete'; };
+  const advance = (current) => { const flow = current.startsWith('beginner-') ? BEGINNER_FLOW : expertFlow; const idx = flow.indexOf(current); if (idx >= flow.length - 1) { returnToMissionControl(); return; } setScreen(flow[idx + 1]); };
 
   return (
     <div className="app">
@@ -1931,7 +1932,7 @@ function App() {
       {screen === 'beginner-personality' && <PersonalityScreen data={data} onUpdate={update} onBack={() => back('beginner-personality')} onNext={() => advance('beginner-personality')} step={stepB('beginner-personality')} totalSteps={totalB} />}
       {screen === 'beginner-comm' && <CommStyleScreen data={data} onUpdate={update} onBack={() => back('beginner-comm')} onNext={() => advance('beginner-comm')} step={stepB('beginner-comm')} totalSteps={totalB} />}
       {screen === 'beginner-about' && <AboutSelfScreen data={data} onUpdate={update} onBack={() => back('beginner-about')} onNext={() => advance('beginner-about')} step={stepB('beginner-about')} totalSteps={totalB} />}
-      {screen === 'beginner-preview' && <PreviewScreen data={data} onUpdate={update} onLaunch={() => setScreen('dashboard')} onBack={() => back('beginner-preview')} step={stepB('beginner-preview')} totalSteps={totalB} expert={false} />}
+      {screen === 'beginner-preview' && <PreviewScreen data={data} onUpdate={update} onLaunch={returnToMissionControl} onBack={() => back('beginner-preview')} step={stepB('beginner-preview')} totalSteps={totalB} expert={false} />}
       {screen === 'expert-names' && <NamesScreen data={data} onUpdate={update} onBack={() => back('expert-names')} onNext={() => advance('expert-names')} step={stepE('expert-names')} totalSteps={totalE} />}
       {screen === 'expert-usecases' && <UseCasesScreen data={data} onUpdate={update} onBack={() => back('expert-usecases')} onNext={() => advance('expert-usecases')} step={stepE('expert-usecases')} totalSteps={totalE} />}
       {screen === 'expert-model' && <ModelScreen data={data} onUpdate={update} onBack={() => back('expert-model')} onNext={() => advance('expert-model')} step={stepE('expert-model')} totalSteps={totalE} />}
@@ -1951,7 +1952,7 @@ function App() {
       {screen === 'expert-notifications' && <NotificationsScreen data={data} onUpdate={update} onBack={() => back('expert-notifications')} onNext={() => advance('expert-notifications')} step={stepE('expert-notifications')} totalSteps={totalE} />}
       {screen === 'expert-privacy' && <PrivacyScreen data={data} onUpdate={update} onBack={() => back('expert-privacy')} onNext={() => advance('expert-privacy')} step={stepE('expert-privacy')} totalSteps={totalE} />}
       {screen === 'expert-about' && <AboutSelfScreen data={data} onUpdate={update} onBack={() => back('expert-about')} onNext={() => advance('expert-about')} step={stepE('expert-about')} totalSteps={totalE} />}
-      {screen === 'expert-preview' && <PreviewScreen data={data} onUpdate={update} onLaunch={() => setScreen('dashboard')} onBack={() => back('expert-preview')} step={stepE('expert-preview')} totalSteps={totalE} expert={true} />}
+      {screen === 'expert-preview' && <PreviewScreen data={data} onUpdate={update} onLaunch={returnToMissionControl} onBack={() => back('expert-preview')} step={stepE('expert-preview')} totalSteps={totalE} expert={true} />}
       {screen === 'dashboard' && <Dashboard data={data} onReset={reset} onHelp={() => setScreen('help')} onNavigateHelp={(slug) => setScreen(`help-${slug}`)} />}
       {screen === 'help' && <HelpIndex onSelect={(s) => setScreen(`help-${s}`)} onBack={() => setScreen('dashboard')} />}
       {screen.startsWith('help-') && <HelpPage slug={screen.replace('help-', '')} onSelect={(s) => setScreen(`help-${s}`)} onBack={() => setScreen('help')} />}
