@@ -636,6 +636,20 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .command-copy{margin-bottom:16px;padding:18px 20px;border-radius:18px;background:rgba(7,9,12,.46);border:1px solid rgba(125,225,255,.18);color:var(--text-muted);font-size:14px;line-height:1.6;text-align:center;}
 .command-copy strong{color:#F8FAFC;}.support-grid.clean{grid-template-columns:repeat(2,1fr);margin-bottom:24px;}.support-grid.clean .card{min-height:170px;}.card.featured{border-color:rgba(34,211,238,.42);box-shadow:0 0 28px rgba(34,211,238,.10),inset 0 1px 0 rgba(255,255,255,.05);}.faq-panel{margin:24px 0;border:1px solid var(--border-muted);border-radius:18px;background:var(--bg-panel);overflow:hidden}.faq-panel h2{font-size:20px;margin:0;padding:18px 18px 6px}.faq-panel p{margin:0;padding:0 18px 12px;color:var(--text-muted);font-size:13px}.faq-item{display:block;padding:14px 18px;border-top:1px solid var(--border-muted);font-size:13px;cursor:pointer}.faq-item summary{color:var(--text-primary);font-weight:600}.faq-item div{color:var(--text-muted);line-height:1.55;margin-top:8px}.clippy-support{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:24px 0;padding:20px;border-radius:20px;border:1px solid rgba(125,225,255,.24);background:linear-gradient(135deg,rgba(34,211,238,.08),rgba(15,20,28,.96));}.clippy-support img{width:64px;height:64px;border-radius:50%;}.clippy-support h3{margin:0 0 5px;color:#D7F9FF}.clippy-support p{margin:0;color:var(--text-muted);font-size:13px;line-height:1.5}.clippy-open{border:1px solid rgba(125,225,255,.42);border-radius:999px;background:rgba(7,9,12,.50);color:#D7F9FF;padding:10px 14px;cursor:pointer;white-space:nowrap}.sw-panel{position:fixed;right:20px;bottom:78px;z-index:1000;width:min(360px,calc(100vw - 28px));display:none;border-radius:24px;background:linear-gradient(180deg,rgba(15,20,28,.98),rgba(7,9,12,.99));border:1px solid rgba(125,225,255,.45);box-shadow:0 0 42px rgba(34,211,238,.18),0 24px 70px rgba(0,0,0,.45);overflow:hidden}.sw-panel.open{display:block}.sw-header{display:flex;align-items:center;gap:10px;padding:15px 16px;border-bottom:1px solid rgba(125,225,255,.14)}.sw-header img{width:38px;height:38px;border-radius:50%}.sw-header strong{display:block}.sw-header span{display:block;color:var(--text-muted);font-size:12px}.sw-close{margin-left:auto;background:transparent;border:0;color:var(--text-muted);font-size:22px;cursor:pointer}.sw-body{padding:14px 16px}.sw-msg{padding:10px 11px;border-radius:14px;background:rgba(22,27,35,.88);font-size:13px;line-height:1.45;margin-bottom:8px}.sw-quick{display:grid;gap:7px;margin:10px 0}.sw-quick button{border:1px solid rgba(125,225,255,.24);border-radius:999px;background:rgba(7,9,12,.42);color:#D7F9FF;padding:8px 10px;cursor:pointer;text-align:left}.sw-input{display:flex;gap:8px}.sw-input input{flex:1;min-width:0;border:1px solid rgba(125,225,255,.24);border-radius:14px;background:rgba(7,9,12,.70);color:var(--text-primary);padding:10px}.sw-input button{border:1px solid rgba(125,225,255,.36);border-radius:14px;background:rgba(34,211,238,.14);color:#D7F9FF;padding:10px 12px;cursor:pointer}@media(max-width:760px){.support-grid.clean{grid-template-columns:1fr}.clippy-support{align-items:flex-start;flex-direction:column}.support-hero-banner{min-height:360px}}
 
+
+@property --support-angle{syntax:'<angle>';inherits:false;initial-value:0deg;}
+@keyframes supportDeepTrace{to{--support-angle:360deg;}}
+.hero,.support-hero-banner,.card,.button,.clippy-open,.faq-panel,.sw-panel{position:relative;border-color:transparent!important;background-clip:padding-box;}
+.hero::before,.support-hero-banner::before,.card::before,.button::before,.clippy-open::before,.faq-panel::before,.sw-panel::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:conic-gradient(from var(--support-angle),#075985,#0F766E,#581C87,#92400E,#CBD5E1,#075985);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;animation:supportDeepTrace 28s linear infinite;box-shadow:0 0 18px rgba(7,89,133,.18),0 0 28px rgba(88,28,135,.10);}
+.card > *,.hero > *,.button > *,.clippy-open > *,.faq-panel > *,.sw-panel > *{position:relative;z-index:1;}
+.clippy-ron-img{object-fit:contain!important;object-position:center!important;background:radial-gradient(circle at 50% 48%,rgba(7,89,133,.20),rgba(7,9,12,.08) 58%,transparent 72%);box-shadow:0 0 22px rgba(15,118,110,.16);}
+.support-grid .card .clippy-ron-img{width:52px;height:52px;border-radius:14px;margin-bottom:8px;}
+.clippy-support .clippy-ron-img{width:78px;height:78px;border-radius:18px;background:radial-gradient(circle at 50% 46%,rgba(7,89,133,.22),rgba(7,9,12,.18) 62%,transparent 74%);}
+.sw-header .clippy-ron-img{width:46px;height:46px;border-radius:14px;background:radial-gradient(circle at 50% 46%,rgba(7,89,133,.22),rgba(7,9,12,.18) 62%,transparent 74%);}
+.clippy-support{background:linear-gradient(135deg,rgba(7,89,133,.12),rgba(15,20,28,.97))!important;}
+.sw-panel{background:linear-gradient(180deg,rgba(10,16,26,.99),rgba(5,7,11,.99))!important;}
+@media (prefers-reduced-motion: reduce){.hero::before,.support-hero-banner::before,.card::before,.button::before,.clippy-open::before,.faq-panel::before,.sw-panel::before{animation:none!important;}}
+
 /* MOBILE */
 @media (max-width: 600px) {
  .hero-title {
@@ -717,7 +731,7 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 
  <div class="card">
   <div>
-   <img src="assets/ron-avatar.png" alt="Clippy Ron">
+   <img src="assets/ron-cinematic-astronaut-transparent.png" alt="Clippy Ron" class="clippy-ron-img">
    <h3>Ask Clippy Ron</h3>
    <p>Ron can triage what you need and tell you whether to use docs, Discord, or a ticket.</p>
   </div>
@@ -726,7 +740,7 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 </div>
 
 <div class="clippy-support">
- <img src="assets/ron-avatar.png" alt="Ron">
+ <img src="assets/ron-cinematic-astronaut-transparent.png" alt="Ron" class="clippy-ron-img">
  <div>
   <h3>Ron is overseeing support.</h3>
   <p>Commander Robby and Captain Cassie are the human crew. Ron keeps the board organized, points users to the right lane, and tries not to eat the ticket queue.</p>
@@ -745,7 +759,7 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 </div>
 
 <div class="sw-panel" id="supportClippy" role="dialog" aria-modal="false" aria-labelledby="supportClippyTitle">
- <div class="sw-header"><img src="assets/ron-avatar.png" alt="Ron"><div><strong id="supportClippyTitle">Clippy Ron</strong><span>Support triage raccoon</span></div><button class="sw-close" id="supportClippyClose" type="button">×</button></div>
+ <div class="sw-header"><img src="assets/ron-cinematic-astronaut-transparent.png" alt="Ron" class="clippy-ron-img"><div><strong id="supportClippyTitle">Clippy Ron</strong><span>Support triage raccoon</span></div><button class="sw-close" id="supportClippyClose" type="button">×</button></div>
  <div class="sw-body">
   <div class="sw-msg" id="supportClippyMsg">Tell me what’s going on. I’ll help you pick: quick answer, Discord, or ticket.</div>
   <div class="sw-quick">
