@@ -8,12 +8,12 @@ Source preserved from: https://github.com/catherinebb272/MockHeyron
 
 - Preview: https://robbybuilds.github.io/mockheyron-logo-preview/?v=bc6691e
 - Support: https://robbybuilds.github.io/mockheyron-logo-preview/support.html?v=bc6691e
-- Launchpad onboarding entry: https://robbybuilds.github.io/mockheyron-logo-preview/launchpad-onboarding.html?v=bc6691e
+- Launchpad onboarding entry: https://robbybuilds.github.io/mockheyron-logo-preview/launchpad-onboarding-v2.html?v=bc6691e
 - Direct functional Launchpad flow: https://robbybuilds.github.io/mockheyron-logo-preview/launchpad-flow.html?path=beginner&v=bc6691e
 
 ## Onboarding order
 
-1. Mission Control `Open` on the Launchpad card goes to `launchpad-onboarding.html`.
+1. Mission Control `Open` on the Launchpad card goes to `launchpad-onboarding-v2.html`.
 2. First screen is the full Ron welcome art with the “Welcome cadet” card.
 3. The card/hotspot continues to the Launchpad path screen.
 4. Beginner, Expert, and Remix buttons hand off into `launchpad-flow.html`.
@@ -43,7 +43,7 @@ Cassie flagged mobile Safari/phone layout risk. Added responsive safety CSS acro
 
 - `index.html`
 - `support.html`
-- `launchpad-onboarding.html`
+- `launchpad-onboarding-v2.html`
 - `launchpad-flow.html`
 
 What changed:
