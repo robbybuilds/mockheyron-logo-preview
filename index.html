@@ -293,6 +293,17 @@ img,svg{max-width:100%;}
   .footer-tool{max-width:110px;}
 }
 
+
+/* Ron Mission Control mobile crest pass */
+@media(max-width:700px){
+  .app-shell{width:100%!important;max-width:100vw!important;min-width:0!important;overflow:hidden!important;}
+  .featured-actions,.all-actions,.grid-4,.grid-6{display:grid!important;grid-template-columns:minmax(0,1fr)!important;width:100%!important;max-width:100%!important;}
+  .quick-card,.card{width:100%!important;max-width:100%!important;min-width:0!important;}
+  .space-scene,.status-right,.safe-hook-card,.page-subtitle,.page-title{width:100%!important;max-width:100%!important;box-sizing:border-box!important;}
+  .page-subtitle{padding:0 8px!important;overflow-wrap:break-word!important;}
+  .header{width:100%!important;max-width:100%!important;}
+}
+
 </style>
 </head>
 <body>
@@ -664,7 +675,7 @@ const SAFE_HOOKS = {
     const name = complete?.agentName ? ` · ${complete.agentName} launched` : '';
     status.textContent = params.get('launchpad') === 'complete'
       ? `Launchpad complete${name}. Local preview saved setup, ${tickets.length} ticket(s), ${jams.length} Agent Jam entr${jams.length === 1 ? 'y' : 'ies'}.`
-      : `Safe preview mode: local-only hooks ready. ${tickets.length} ticket(s), ${jams.length} Agent Jam entr${jams.length === 1 ? 'y' : 'ies'} queued locally.`;
+      : `Safe preview: ${tickets.length} ticket(s), ${jams.length} Agent Jam entr${jams.length === 1 ? 'y' : 'ies'} queued locally.`;
   }
 })();
 
@@ -849,7 +860,7 @@ document.addEventListener('submit', e => {
     e.target.reset();
     document.getElementById('jamSubmitPanel')?.classList.remove('open');
     const status = document.getElementById('safeHookStatus');
-    if(status) status.textContent = `Safe preview mode: ${SAFE_HOOKS.get('heyronAgentJamEntries', []).length} Agent Jam entr${SAFE_HOOKS.get('heyronAgentJamEntries', []).length === 1 ? 'y' : 'ies'} queued locally.`;
+    if(status) status.textContent = `Safe preview: ${SAFE_HOOKS.get('heyronAgentJamEntries', []).length} Agent Jam entr${SAFE_HOOKS.get('heyronAgentJamEntries', []).length === 1 ? 'y' : 'ies'} queued locally.`;
   }
 });
 </script>

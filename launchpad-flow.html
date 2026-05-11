@@ -423,6 +423,11 @@ button,a,input,textarea,select,.btn,.chip,.option,.usecase,.integration,.checkbo
 .art-only-copy{text-align:center;margin-bottom:18px;}
 @media(max-width:700px){.flow-art{width:min(100%,320px)!important;max-width:320px!important;height:auto!important;}.flow-art-wide{display:block!important;width:min(100%,320px)!important;max-width:320px!important;height:auto!important;margin:0 auto 16px!important;border-radius:18px;}}
 
+
+/* Ron Launchpad flow crest update */
+.flow-brand-crest{width:32px;height:32px;border-radius:999px;object-fit:cover;border:1px solid rgba(217,164,65,.54);box-shadow:0 0 18px rgba(34,211,238,.16),0 0 24px rgba(217,164,65,.10);}
+.brand{display:flex!important;align-items:center!important;gap:10px!important;}
+@media(max-width:700px){.flow-brand-crest{width:29px;height:29px}}
 </style>
 <!-- Functional Launchpad flow copied from launchpad-final.html; entry art lives in launchpad-onboarding.html. -->
 </head>
@@ -471,7 +476,7 @@ function HeadMascot({ size = 32 }) {
   return (<img src="assets/clippy/clippy-ron-avatar.png" className="ron-head-img" style={{ '--ron-size': `${size}px` }} alt="Ron" aria-hidden="true" />);
 }
 
-const Brand = () => (<div className="brand"><span className="brand-name">Heyron</span><span className="brand-dot" /></div>);
+const Brand = () => (<div className="brand"><img className="flow-brand-crest" src="assets/launchpad-crest.png" alt="Launchpad crest" /><span className="brand-name">Heyron</span><span className="brand-dot" /></div>);
 
 function ArtContinueScreen({ img, title, sub, onNext, onBack, step, totalSteps, backLabel = 'Back', nextLabel = 'Continue' }) {
   return (
