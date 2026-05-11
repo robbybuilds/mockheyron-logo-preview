@@ -326,6 +326,25 @@ button,a,input,textarea,select,.btn,.chip,.option,.usecase,.integration,.checkbo
   .sw-pill,.support-widget{bottom:calc(92px + env(safe-area-inset-bottom))!important;right:12px!important;}
 }
 
+
+/* Ron mobile wizard repair: no clipped CTAs, larger art */
+@media(max-width:700px){
+  .hero{display:flex!important;flex-direction:column!important;align-items:center!important;text-align:center!important;}
+  .hero img{width:min(82vw,360px)!important;max-width:min(82vw,360px)!important;height:auto!important;max-height:260px!important;object-fit:contain!important;}
+  .actions{display:flex!important;flex-direction:column!important;width:100%!important;align-items:stretch!important;gap:10px!important;margin-top:20px!important;}
+  .actions .btn,.actions .btn-back,.actions .btn-skip,.btn{width:100%!important;min-width:0!important;flex:0 0 auto!important;padding:13px 14px!important;}
+  .usecase-grid{grid-template-columns:1fr!important;}
+  .integration{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:10px!important;}
+  .integration-body{width:100%!important;min-width:0!important;}
+  .integration-name,.integration-desc{overflow-wrap:anywhere!important;}
+  .integration .btn,.integration button,.integration-cta{width:100%!important;align-self:stretch!important;}
+  .setup-step{display:flex!important;flex-direction:column!important;gap:8px!important;}
+  .setup-step-body{width:100%!important;}
+  .setup-cta{width:100%!important;}
+  .options-list .option{align-items:flex-start!important;}
+}
+@media(max-width:390px){.hero img{width:min(88vw,340px)!important;max-width:min(88vw,340px)!important;}.headline{font-size:30px!important;}}
+
 </style>
 <!-- Functional Launchpad flow copied from launchpad-final.html; entry art lives in launchpad-onboarding.html. -->
 </head>

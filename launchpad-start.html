@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Heyron Launchpad Start</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;min-height:100%;background:#05070b;color:#fff;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}.page{min-height:100svh;display:flex;flex-direction:column;background:#05070b}.topbar{position:fixed;z-index:5;top:calc(12px + env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));display:flex;justify-content:space-between;gap:10px;pointer-events:none}.topbar a{pointer-events:auto;color:#D7F9FF;text-decoration:none;border:1px solid rgba(125,225,255,.28);background:rgba(7,9,12,.52);backdrop-filter:blur(10px);border-radius:999px;padding:10px 12px;font-size:12px;min-height:44px;display:flex;align-items:center;max-width:48%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.art-wrap{position:relative;flex:1;display:flex;align-items:center;justify-content:center;padding:calc(58px + env(safe-area-inset-top)) 0 calc(110px + env(safe-area-inset-bottom));overflow:hidden}.art-link{position:relative;display:block;width:100vw;height:calc(100svh - 168px - env(safe-area-inset-top) - env(safe-area-inset-bottom));min-height:520px;text-decoration:none;-webkit-tap-highlight-color:rgba(34,211,238,.18)}.art-link img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}.cta-hit{position:absolute;left:33%;top:49%;width:34%;height:13%;border-radius:999px}.mobile-cta{position:fixed;z-index:6;left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right));bottom:calc(18px + env(safe-area-inset-bottom));min-height:50px;border-radius:999px;background:linear-gradient(135deg,#22D3EE,#5EEAD4,#F9A8D4);color:#061018;text-decoration:none;font-weight:900;display:none;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(34,211,238,.32)}@media(max-width:700px){.art-wrap{padding-top:calc(56px + env(safe-area-inset-top));padding-bottom:calc(92px + env(safe-area-inset-bottom));align-items:stretch}.art-link{height:calc(100svh - 148px - env(safe-area-inset-top) - env(safe-area-inset-bottom));min-height:560px}.art-link img{object-fit:cover;object-position:center}.cta-hit{left:22%;top:49%;width:56%;height:16%}.mobile-cta{display:flex}}@media(max-width:390px){.art-link{min-height:520px}.topbar a{font-size:11px;padding:9px 10px}.mobile-cta{min-height:48px}}
+</style>
+</head>
+<body>
+<main class="page">
+  <nav class="topbar" aria-label="Launchpad navigation"><a href="index.html">← Mission Control</a><a href="launchpad-flow.html?path=dashboard">Skip to demo dashboard</a></nav>
+  <section class="art-wrap" aria-label="Welcome to Launchpad">
+    <a class="art-link" href="launchpad-flow.html?path=beginner" aria-label="Let’s get started with Launchpad">
+      <img src="assets/onboarding/launchpad-start-confirmed.png" alt="Welcome to Launchpad. Step 1 of 6: Set up your agent. Let’s get started." />
+      <span class="cta-hit" aria-hidden="true"></span>
+    </a>
+    <a class="mobile-cta" href="launchpad-flow.html?path=beginner">Let’s get started →</a>
+  </section>
+</main>
+</body>
+</html>
