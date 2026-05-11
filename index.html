@@ -90,6 +90,20 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .footer-links a{color:var(--text-muted);text-decoration:none;font-size:12px;}
 .footer-links a:hover{color:var(--accent);}
 @media(max-width:700px){.site-footer{justify-content:center;text-align:center}.footer-brand{justify-content:center}.footer-links{justify-content:center}}
+.footer-icons{display:flex;gap:12px;align-items:center;justify-content:center;}
+.footer-symbol{width:42px;height:42px;border-radius:999px;border:1px solid rgba(125,225,255,.30);background:rgba(7,9,12,.38);color:#D7F9FF;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:20px;cursor:pointer;box-shadow:0 0 18px rgba(82,201,255,.08),inset 0 1px 0 rgba(255,255,255,.05);}
+.footer-symbol:hover{transform:translateY(-1px);border-color:rgba(125,225,255,.58);box-shadow:0 0 22px rgba(82,201,255,.18),inset 0 1px 0 rgba(255,255,255,.08);}
+.footer-symbol.trash{border-color:rgba(220,38,38,.28);color:#fecaca;background:rgba(220,38,38,.05);}
+.footer-symbol.trash:hover{border-color:rgba(220,38,38,.48);box-shadow:0 0 20px rgba(220,38,38,.14),inset 0 1px 0 rgba(255,255,255,.06);}
+.clippy-modal{position:fixed;inset:0;z-index:998;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(3,5,8,.66);backdrop-filter:blur(10px);}
+.clippy-modal.open{display:flex;}
+.clippy-card{width:min(520px,100%);padding:22px;border-radius:24px;background:linear-gradient(180deg,rgba(15,20,28,.96),rgba(7,9,12,.98));border:1px solid rgba(125,225,255,.42);box-shadow:0 0 42px rgba(82,201,255,.18),inset 0 1px 0 rgba(255,255,255,.05);}
+.clippy-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.clippy-orb{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(125,225,255,.45);box-shadow:0 0 22px rgba(82,201,255,.18);font-size:24px;}
+.clippy-card h2{font-size:22px;margin:0;}.clippy-card p{color:var(--text-muted);font-size:13px;line-height:1.55;margin:8px 0 14px;}
+.clippy-actions{display:flex;gap:10px;flex-wrap:wrap}.clippy-actions a,.clippy-actions button{border-radius:12px;padding:10px 12px;border:1px solid rgba(125,225,255,.35);background:rgba(7,9,12,.50);color:#D7F9FF;text-decoration:none;cursor:pointer;font-size:12px;}
+.clippy-actions .primary{border-color:rgba(217,164,65,.55);color:#FFF4D6;background:linear-gradient(135deg,rgba(217,164,65,.18),rgba(7,9,12,.58));}
+
 .footer-secret{border:1px solid rgba(220,38,38,.22);border-radius:999px;padding:5px 9px!important;color:rgba(245,240,232,.58)!important;background:rgba(220,38,38,.05);}
 .footer-secret:hover{color:#fecaca!important;border-color:rgba(220,38,38,.42);box-shadow:0 0 16px rgba(220,38,38,.10);}
 .mod-modal{position:fixed;inset:0;z-index:999;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(3,5,8,.72);backdrop-filter:blur(10px);}
@@ -236,15 +250,24 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
         <div class="footer-sub">Build your agent. Learn the tools. Stay curious.</div>
       </div>
     </div>
-    <nav class="footer-links" aria-label="Footer links">
-      <a href="hello-screen.html">Launchpad</a>
-      <a href="https://heyron-ai.github.io/agent-library/tutorials/index.html">Ron Academy</a>
-      <a href="support.html">Support</a>
-      <a href="https://discord.gg/heyron">Discord</a>
-      <a href="https://www.thedenheyron.com/">Socials</a>
-      <button type="button" class="footer-secret" id="modGateOpen" aria-label="Open moderator gate">🗑️</button>
-    </nav>
+    <div class="footer-icons" aria-label="Footer utility links">
+      <button type="button" class="footer-symbol" id="clippyOpen" aria-label="Open Clippy Ron">🚀</button>
+      <button type="button" class="footer-symbol trash" id="modGateOpen" aria-label="Open moderator gate">🗑️</button>
+    </div>
   </footer>
+</div>
+
+
+<div class="clippy-modal" id="clippyGate" role="dialog" aria-modal="true" aria-labelledby="clippyTitle">
+  <div class="clippy-card">
+    <div class="clippy-head"><div class="clippy-orb">🚀</div><div><h2 id="clippyTitle">Clippy Ron</h2><p style="margin:2px 0 0">Tiny ship. Big help.</p></div></div>
+    <p>Clippy Ron is the lightweight helper lane: quick links, guidance, and “where do I go next?” energy without opening the full Launchpad.</p>
+    <div class="clippy-actions">
+      <a class="primary" href="hello-screen.html">Open Launchpad</a>
+      <a href="https://heyron-ai.github.io/agent-library/tutorials/index.html">Ron Academy</a>
+      <button type="button" id="clippyClose">Close</button>
+    </div>
+  </div>
 </div>
 
 <div class="mod-modal" id="modGate" role="dialog" aria-modal="true" aria-labelledby="modGateTitle">
@@ -263,6 +286,19 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
   </div>
 </div>
 <script>
+
+(function(){
+  const open = document.getElementById('clippyOpen');
+  const modal = document.getElementById('clippyGate');
+  const close = document.getElementById('clippyClose');
+  function show(){ modal && modal.classList.add('open'); }
+  function hide(){ modal && modal.classList.remove('open'); }
+  open && open.addEventListener('click', show);
+  close && close.addEventListener('click', hide);
+  modal && modal.addEventListener('click', (e)=>{ if(e.target === modal) hide(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') hide(); });
+})();
+
 (function(){
   const open = document.getElementById('modGateOpen');
   const modal = document.getElementById('modGate');
