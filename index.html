@@ -79,6 +79,21 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .bridge-button.primary{border-color:rgba(217,164,65,.58);color:#FFF4D6;background:linear-gradient(135deg,rgba(217,164,65,.20),rgba(7,9,12,.52));box-shadow:0 0 26px rgba(217,164,65,.16),0 0 22px rgba(82,201,255,.10),inset 0 1px 0 rgba(255,255,255,.08);}
 .bridge-button:hover{transform:translateY(-1px);}
 @media(max-width:700px){.bridge-actions{width:100%;}.bridge-button{width:100%;}}
+.space-motion{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden;border-radius:26px;mix-blend-mode:screen;}
+.shooting-star{position:absolute;width:92px;height:1px;background:linear-gradient(90deg,transparent,rgba(215,249,255,.95),transparent);opacity:0;filter:drop-shadow(0 0 7px rgba(82,201,255,.9));transform:rotate(-18deg);animation:shootStar 8s linear infinite;}
+.shooting-star.s1{top:22%;left:-18%;animation-delay:.8s;animation-duration:9s;}
+.shooting-star.s2{top:36%;left:-26%;animation-delay:4.2s;animation-duration:11s;width:70px;}
+.shooting-star.s3{top:18%;left:-30%;animation-delay:7.5s;animation-duration:13s;width:110px;opacity:.75;}
+.tiny-ship{position:absolute;width:34px;height:12px;border-radius:999px;background:linear-gradient(90deg,rgba(20,32,48,.25),rgba(125,225,255,.85),rgba(217,164,65,.7));box-shadow:0 0 9px rgba(82,201,255,.35);opacity:.0;animation:driftShip 18s linear infinite;}
+.tiny-ship::before{content:'';position:absolute;right:-6px;top:4px;width:8px;height:3px;border-radius:999px;background:rgba(168,85,247,.75);box-shadow:0 0 8px rgba(168,85,247,.65);}
+.tiny-ship.ship1{top:28%;left:-10%;animation-delay:2s;}
+.tiny-ship.ship2{top:44%;left:-16%;animation-delay:10s;animation-duration:24s;transform:scale(.72);}
+.nebula-pulse{position:absolute;inset:8% 12% 42% 18%;background:radial-gradient(circle at 50% 45%,rgba(82,201,255,.10),transparent 50%),radial-gradient(circle at 70% 35%,rgba(168,85,247,.09),transparent 42%);opacity:.5;animation:nebulaBreathe 7s ease-in-out infinite alternate;}
+@keyframes shootStar{0%{transform:translateX(0) translateY(0) rotate(-18deg);opacity:0;}8%{opacity:.9;}18%{opacity:.65;}30%,100%{transform:translateX(1500px) translateY(310px) rotate(-18deg);opacity:0;}}
+@keyframes driftShip{0%{transform:translateX(0) translateY(0) scale(.85);opacity:0;}10%{opacity:.55;}70%{opacity:.45;}100%{transform:translateX(1550px) translateY(-65px) scale(.85);opacity:0;}}
+@keyframes nebulaBreathe{from{opacity:.25;filter:blur(0);}to{opacity:.55;filter:blur(1px);}}
+@media (prefers-reduced-motion: reduce){.shooting-star,.tiny-ship,.nebula-pulse{animation:none;opacity:.25;}}
+
 
 
 .footer-nav{position:fixed;bottom:0;width:100%;background:#0a0f14;border-top:1px solid var(--border-muted);display:flex;justify-content:space-around;padding:10px 0;z-index:100;}
@@ -176,7 +191,16 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 
 <!-- MISSION CONTROL IMAGE -->
 <div class="status">
-  <div class="card status-right" aria-label="Mission Control bridge preview"></div>
+  <div class="card status-right" aria-label="Mission Control bridge preview">
+    <div class="space-motion" aria-hidden="true">
+      <span class="nebula-pulse"></span>
+      <span class="shooting-star s1"></span>
+      <span class="shooting-star s2"></span>
+      <span class="shooting-star s3"></span>
+      <span class="tiny-ship ship1"></span>
+      <span class="tiny-ship ship2"></span>
+    </div>
+  </div>
 </div>
 
 <!-- STATS (moved from top) -->
