@@ -300,6 +300,13 @@ select.input { appearance: none; -webkit-appearance: none; background-image: lin
   .sw-panel { width: calc(100vw - 32px); right: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+@keyframes ronOrbBreath{0%,100%{border-color:rgba(0,207,255,.78);box-shadow:0 0 18px rgba(0,207,255,.28),0 0 34px rgba(0,207,255,.10)}50%{border-color:rgba(94,234,212,.92);box-shadow:0 0 24px rgba(94,234,212,.36),0 0 46px rgba(109,40,217,.16)}}
+.sw-pill{width:92px!important;height:92px!important;border-radius:50%!important;background:#090D13!important;border:2px solid rgba(0,207,255,.78)!important;animation:ronOrbBreath 5.5s ease-in-out infinite!important;}
+.sw-pill svg{width:38px!important;height:38px!important}.sw-header-info>svg{border:2px solid rgba(0,207,255,.70);border-radius:50%;padding:7px;background:#090D13;animation:ronOrbBreath 5.5s ease-in-out infinite;box-sizing:content-box;}
+.btn,.option,.usecase,.integration,.chip,.setup-cta,.checkbox,.toggle{animation:launchBreath 7s ease-in-out infinite;}
+@keyframes launchBreath{0%,100%{border-color:rgba(0,229,255,.42);box-shadow:0 0 12px rgba(0,229,255,.10)}50%{border-color:rgba(255,183,230,.58);box-shadow:0 0 18px rgba(255,183,230,.16),0 0 28px rgba(94,234,212,.10)}}
+.warning-box{border:1px solid rgba(253,224,71,.35);background:rgba(253,224,71,.08);border-radius:16px;padding:14px;margin:16px 0;color:#FDE68A;font-size:13px;line-height:1.5}.ack-row{display:flex;gap:10px;align-items:flex-start;color:var(--text-primary);font-size:13px;line-height:1.45;margin:12px 0}.ack-row input{margin-top:3px}.tell-box{min-height:140px;}
 </style>
 <!-- Functional Launchpad flow copied from launchpad-final.html; entry art lives in launchpad-onboarding.html. -->
 </head>
@@ -1164,11 +1171,25 @@ function PrivacyScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
   );
 }
 
-function PreviewScreen({ data, onLaunch, onBack, step, totalSteps, expert }) {
+function AboutSelfScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const valid = (data.aboutSelf || '').trim().length >= 20;
+  return (
+    <div className="panel">
+      <Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero"><Mascot pose="greeting" size={112} /><div className="hero-text"><h1 className="headline">Tell your agent about yourself.</h1><p className="sub">This is the last human context before launch. Give your agent the stuff that helps it feel useful on day one.</p></div></div>
+      <div className="field"><label>What should your agent know about you?</label><textarea className="input tell-box" value={data.aboutSelf} onChange={(e) => onUpdate({ aboutSelf: e.target.value })} placeholder="How you work, what annoys you, what you care about, projects you’re juggling, tone preferences, reminders you need, anything important…" /></div>
+      <p className="skip-hint">Minimum 20 characters. You can edit memory and soul later.</p>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={!valid}>Continue</button></div>
+    </div>
+  );
+}
+
+function PreviewScreen({ data, onUpdate, onLaunch, onBack, step, totalSteps, expert }) {
   const persona = PERSONAS.find((p) => p.id === data.personality);
   const comm = COMM_STYLES.find((c) => c.id === data.commStyle);
   const model = MODELS.find((m) => m.id === data.model);
   const memory = MEMORY_OPTIONS.find((m) => m.id === data.memory);
+  data.__updateLaunchAck = (v) => onUpdate({ launchAck: v });
   const useCaseLabels = data.useCases.map(id => (USE_CASES.find(u => u.id === id) || {}).label).filter(Boolean);
   return (
     <div className="panel">
@@ -1178,6 +1199,7 @@ function PreviewScreen({ data, onLaunch, onBack, step, totalSteps, expert }) {
         <div className="summary-section-title">Identity</div>
         <div className="summary-row"><span className="summary-label">Your name</span><span className="summary-value">{data.yourName}</span></div>
         <div className="summary-row"><span className="summary-label">Agent name</span><span className="summary-value">{data.agentName}</span></div>
+        <div className="summary-row"><span className="summary-label">What your agent should know</span><span className="summary-value" style={{ maxWidth: '60%' }}>{data.aboutSelf || 'Not set'}</span></div>
 
         <div className="summary-section-title">Soul</div>
         <div className="summary-row"><span className="summary-label">Focus areas</span><span className="summary-value" style={{ maxWidth: '60%' }}>{useCaseLabels.length ? useCaseLabels.join(', ') : 'None set'}</span></div>
@@ -1195,7 +1217,9 @@ function PreviewScreen({ data, onLaunch, onBack, step, totalSteps, expert }) {
         <div className="summary-row"><span className="summary-label">Working hours</span><span className="summary-value">{data.workStart}–{data.workEnd}, {data.workDays.length} days</span></div>
         <div className="summary-row"><span className="summary-label">Notifications</span><span className="summary-value">{[data.notifyEmail && 'Email', data.notifyPush && 'Push'].filter(Boolean).join(' + ') || 'Off'}</span></div></>)}
       </div>
-      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onLaunch}>Open dashboard</button></div>
+      <div className="warning-box"><strong>Final check:</strong> Your agent may remember what you provide and may use connected tools based on the access you grant. Do not paste secrets unless you intend to store them. You can change settings later, but launch means you understand what you configured.</div>
+      <label className="ack-row"><input type="checkbox" checked={!!data.launchAck} onChange={(e) => data.__updateLaunchAck ? data.__updateLaunchAck(e.target.checked) : null} /> <span>I understand this is a real agent setup and I’m ready to launch with these settings.</span></label>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onLaunch} disabled={!data.launchAck}>Open dashboard</button></div>
     </div>
   );
 }
@@ -1777,13 +1801,13 @@ function TicketModal({ messages, email, onClose, onSubmit }) {
 }
 
 /* ─── App ────────────────────────────────────────────────────────── */
-const BEGINNER_FLOW = ['beginner-names','beginner-usecases','beginner-integrations','beginner-personality','beginner-comm','beginner-preview'];
-const EXPERT_FLOW = ['expert-names','expert-usecases','expert-model','expert-pick-tools','expert-github','expert-telegram','expert-apify','expert-elevenlabs','expert-obsidian','expert-discord','expert-cron','expert-browser','expert-memory','expert-personality','expert-comm','expert-hours','expert-notifications','expert-privacy','expert-preview'];
+const BEGINNER_FLOW = ['beginner-names','beginner-usecases','beginner-integrations','beginner-personality','beginner-comm','beginner-about','beginner-preview'];
+const EXPERT_FLOW = ['expert-names','expert-usecases','expert-model','expert-pick-tools','expert-github','expert-telegram','expert-apify','expert-elevenlabs','expert-obsidian','expert-discord','expert-cron','expert-browser','expert-memory','expert-personality','expert-comm','expert-hours','expert-notifications','expert-privacy','expert-about','expert-preview'];
 const INTEGRATION_TOOL_SLUGS = ['github','telegram','apify','elevenlabs','obsidian','discord','cron','browser'];
 const integrationFromScreen = (s) => INTEGRATION_TOOL_SLUGS.find(t => s === `expert-${t}`);
 
 const INITIAL_DATA = {
-  email: 'you@heyron.app', yourName: '', agentName: '',
+  email: 'you@heyron.app', yourName: '', agentName: '', aboutSelf: '', launchAck: false,
   useCases: [], personality: null, commStyle: null,
   model: null, tools: [], toSetup: [], memory: null, editableMemory: true,
   timezone: 'Pacific (PT)', workStart: '09:00', workEnd: '18:00', workDays: ['Mon','Tue','Wed','Thu','Fri'],
@@ -1814,7 +1838,8 @@ function App() {
       {screen === 'beginner-integrations' && <IntegrationsListScreen data={data} onUpdate={update} onBack={() => back('beginner-integrations')} onNext={() => advance('beginner-integrations')} step={stepB('beginner-integrations')} totalSteps={totalB} />}
       {screen === 'beginner-personality' && <PersonalityScreen data={data} onUpdate={update} onBack={() => back('beginner-personality')} onNext={() => advance('beginner-personality')} step={stepB('beginner-personality')} totalSteps={totalB} />}
       {screen === 'beginner-comm' && <CommStyleScreen data={data} onUpdate={update} onBack={() => back('beginner-comm')} onNext={() => advance('beginner-comm')} step={stepB('beginner-comm')} totalSteps={totalB} />}
-      {screen === 'beginner-preview' && <PreviewScreen data={data} onLaunch={() => setScreen('dashboard')} onBack={() => back('beginner-preview')} step={stepB('beginner-preview')} totalSteps={totalB} expert={false} />}
+      {screen === 'beginner-about' && <AboutSelfScreen data={data} onUpdate={update} onBack={() => back('beginner-about')} onNext={() => advance('beginner-about')} step={stepB('beginner-about')} totalSteps={totalB} />}
+      {screen === 'beginner-preview' && <PreviewScreen data={data} onUpdate={update} onLaunch={() => setScreen('dashboard')} onBack={() => back('beginner-preview')} step={stepB('beginner-preview')} totalSteps={totalB} expert={false} />}
       {screen === 'expert-names' && <NamesScreen data={data} onUpdate={update} onBack={() => back('expert-names')} onNext={() => advance('expert-names')} step={stepE('expert-names')} totalSteps={totalE} />}
       {screen === 'expert-usecases' && <UseCasesScreen data={data} onUpdate={update} onBack={() => back('expert-usecases')} onNext={() => advance('expert-usecases')} step={stepE('expert-usecases')} totalSteps={totalE} />}
       {screen === 'expert-model' && <ModelScreen data={data} onUpdate={update} onBack={() => back('expert-model')} onNext={() => advance('expert-model')} step={stepE('expert-model')} totalSteps={totalE} />}
@@ -1833,7 +1858,8 @@ function App() {
       {screen === 'expert-hours' && <HoursScreen data={data} onUpdate={update} onBack={() => back('expert-hours')} onNext={() => advance('expert-hours')} step={stepE('expert-hours')} totalSteps={totalE} />}
       {screen === 'expert-notifications' && <NotificationsScreen data={data} onUpdate={update} onBack={() => back('expert-notifications')} onNext={() => advance('expert-notifications')} step={stepE('expert-notifications')} totalSteps={totalE} />}
       {screen === 'expert-privacy' && <PrivacyScreen data={data} onUpdate={update} onBack={() => back('expert-privacy')} onNext={() => advance('expert-privacy')} step={stepE('expert-privacy')} totalSteps={totalE} />}
-      {screen === 'expert-preview' && <PreviewScreen data={data} onLaunch={() => setScreen('dashboard')} onBack={() => back('expert-preview')} step={stepE('expert-preview')} totalSteps={totalE} expert={true} />}
+      {screen === 'expert-about' && <AboutSelfScreen data={data} onUpdate={update} onBack={() => back('expert-about')} onNext={() => advance('expert-about')} step={stepE('expert-about')} totalSteps={totalE} />}
+      {screen === 'expert-preview' && <PreviewScreen data={data} onUpdate={update} onLaunch={() => setScreen('dashboard')} onBack={() => back('expert-preview')} step={stepE('expert-preview')} totalSteps={totalE} expert={true} />}
       {screen === 'dashboard' && <Dashboard data={data} onReset={reset} onHelp={() => setScreen('help')} onNavigateHelp={(slug) => setScreen(`help-${slug}`)} />}
       {screen === 'help' && <HelpIndex onSelect={(s) => setScreen(`help-${s}`)} onBack={() => setScreen('dashboard')} />}
       {screen.startsWith('help-') && <HelpPage slug={screen.replace('help-', '')} onSelect={(s) => setScreen(`help-${s}`)} onBack={() => setScreen('help')} />}
