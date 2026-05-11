@@ -377,8 +377,22 @@ button,a,input,textarea,select,.btn,.chip,.option,.usecase,.integration,.checkbo
 .agent-art{position:relative;width:180px;height:120px;flex:0 0 auto;border-radius:16px;overflow:hidden;}
 .agent-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;border-radius:16px;}
 .agent-art-name{position:absolute;left:25.5%;top:14.2%;width:22%;height:7%;display:flex;align-items:center;justify-content:center;color:#F8FAFC;font-weight:900;font-size:clamp(8px,1.15vw,13px);line-height:1;text-align:center;letter-spacing:-.035em;text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 7px rgba(34,211,238,.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none;}
-@media(max-width:700px){.agent-art{width:min(88vw,340px)!important;height:auto!important;aspect-ratio:1672/941;}.agent-art-name{left:24.5%;top:13.7%;width:25%;height:8%;font-size:clamp(10px,2.85vw,15px);}}
+@media(max-width:700px){.agent-art{width:min(88vw,340px)!important;height:auto!important;aspect-ratio:1672/941;}.agent-art-name{left:34%;top:19%;width:25%;height:8%;font-size:clamp(9px,2.55vw,14px);padding:2px 5px;border-radius:999px;background:rgba(5,10,18,.52);box-shadow:0 0 12px rgba(34,211,238,.24),0 0 18px rgba(249,168,212,.14);}}
 @media(min-width:701px){.agent-art-name{left:26%;top:14.5%;width:22%;font-size:clamp(8px,1.05vw,13px);}}
+
+
+/* Ron vibrant Launchpad controls: positive rainbow breathing */
+@property --launch-rainbow-angle{syntax:'<angle>';inherits:false;initial-value:0deg;}
+@keyframes launchRainbowSpin{to{--launch-rainbow-angle:360deg;}}
+@keyframes launchPositiveBreath{0%,100%{box-shadow:0 0 14px rgba(34,211,238,.18),0 0 24px rgba(168,85,247,.10),inset 0 1px 0 rgba(255,255,255,.08);filter:saturate(1.05)}50%{box-shadow:0 0 22px rgba(34,211,238,.32),0 0 34px rgba(94,234,212,.20),0 0 42px rgba(249,168,212,.16),inset 0 1px 0 rgba(255,255,255,.14);filter:saturate(1.18) brightness(1.05)}}
+.usecase,.option,.integration,.btn,.setup-cta,.chip,.checkbox{position:relative;border-color:transparent!important;background-clip:padding-box;animation:launchPositiveBreath 5.8s ease-in-out infinite!important;}
+.usecase::before,.option::before,.integration::before,.btn::before,.setup-cta::before,.chip::before,.checkbox::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:conic-gradient(from var(--launch-rainbow-angle),#00CFFF,#22D3EE,#5EEAD4,#F9A8D4,#A855F7,#FDE047,#FB923C,#F8FAFC,#00CFFF);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;animation:launchRainbowSpin 16s linear infinite;opacity:.78;}
+.usecase.selected,.option.selected,.integration.connected,.chip.selected,.checkbox.checked{background:linear-gradient(180deg,rgba(34,211,238,.14),rgba(168,85,247,.12),rgba(7,9,12,.72))!important;color:#F8FAFC!important;box-shadow:0 0 26px rgba(34,211,238,.36),0 0 42px rgba(249,168,212,.18),inset 0 1px 0 rgba(255,255,255,.18)!important;}
+.usecase.selected::before,.option.selected::before,.integration.connected::before,.chip.selected::before,.checkbox.checked::before,.btn-primary::before{opacity:1;}
+.usecase-check,.option-mark{border-color:rgba(34,211,238,.68)!important;box-shadow:0 0 10px rgba(34,211,238,.14);}
+.usecase.selected .usecase-check,.options-list .option.selected .option-mark{background:linear-gradient(135deg,#00CFFF,#5EEAD4,#F9A8D4)!important;border-color:transparent!important;box-shadow:0 0 16px rgba(34,211,238,.42),0 0 22px rgba(249,168,212,.18)!important;}
+.btn-primary{background:linear-gradient(135deg,#22D3EE,#5EEAD4,#F9A8D4,#FDE047)!important;color:#061018!important;font-weight:800!important;}
+@media (prefers-reduced-motion: reduce){.usecase,.option,.integration,.btn,.setup-cta,.chip,.checkbox,.usecase::before,.option::before,.integration::before,.btn::before,.setup-cta::before,.chip::before,.checkbox::before{animation:none!important;}}
 
 </style>
 <!-- Functional Launchpad flow copied from launchpad-final.html; entry art lives in launchpad-onboarding.html. -->
