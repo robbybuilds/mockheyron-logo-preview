@@ -126,6 +126,11 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .memory-modal.open{display:flex;}
 .memory-card{width:min(520px,100%);padding:22px;border-radius:24px;background:linear-gradient(180deg,rgba(15,20,28,.96),rgba(7,9,12,.98));border:1px solid rgba(94,234,212,.42);box-shadow:0 0 42px rgba(94,234,212,.18),inset 0 1px 0 rgba(255,255,255,.05);}
 .memory-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;}.memory-orb{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(94,234,212,.45);box-shadow:0 0 22px rgba(94,234,212,.18);font-size:24px;}.memory-card h2{font-size:22px;margin:0;}.memory-card p{color:var(--text-muted);font-size:13px;line-height:1.55;margin:8px 0 14px;}.memory-actions{display:flex;gap:10px;flex-wrap:wrap}.memory-actions a,.memory-actions button{border-radius:12px;padding:10px 12px;border:1px solid rgba(94,234,212,.35);background:rgba(7,9,12,.50);color:#D7F9FF;text-decoration:none;cursor:pointer;font-size:12px;}.memory-actions .primary{border-color:rgba(94,234,212,.55);color:#ECFEFF;background:linear-gradient(135deg,rgba(94,234,212,.18),rgba(7,9,12,.58));}
+.community-modal{position:fixed;inset:0;z-index:998;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(3,5,8,.66);backdrop-filter:blur(10px);}
+.community-modal.open{display:flex;}
+.community-card{width:min(560px,100%);padding:22px;border-radius:24px;background:linear-gradient(180deg,rgba(15,20,28,.97),rgba(7,9,12,.98));border:1px solid rgba(249,168,212,.38);box-shadow:0 0 42px rgba(249,168,212,.14),0 0 52px rgba(0,207,255,.08),inset 0 1px 0 rgba(255,255,255,.05);}
+.community-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;}.community-orb{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(249,168,212,.45);box-shadow:0 0 22px rgba(249,168,212,.18);font-size:25px;}.community-card h2{font-size:22px;margin:0;}.community-card p{color:var(--text-muted);font-size:13px;line-height:1.55;margin:8px 0 14px;}.community-list{display:grid;gap:9px;margin:12px 0 14px;}.community-item{padding:10px 11px;border-radius:14px;border:1px solid rgba(125,225,255,.18);background:rgba(7,9,12,.42);}.community-item strong{display:block;color:#F8FAFC;font-size:13px;margin-bottom:3px;}.community-item a{color:#D7F9FF;text-decoration:none;font-size:12px;}.community-actions{display:flex;gap:10px;flex-wrap:wrap}.community-actions a,.community-actions button{border-radius:12px;padding:10px 12px;border:1px solid rgba(249,168,212,.35);background:rgba(7,9,12,.50);color:#FCE7F3;text-decoration:none;cursor:pointer;font-size:12px;}.community-actions .primary{border-color:rgba(249,168,212,.55);color:#fff;background:linear-gradient(135deg,rgba(249,168,212,.18),rgba(0,207,255,.12),rgba(7,9,12,.58));}
+
 
 
 .clippy-widget{position:fixed;right:22px;bottom:92px;z-index:998;width:min(330px,calc(100vw - 28px));background:linear-gradient(180deg,rgba(15,20,28,.98),rgba(7,9,12,.99));border:1px solid rgba(125,225,255,.54);border-radius:24px 24px 8px 24px;box-shadow:0 0 42px rgba(82,201,255,.20),0 18px 70px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.06);display:none;overflow:hidden;}
@@ -303,6 +308,8 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
     <div class="footer-icons" aria-label="Footer utility links">
       <div class="footer-tool"><button type="button" class="footer-symbol" id="clippyOpen" aria-label="Open Clippy Ron">🚀</button><span class="footer-tool-label">Clippy Ron</span></div>
       <div class="footer-tool"><button type="button" class="footer-symbol" id="memoryOpen" aria-label="Open memory file cabinet">🗄️</button><span class="footer-tool-label">Memory Cabinet</span></div>
+      <div class="footer-tool"><button type="button" class="footer-symbol" id="jamOpen" aria-label="Open Agent Jam">🫙</button><span class="footer-tool-label">Agent Jam</span></div>
+      <div class="footer-tool"><button type="button" class="footer-symbol" id="artOpen" aria-label="Open community art">🖌️</button><span class="footer-tool-label">Community Art</span></div>
       <div class="footer-tool"><button type="button" class="footer-symbol trash" id="modGateOpen" aria-label="Open moderator gate">🗑️</button><span class="footer-tool-label">Mod Gate</span></div>
     </div>
   </footer>
@@ -318,6 +325,33 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
       <a class="primary" href="https://app.heyron.ai" target="_blank" rel="noopener">Open Dashboard</a>
       <button type="button" id="memoryClose">Close</button>
     </div>
+  </div>
+</div>
+
+
+<div class="community-modal" id="jamGate" role="dialog" aria-modal="false" aria-labelledby="jamTitle">
+  <div class="community-card">
+    <div class="community-head"><div class="community-orb">🫙</div><div><h2 id="jamTitle">Huckleberry Agent Jam</h2><p style="margin:2px 0 0">Weekly builds from the community jar.</p></div></div>
+    <p>Last week’s winners, GitHub links, the next theme, and Robby’s announcement clip can live here after each live.</p>
+    <div class="community-list">
+      <div class="community-item"><strong>Winner: Example Agent Build</strong><a href="#">GitHub winning file →</a></div>
+      <div class="community-item"><strong>Runner-up: Example Workflow</strong><a href="#">GitHub winning file →</a></div>
+      <div class="community-item"><strong>Coming up theme</strong><a href="#">“Tiny agents that save you 10 minutes”</a></div>
+    </div>
+    <div class="community-actions"><a class="primary" href="#">Announcement video clip</a><button type="button" id="jamClose">Close</button></div>
+  </div>
+</div>
+
+<div class="community-modal" id="artGate" role="dialog" aria-modal="false" aria-labelledby="artTitle">
+  <div class="community-card">
+    <div class="community-head"><div class="community-orb">🖌️</div><div><h2 id="artTitle">Community Art Wall</h2><p style="margin:2px 0 0">Fan art, badges, mascots, and weird beautiful Ron things.</p></div></div>
+    <p>Same pattern as Agent Jam: featured pieces, creator links, next prompt, and a clip from the live announcement.</p>
+    <div class="community-list">
+      <div class="community-item"><strong>Featured art: Example Ron Variant</strong><a href="#">Creator link →</a></div>
+      <div class="community-item"><strong>Featured art: Example Mission Patch</strong><a href="#">Image/source link →</a></div>
+      <div class="community-item"><strong>Next prompt</strong><a href="#">“Draw your agent’s desk setup”</a></div>
+    </div>
+    <div class="community-actions"><a class="primary" href="#">Announcement video clip</a><button type="button" id="artClose">Close</button></div>
   </div>
 </div>
 
@@ -366,6 +400,23 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
   </div>
 </div>
 <script>
+
+
+(function(){
+  function bind(openId, modalId, closeId){
+    const open = document.getElementById(openId);
+    const modal = document.getElementById(modalId);
+    const close = document.getElementById(closeId);
+    function show(){ modal && modal.classList.add('open'); }
+    function hide(){ modal && modal.classList.remove('open'); }
+    open && open.addEventListener('click', show);
+    close && close.addEventListener('click', hide);
+    modal && modal.addEventListener('click', (e)=>{ if(e.target === modal) hide(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') hide(); });
+  }
+  bind('jamOpen','jamGate','jamClose');
+  bind('artOpen','artGate','artClose');
+})();
 
 (function(){
   const open = document.getElementById('clippyOpen');
