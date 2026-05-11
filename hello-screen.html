@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heyron Launchpad</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Heyron Design System */
+    :root {
+      --bg-page: #07090C;
+      --bg-panel: #0F141C;
+      --bg-panel-2: #161B23;
+      --border-muted: #1C222B;
+      --border-strong: #2D333B;
+      --brand-primary: #273957;
+      --brand-secondary: #546E8F;
+      --accent: #22D3EE;
+      --accent-soft: rgba(34, 211, 238, 0.12);
+      --accent-edge: rgba(34, 211, 238, 0.50);
+      --text-primary: #E8EDF1;
+      --text-secondary: #8B9CB5;
+      --text-tertiary: #6E7E94;
+      --success: #34D399;
+      --warning: #F59E0B;
+      --error: #DC2626;
+      --r-sm: 8px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html, body {
+      background: var(--bg-page);
+      color: var(--text-primary);
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
+    .header {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      background: var(--bg-page);
+      border-bottom: 1px solid var(--border-muted);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+    }
+
+    .logo span {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      margin-left: 24px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    /* MAIN CONTAINER */
+    .app {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+      position: relative;
+    }
+
+    /* SPACE SCENE - Hero Background */
+    .space-scene {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      margin-bottom: 24px;
+      overflow: hidden;
+      border-radius: var(--r-xl);
+      background: var(--bg-page);
+    }
+
+    .space-bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.6;
+    }
+
+    .space-ship {
+      position: absolute;
+      right: 15%;
+      top: 20%;
+      width: 160px;
+      opacity: 0.85;
+      filter: blur(0.5px) brightness(0.9);
+    }
+
+    .space-raccoon {
+      position: absolute;
+      left: 12%;
+      top: 15%;
+      width: 180px;
+      animation: floatWander 16s ease-in-out infinite;
+    }
+
+    /* Vignette overlay */
+    .space-scene::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at center, transparent 40%, var(--bg-page) 100%);
+    }
+
+    @keyframes floatWander {
+      0%   { transform: translate(0px, 0px) rotate(-2deg); }
+      20%  { transform: translate(15px, -20px) rotate(2deg); }
+      40%  { transform: translate(-10px, -35px) rotate(-1deg); }
+      60%  { transform: translate(20px, -15px) rotate(3deg); }
+      80%  { transform: translate(-15px, -25px) rotate(-2deg); }
+      100% { transform: translate(0px, 0px) rotate(-2deg); }
+    }
+
+    /* PANEL */
+    .panel {
+      background: linear-gradient(180deg, rgba(15, 20, 28, 0.9) 0%, rgba(7, 9, 12, 0.95) 100%);
+      border: 1px solid var(--border-muted);
+      border-radius: var(--r-xl);
+      padding: 36px 32px 28px;
+      box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.08), 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    /* BRAND */
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .brand-icon {
+      width: 24px;
+      height: 24px;
+      background: var(--accent);
+      border-radius: 6px;
+    }
+
+    .brand-name {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text-secondary);
+    }
+
+    /* HERO TEXT */
+    .hero {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .hero-title {
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+      color: var(--text-primary);
+    }
+
+    .hero-tagline {
+      font-size: 14px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero-actions {
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .hero-body {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin: 0 auto 20px;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    /* CARD GRID */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-muted);
+      border-radius: var(--r-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      border-color: var(--accent-edge);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(34, 211, 238, 0.15);
+    }
+
+    .card.recommended {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.2), 0 8px 24px rgba(34, 211, 238, 0.1);
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-soft);
+      border: 1px solid var(--accent-edge);
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      align-self: flex-start;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .pill-spacer {
+      height: 22px;
+      margin-bottom: 14px;
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: var(--r-md);
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg-page);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 16px rgba(34, 211, 238, 0.5);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-strong);
+    }
+
+    .btn-ghost:hover {
+      background: var(--bg-panel-2);
+      border-color: var(--accent-edge);
+    }
+
+    /* ACTIONS */
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    /* FOOTER */
+    .foot {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    /* MOBILE RESPONSIVE */
+    @media (max-width: 768px) {
+      .header {
+        padding: 0 20px;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .space-scene {
+        height: 160px;
+      }
+      
+      .space-raccoon {
+        width: 120px;
+        left: 8%;
+      }
+      
+      .space-ship {
+        width: 140px;
+        right: 8%;
+      }
+      
+      .hero-title {
+        font-size: 28px;
+      }
+      
+      .hero-actions {
+        font-size: 16px;
+        letter-spacing: 0.15em;
+      }
+      
+      .panel {
+        padding: 24px 20px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">
+    <img src="assets/logo.png" alt="Heyron" class="logo-img">
+    <span>Heyron</span>
+  </div>
+  <nav class="nav-links">
+    <a href="#">Home</a>
+    <a href="#">Launchpad</a>
+    <a href="#">Academy</a>
+  </nav>
+</header>
+
+<!-- MAIN APP -->
+<main class="app">
+  
+  <!-- SPACE SCENE (Hero) -->
+  <div class="space-scene">
+    <img src="assets/bg-space.png" alt="Space background" class="space-bg">
+    <img src="assets/raccoonspace.png" alt="Floating Ron" class="space-raccoon">
+    <img src="assets/ship.png" alt="Spaceship" class="space-ship">
+  </div>
+
+  <!-- CHOOSE PATH PANEL -->
+  <div class="panel">
+    <div class="hero">
+      <h1 class="hero-title">Agent Launchpad</h1>
+      <p class="hero-tagline">Build &middot; Personalize &middot; Launch</p>
+      <p class="hero-body">Design your agent's personality, behavior and abilities and make your agent yours. Choose your level and begin!</p>
+    </div>
+    
+    <div class="card-grid">
+      <div class="card recommended">
+        <div class="pill">Recommended</div>
+        <p class="card-title">Beginner</p>
+        <p class="card-desc">We walk you through who your agent is, what it cares about, and how it talks to you. Feels like an intro, not a form.</p>
+        <a href="launchpad-final.html?path=beginner" class="btn btn-primary">Start as Beginner</a>
+      </div>
+      
+      <div class="card">
+        <div class="pill-spacer"></div>
+        <p class="card-title">Expert</p>
+        <p class="card-desc">Same tailoring, more knobs. Model, memory depth, working hours, notifications, privacy. Tune everything up front.</p>
+        <a href="launchpad-final.html?path=expert" class="btn btn-ghost">Configure manually</a>
+      </div>
+    </div>
+    
+    <p class="foot">You own every choice. Change your mind anytime from settings.</p>
+  </div>
+
+</main>
+
+</body>
+</html>

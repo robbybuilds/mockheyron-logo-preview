@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Heyron Mission Control</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg-page: #07090C;
+  --bg-panel: #0F141C;
+  --bg-panel-2: #161B23;
+  --border-muted: #1C222B;
+  --border-strong: #2D333B;
+  --brand-primary: #273957;
+  --brand-secondary: #546E8F;
+  --accent: #22D3EE;
+  --accent-soft: rgba(34,211,238,0.12);
+  --accent-edge: rgba(34,211,238,0.50);
+  --crest-gold: #D9A441;
+  --crest-violet: #A855F7;
+  --text-primary: #e6edf3;
+  --text-muted: #8b949e;
+}
+/* Simplified CSS from original (kept relevant parts) */
+body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'DM Sans',sans-serif;}
+.app-shell{position:relative;z-index:1;width:100%;max-width:1100px;min-width:320px;margin:0 auto;padding:0 12px;}
+.bg-image{position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:0.25;z-index:0;}
+.header{display:flex;justify-content:space-between;align-items:center;padding:16px 0;}
+.header-left{display:flex;align-items:center;gap:10px;}
+.logo{width:32px;height:32px;border-radius:8px;object-fit:cover;}
+.crest-mark{width:34px;height:34px;border-radius:50%;object-fit:cover;border:1px solid rgba(217,164,65,.55);box-shadow:0 0 18px rgba(34,211,238,.18),0 0 26px rgba(168,85,247,.10);}
+.brand-divider{width:1px;height:28px;background:linear-gradient(180deg,transparent,var(--crest-gold),transparent);opacity:.75;}
+.mission-pill{display:inline-flex;align-items:center;gap:6px;width:max-content;margin-top:5px;padding:3px 8px;border:1px solid rgba(34,211,238,.35);border-radius:999px;background:rgba(34,211,238,.08);color:#D7F9FF;font-size:10px;letter-spacing:.08em;text-transform:uppercase;}
+.mission-dot{width:5px;height:5px;border-radius:50%;background:var(--crest-violet);box-shadow:0 0 8px var(--crest-violet);}
+.header-title{display:flex;flex-direction:column;line-height:1.1;}
+.header-title h1{font-size:20px;margin:0;}
+.slogan{font-size:12px;color:var(--text-muted);margin-top:2px;}
+.header-right{display:flex;align-items:center;gap:16px;}
+.header-link{font-size:14px;color:var(--text-primary);text-decoration:none;}
+.header-icon{font-size:18px;}
+.grid{display:grid;gap:12px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
+.grid-6{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}@media(max-width:600px){.grid-6{grid-template-columns:repeat(2,1fr);}}
+.card{background:var(--bg-panel);border:1px solid var(--border-muted);border-radius:16px;padding:12px;}
+.stat-title{font-size:11px;color:var(--text-muted);}
+.stat-value{font-family:'JetBrains Mono',monospace;font-size:16px;margin-top:4px;}
+.graph{height:28px;margin-top:6px;}
+.graph path{stroke-width:2;fill:none;stroke:var(--accent);stroke-dasharray:100;stroke-dashoffset:100;animation:draw 5s ease-in-out infinite alternate;}
+@keyframes draw{to{stroke-dashoffset:0;}}
+.status{display:flex;gap:10px;margin-top:12px;align-items:center;flex-wrap:nowrap;}
+.status-left{flex:0 0 220px;min-width:200px;display:flex;flex-direction:column;justify:center;padding:12px;}
+.status-right{flex:1;border-radius:12px;background-image:url("assets/status-visual.png");background-size:cover;background-position:center;background-repeat:no-repeat;min-height:80px;}
+.quick-card{display:flex;flex-direction:column;align-items:center;justify-start;text-align:center;min-height:180px;padding-bottom:12px;}
+.quick-card h3{font-size:12px;margin:4px 0;}
+.quick-card p{font-size:10px;color:var(--text-muted);text-align:center;margin-bottom:10px;flex-grow:1;}
+.icon{width:clamp(28px,5vw,36px);height:clamp(28px,5vw,36px);object-fit:contain;display:block;margin:0 auto 6px;filter:drop-shadow(0 0 6px rgba(34,211,238,0.25));}
+.button{margin-top:6px;display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--accent);color:var(--accent);font-size:10px;text-decoration:none;}
+.card{box-shadow:inset 0 1px 0 rgba(255,255,255,.025);}
+.quick-card:first-child{border-color:rgba(217,164,65,.45);box-shadow:0 0 30px rgba(217,164,65,.08), inset 0 1px 0 rgba(255,255,255,.03);}
+.quick-card:first-child .icon{filter:drop-shadow(0 0 8px rgba(217,164,65,.35));}
+.footer-nav{position:fixed;bottom:0;width:100%;background:#0a0f14;border-top:1px solid var(--border-muted);display:flex;justify-content:space-around;padding:10px 0;z-index:100;}
+.footer-nav a{color:var(--text-muted);text-decoration:none;font-size:12px;}
+/* Animation section */
+.space-scene{position:relative;width:100%;height:180px;margin-bottom:24px;overflow:hidden;border-radius:var(--r-xl);background:var(--bg-page);}
+.space-bg{position:absolute;width:100%;height:100%;object-fit:cover;opacity:0.6;}
+.space-ship{position:absolute;right:15%;top:20%;width:160px;opacity:0.85;filter:blur(0.5px) brightness(0.9);}
+.space-raccoon{position:absolute;left:12%;top:15%;width:180px;animation:floatWander 16s ease-in-out infinite;}
+.scene-crest{position:absolute;right:22px;bottom:18px;width:72px;height:72px;border-radius:50%;object-fit:cover;opacity:.92;border:1px solid rgba(217,164,65,.5);box-shadow:0 0 28px rgba(217,164,65,.18),0 0 34px rgba(34,211,238,.14);}
+.scene-label{position:absolute;right:108px;bottom:38px;font-size:11px;color:#D7F9FF;letter-spacing:.12em;text-transform:uppercase;text-shadow:0 0 12px rgba(34,211,238,.35);}
+@keyframes floatWander{0%{transform:translate(0,0) rotate(-2deg);}20%{transform:translate(15px,-20px) rotate(2deg);}40%{transform:translate(-10px,-35px) rotate(-1deg);}60%{transform:translate(20px,-15px) rotate(3deg);}80%{transform:translate(-15px,-25px) rotate(-2deg);}100%{transform:translate(0,0) rotate(-2deg);}}
+</style>
+</head>
+<body>
+<img src="assets/space-bg.png" class="bg-image" />
+<div class="app-shell">
+<div class="header">
+  <div class="header-left">
+    <img src="assets/logo.png" class="logo" />
+    <span class="brand-divider"></span>
+    <img src="assets/launchpad-crest.png" class="crest-mark" alt="Launchpad crest" />
+    <div class="header-title">
+      <h1>Heyron</h1>
+      <div class="slogan">Mission Control</div>
+      <div class="mission-pill"><span class="mission-dot"></span>Launchpad Crest</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <a href="https://heyron.ai/chat" class="header-link">Chat</a>
+    <a href="https://heyron.ai/account" class="header-icon">👤</a>
+  </div>
+</div>
+
+<!-- ANIMATION SECTION (from hello-screen) -->
+<div class="space-scene">
+    <img src="assets/bg-space.png" alt="Space background" class="space-bg" />
+    <img src="assets/ship.png" alt="Spaceship" class="space-ship" />
+    <img src="assets/raccoon.png" alt="Floating Ron" class="space-raccoon" />
+    <div class="scene-label">Launch Sequence</div>
+    <img src="assets/launchpad-crest.png" alt="Launchpad crest" class="scene-crest" />
+</div>
+
+<!-- STATUS -->
+<div class="status">
+  <div class="card status-left">
+    <div class="stat-title">System Status</div>
+    <div style="color:#34D399;">[Server Status]</div>
+  </div>
+  <div class="card status-right"></div>
+</div>
+
+<!-- QUICK CARDS -->
+<div class="grid grid-6" style="margin-top:16px;">
+  <div class="card quick-card">
+    <img src="assets/rocket.svg" class="icon" />
+    <h3>Initial Setup</h3>
+    <p>Configure your account, develop an agent personality</p>
+    <a href="hello-screen.html" class="button">Get Started</a>
+  </div>
+  <div class="card quick-card">
+    <img src="assets/compass.svg" class="icon" />
+    <h3>Quickstart Guide</h3>
+    <p>Get going fast with quick tutorials</p>
+    <a href="https://catherinebb272.github.io/heyron-tutorial" class="button">Open Guide</a>
+  </div>
+  <div class="card quick-card">
+    <img src="assets/headset.svg" class="icon" />
+    <h3>Support</h3>
+    <p>How to submit tickets, get community help</p>
+    <a href="support.html" class="button">Go to Support</a>
+  </div>
+  <div class="card quick-card">
+    <img src="assets/monitor.svg" class="icon" />
+    <h3>Tutorials</h3>
+    <p>100+ short modules to help you build</p>
+    <a href="https://heyron-ai.github.io/agent-library/tutorials/index.html" class="button">Browse</a>
+  </div>
+  <div class="card quick-card">
+    <img src="assets/bulb.svg" class="icon" />
+    <h3>Ideas</h3>
+    <p>Prompts, projects and helpful tips</p>
+    <a href="https://heyron.ai/" class="button">Explore</a>
+  </div>
+  <div class="card quick-card">
+    <img src="assets/people.svg" class="icon" />
+    <h3>About</h3>
+    <p>Learn about our mission, team and roadmap</p>
+    <a href="testpage1.html" class="button">Learn More</a>
+  </div>
+</div>
+
+<!-- STATS (moved from top) -->
+<div class="grid grid-4" style="margin-top:16px;">
+  <div class="card">
+    <div class="stat-title">Active Agents</div>
+    <div class="stat-value">2540</div>
+    <svg class="graph" viewBox="0 0 100 30"><path d="M0 20 L20 18 L40 22 L60 15 L80 17 L100 10"/></svg>
+  </div>
+  <div class="card">
+    <div class="stat-title">Days Since Launch</div>
+    <div class="stat-value">56</div>
+    <svg class="graph" viewBox="0 0 100 30"><path d="M0 25 L20 20 L40 18 L60 16 L80 12 L100 8"/></svg>
+  </div>
+  <div class="card">
+    <div class="stat-title">Tokens Processed</div>
+    <div class="stat-value">109B</div>
+    <svg class="graph" viewBox="0 0 100 30"><path d="M0 22 L20 23 L40 19 L60 14 L80 10 L100 6"/></svg>
+  </div>
+  <div class="card">
+    <div class="stat-title">Countries</div>
+    <div class="stat-value">47+</div>
+    <svg class="graph" viewBox="0 0 100 30"><path d="M0 24 L20 21 L40 19 L60 17 L80 14 L100 12"/></svg>
+  </div>
+</div>
+
+</div>
+<div class="footer-nav">
+  <a href="https://heyron.ai/chat">💬 Chat</a>
+  <a href="https://heyron.ai/support">🎧 Support</a>
+  <a href="https://discord.com">🧠 Discord</a>
+</div>
+</body>
+</html>
