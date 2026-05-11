@@ -91,49 +91,39 @@
       position: relative;
     }
 
-    /* SPACE SCENE - Hero Background */
+    /* LAUNCHPAD WELCOME ART */
     .space-scene {
       position: relative;
       width: 100%;
-      height: 180px;
+      min-height: 520px;
       margin-bottom: 24px;
       overflow: hidden;
       border-radius: var(--r-xl);
       background: var(--bg-page);
+      border: 1px solid rgba(34, 211, 238, 0.22);
+      box-shadow: 0 0 34px rgba(34, 211, 238, 0.12), inset 0 1px 0 rgba(255,255,255,0.05);
     }
 
     .space-bg {
       position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.6;
+      object-position: center;
+      opacity: 1;
     }
 
-    .space-ship {
-      position: absolute;
-      right: 15%;
-      top: 20%;
-      width: 160px;
-      opacity: 0.85;
-      filter: blur(0.5px) brightness(0.9);
-    }
+    .space-ship,
+    .space-raccoon { display: none; }
 
-    .space-raccoon {
-      position: absolute;
-      left: 12%;
-      top: 15%;
-      width: 180px;
-      animation: floatWander 16s ease-in-out infinite;
-    }
-
-    /* Vignette overlay */
+    /* Soft edge so the art sits inside the page */
     .space-scene::after {
       content: "";
       position: absolute;
       inset: 0;
       pointer-events: none;
-      background: radial-gradient(circle at center, transparent 40%, var(--bg-page) 100%);
+      background: linear-gradient(180deg, rgba(7,9,12,0.08) 0%, rgba(7,9,12,0) 45%, rgba(7,9,12,0.28) 100%);
     }
 
     @keyframes floatWander {
@@ -348,17 +338,7 @@
       }
       
       .space-scene {
-        height: 160px;
-      }
-      
-      .space-raccoon {
-        width: 120px;
-        left: 8%;
-      }
-      
-      .space-ship {
-        width: 140px;
-        right: 8%;
+        min-height: 340px;
       }
       
       .hero-title {
@@ -396,9 +376,7 @@
   
   <!-- SPACE SCENE (Hero) -->
   <div class="space-scene">
-    <img src="assets/bg-space.png" alt="Space background" class="space-bg">
-    <img src="assets/raccoonspace.png" alt="Floating Ron" class="space-raccoon">
-    <img src="assets/ship.png" alt="Spaceship" class="space-ship">
+    <img src="assets/final-onboarding-art.png" alt="Welcome to Heyron Launchpad" class="space-bg">
   </div>
 
   <!-- CHOOSE PATH PANEL -->
