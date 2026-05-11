@@ -54,3 +54,34 @@ This preview is wired to behave like the real product without touching productio
 ## Browser keys used by preview
 
 None. All state is local-only in the browser so Cassie/Robby can test flow safely.
+
+## Demo container lookup added
+
+Clippy Ron can now resolve a tiny allowlisted demo profile by email in the static preview.
+
+Current demo mapping:
+- `cassie@heyron.ai` -> agent `Ron`, container `c8-0201`, status `online`, read-only preview
+
+Rules for this lookup:
+- Static preview may show container id/status only.
+- Do not include host IPs, API keys, bot tokens, gateway tokens, logs, runtime config, private messages, or secrets.
+- Real production version should replace this map with an authenticated server endpoint.
+
+Suggested production endpoint:
+
+`GET /api/me/container-summary`
+
+Returns only:
+```json
+{
+  "agentName": "Ron",
+  "container": "c8-0201",
+  "status": "online",
+  "channels": ["Discord", "Telegram groups"],
+  "safety": "Telegram DMs disabled",
+  "ticketCount": 0,
+  "launchpadComplete": true
+}
+```
+
+Do not return logs, tokens, raw config, host IPs, or restart controls from this endpoint.

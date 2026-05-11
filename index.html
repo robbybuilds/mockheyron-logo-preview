@@ -176,7 +176,7 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .clippy-login input{flex:1;min-width:0;padding:9px 10px;border-radius:14px;border:1px solid rgba(125,225,255,.28);background:rgba(7,9,12,.70);color:#E6EDF3;outline:none;}
 .clippy-login input:focus{border-color:rgba(125,225,255,.62);box-shadow:0 0 0 3px rgba(82,201,255,.10);}
 .clippy-login button,.clippy-send button{padding:9px 11px;border-radius:14px;border:1px solid rgba(125,225,255,.45);background:rgba(84,110,143,.82);color:#F5F0E8;font-weight:700;cursor:pointer;}
-.clippy-status{font-size:12px;color:#7dd3fc;margin:0 0 12px;}
+.clippy-status{font-size:12px;color:#7dd3fc;margin:0 0 12px;}.clippy-container-card{margin:10px 0 12px;padding:11px 12px;border-radius:16px;border:1px solid rgba(94,234,212,.28);background:linear-gradient(135deg,rgba(34,211,238,.10),rgba(7,9,12,.58));font-size:12px;line-height:1.45;color:#D7F9FF}.clippy-container-card strong{display:block;color:#F8FAFC;margin-bottom:3px}.clippy-container-card span{display:block;color:#9BAAC4}.clippy-container-card .ok{color:#5EEAD4;font-weight:800}
 .clippy-messages{max-height:190px;overflow:auto;display:flex;flex-direction:column;gap:8px;margin:10px 0 12px;padding-right:4px;}
 .clippy-bubble{font-size:12px;line-height:1.45;padding:8px 10px;border-radius:14px;max-width:88%;}
 .clippy-bubble.bot{align-self:flex-start;background:rgba(22,27,35,.96);color:#E6EDF3;border-bottom-left-radius:5px;}
@@ -528,6 +528,7 @@ img,svg{max-width:100%;}
       <button id="clippyLoginBtn" type="button">Link</button>
     </div>
     <p class="clippy-status" id="clippyStatus">Prototype only. Real version should use signed-in account context.</p>
+    <div class="clippy-container-card" id="clippyContainerCard" hidden></div>
     <div class="clippy-messages" id="clippyMessages"></div>
     <div class="clippy-quick" id="clippyQuick">
       <button data-text="What can you help me with?">What can you do?</button>
@@ -667,6 +668,27 @@ const SAFE_HOOKS = {
   }
 })();
 
+const HEYRON_DEMO_CONTAINER_LOOKUP = {
+  // Demo-only allowlist. Do not add secrets, host IPs, tokens, logs, or private config here.
+  'cassie@heyron.ai': {
+    email: 'cassie@heyron.ai',
+    agentName: 'Ron',
+    container: 'c8-0201',
+    status: 'online',
+    access: 'read-only preview',
+    channels: ['Discord', 'Telegram groups'],
+    safety: 'Telegram DMs disabled',
+    nextSafeActions: ['open support ticket', 'view Launchpad progress', 'queue Agent Jam entry']
+  }
+};
+function demoContainerForEmail(email){ return HEYRON_DEMO_CONTAINER_LOOKUP[String(email || '').trim().toLowerCase()] || null; }
+function renderContainerCard(el, ctx){
+  if(!el) return;
+  if(!ctx){ el.hidden = true; el.textContent = ''; return; }
+  el.hidden = false;
+  el.innerHTML = `<strong>${ctx.agentName} · ${ctx.container}</strong><span>Status: <b class="ok">${ctx.status}</b> · ${ctx.access}</span><span>Channels: ${ctx.channels.join(', ')}</span><span>Safety: ${ctx.safety}</span>`;
+}
+
 (function(){
   const open = document.getElementById('clippyOpen');
   const modal = document.getElementById('clippyGate');
@@ -675,6 +697,7 @@ const SAFE_HOOKS = {
   const email = document.getElementById('clippyEmail');
   const loginBtn = document.getElementById('clippyLoginBtn');
   const status = document.getElementById('clippyStatus');
+  const containerCard = document.getElementById('clippyContainerCard');
   const messages = document.getElementById('clippyMessages');
   const input = document.getElementById('clippyInput');
   const sendBtn = document.getElementById('clippySend');
@@ -686,19 +709,19 @@ const SAFE_HOOKS = {
   function show(){ modal && modal.classList.add('open'); if(!linkedEmail && email) setTimeout(()=>email.focus(), 40); }
   function hide(){ modal && modal.classList.remove('open'); }
   function add(from, text){ if(!messages) return; const b=document.createElement('div'); b.className='clippy-bubble '+from; b.textContent=text; messages.appendChild(b); messages.scrollTop=messages.scrollHeight; }
-  function link(){ linkedEmail=(email && email.value.trim()) || (launchpad?.email || 'cassie@heyron.ai'); localStorage.setItem('heyronPreviewEmail', linkedEmail); if(login) login.style.display='none'; if(status) status.textContent='Linked to '+linkedEmail+' · safe preview · Ron online'; add('bot', `Got it. I can see local preview context: ${launchpad?.agentName || 'no agent'} setup, ${ticketCount()} ticket(s), ${jamCount()} Agent Jam entr${jamCount() === 1 ? 'y' : 'ies'}. Real API hookup comes next.`); }
+  function link(){ linkedEmail=(email && email.value.trim()) || (launchpad?.email || 'cassie@heyron.ai'); localStorage.setItem('heyronPreviewEmail', linkedEmail); const ctx=demoContainerForEmail(linkedEmail); if(login) login.style.display='none'; renderContainerCard(containerCard, ctx); if(status) status.textContent=ctx ? 'Linked to '+linkedEmail+' · '+ctx.container+' · safe read-only preview' : 'Linked to '+linkedEmail+' · no demo container found · safe preview'; add('bot', ctx ? `Found ${ctx.agentName} on ${ctx.container}. I can show safe status/context only: no logs, tokens, restarts, or real container actions.` : `I do not have a demo container for that email yet. In production this should call the signed-in profile/container API.`); }
   function reply(text){
     add('user', text);
     const t=text.toLowerCase();
     setTimeout(()=>{
-      if(t.includes('container') || t.includes('status')) add('bot',`Safe preview only: no real container actions. Local context says ${launchpad?.agentName || 'your agent'} is launch-ready, ${ticketCount()} ticket(s) queued, ${jamCount()} Agent Jam entr${jamCount() === 1 ? 'y' : 'ies'}.`);
+      if(t.includes('container') || t.includes('status')) { const ctx=demoContainerForEmail(linkedEmail); add('bot', ctx ? `${ctx.agentName} is mapped to ${ctx.container}. Status: ${ctx.status}. Safety: ${ctx.safety}. I can only read this demo card, not touch the container.` : `No demo container mapped for ${linkedEmail || 'this email'} yet. Real version should use authenticated profile lookup.`); }
       else if(t.includes('support')) add('bot',`Support is local-queued safely right now. ${ticketCount()} ticket(s) in this browser. Production should write to Supabase tickets with signed-in user auth.`);
       else if(t.includes('launchpad')) add('bot', launchpad ? `Launchpad complete for ${launchpad.agentName || 'your agent'}. Focus areas: ${(launchpad.useCases || []).join(', ') || 'none saved'}.` : 'Launchpad is ready. Run it once and I will read the local saved setup here.');
       else add('bot','I can answer dashboard questions, explain Launchpad, point you to Ron Academy, help open tickets, and eventually pull logs/restart/check integrations when auth is wired.');
     }, 380);
   }
-  if(linkedEmail){ if(login) login.style.display='none'; if(status) status.textContent='Linked to '+linkedEmail+' · demo container c8-0201 · Ron online'; }
-  add('bot', linkedEmail ? 'Welcome back. I have your demo dashboard context open.' : "Hey. Link an email and I’ll act like dashboard Clippy Ron for this prototype.");
+  if(linkedEmail){ const ctx=demoContainerForEmail(linkedEmail); if(login) login.style.display='none'; renderContainerCard(containerCard, ctx); if(status) status.textContent=ctx ? 'Linked to '+linkedEmail+' · '+ctx.container+' · safe read-only preview' : 'Linked to '+linkedEmail+' · no demo container found · safe preview'; }
+  add('bot', linkedEmail ? (demoContainerForEmail(linkedEmail) ? 'Welcome back. I found your safe demo container context.' : 'Welcome back. Email linked, no demo container mapped yet.') : "Hey. Link an email and I’ll act like dashboard Clippy Ron for this prototype.");
   open && open.addEventListener('click', show);
   close && close.addEventListener('click', hide);
   loginBtn && loginBtn.addEventListener('click', link);
