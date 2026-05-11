@@ -64,15 +64,17 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .footer-nav{position:fixed;bottom:0;width:100%;background:#0a0f14;border-top:1px solid var(--border-muted);display:flex;justify-content:space-around;padding:10px 0;z-index:100;}
 .footer-nav a{color:var(--text-muted);text-decoration:none;font-size:12px;}
 /* Animation section */
-.space-scene{position:relative;width:100%;height:180px;margin-bottom:24px;overflow:hidden;border-radius:var(--r-xl);background:var(--bg-page);}
+.space-scene{position:relative;width:100%;height:230px;margin-bottom:24px;overflow:hidden;border-radius:20px;background:var(--bg-page);border:1px solid rgba(34,211,238,.18);box-shadow:0 0 34px rgba(34,211,238,.08), inset 0 1px 0 rgba(255,255,255,.04);}
 .space-bg{position:absolute;width:100%;height:100%;object-fit:cover;opacity:0.6;}
+.bridge-bg{opacity:.94;object-position:center center;}
 .space-ship{position:absolute;right:15%;top:20%;width:160px;opacity:0.85;filter:blur(0.5px) brightness(0.9);}
 .mission-ship{right:8%;top:13%;width:300px;max-width:42%;opacity:.95;filter:brightness(.96) saturate(1.05) drop-shadow(0 0 20px rgba(34,211,238,.18));}
+.bridge-bg ~ .space-ship,.bridge-bg ~ .space-raccoon{display:none;}
 .command-center{right:4%;top:8%;width:360px;max-width:48%;opacity:.78;border-radius:18px;filter:brightness(.92) saturate(1.08) drop-shadow(0 0 22px rgba(34,211,238,.15));}
 .space-raccoon{position:absolute;left:12%;top:15%;width:180px;animation:floatWander 16s ease-in-out infinite;}
 .astronaut-ron{width:185px;filter:drop-shadow(0 0 18px rgba(34,211,238,.22)) drop-shadow(0 0 24px rgba(217,164,65,.12));}
-.scene-crest{position:absolute;right:22px;bottom:18px;width:72px;height:72px;border-radius:50%;object-fit:cover;opacity:.92;border:1px solid rgba(217,164,65,.5);box-shadow:0 0 28px rgba(217,164,65,.18),0 0 34px rgba(34,211,238,.14);}
-.scene-label{position:absolute;right:110px;top:24px;bottom:auto;font-size:11px;color:#D7F9FF;letter-spacing:.12em;text-transform:uppercase;text-shadow:0 0 12px rgba(34,211,238,.35);}
+.scene-crest{position:absolute;right:18px;bottom:16px;width:58px;height:58px;border-radius:50%;object-fit:cover;opacity:.82;border:1px solid rgba(217,164,65,.45);box-shadow:0 0 24px rgba(217,164,65,.14),0 0 30px rgba(34,211,238,.10);}
+.scene-label{position:absolute;left:22px;top:18px;bottom:auto;font-size:11px;color:#D7F9FF;letter-spacing:.12em;text-transform:uppercase;text-shadow:0 0 12px rgba(34,211,238,.35);padding:6px 10px;border:1px solid rgba(34,211,238,.22);border-radius:999px;background:rgba(7,9,12,.34);backdrop-filter:blur(8px);}
 @keyframes floatWander{0%{transform:translate(0,0) rotate(-2deg);}20%{transform:translate(15px,-20px) rotate(2deg);}40%{transform:translate(-10px,-35px) rotate(-1deg);}60%{transform:translate(20px,-15px) rotate(3deg);}80%{transform:translate(-15px,-25px) rotate(-2deg);}100%{transform:translate(0,0) rotate(-2deg);}}
 </style>
 </head>
@@ -98,7 +100,7 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 
 <!-- ANIMATION SECTION (from hello-screen) -->
 <div class="space-scene">
-    <img src="assets/bg-space.png" alt="Space background" class="space-bg" />
+    <img src="assets/mission-control-bridge-hero.png" alt="Mission Control bridge" class="space-bg bridge-bg" />
     <img src="assets/mission-control-floating-spaceship-transparent.png" alt="Mission Control spaceship" class="space-ship mission-ship" />
     <img src="assets/ron-cinematic-astronaut-transparent.png" alt="Floating astronaut Ron" class="space-raccoon astronaut-ron" />
     <div class="scene-label">Launch Sequence</div>
