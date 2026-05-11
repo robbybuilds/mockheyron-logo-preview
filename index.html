@@ -74,11 +74,11 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .secondary-actions{margin-top:16px;}
 @media(max-width:900px){.all-actions{grid-template-columns:repeat(3,minmax(0,1fr));}}
 @media(max-width:700px){.featured-actions,.all-actions{grid-template-columns:1fr;}.status-right{min-height:360px;border-radius:20px;}}
-.bridge-actions{position:absolute;left:50%;top:42px;transform:translateX(-50%);z-index:3;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;}
+.bridge-actions{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;margin:4px 0 16px;}
 .bridge-button{display:inline-flex;align-items:center;justify-content:center;min-width:170px;padding:10px 16px;border-radius:999px;text-decoration:none;font-size:12px;font-weight:600;letter-spacing:.01em;border:1px solid rgba(125,225,255,.48);color:#D7F9FF;background:rgba(7,9,12,.48);backdrop-filter:blur(10px);box-shadow:0 0 22px rgba(82,201,255,.16),inset 0 1px 0 rgba(255,255,255,.07);}
 .bridge-button.primary{border-color:rgba(217,164,65,.58);color:#FFF4D6;background:linear-gradient(135deg,rgba(217,164,65,.20),rgba(7,9,12,.52));box-shadow:0 0 26px rgba(217,164,65,.16),0 0 22px rgba(82,201,255,.10),inset 0 1px 0 rgba(255,255,255,.08);}
 .bridge-button:hover{transform:translateY(-1px);}
-@media(max-width:700px){.bridge-actions{top:24px;width:calc(100% - 28px);}.bridge-button{width:100%;}}
+@media(max-width:700px){.bridge-actions{width:100%;}.bridge-button{width:100%;}}
 
 
 .footer-nav{position:fixed;bottom:0;width:100%;background:#0a0f14;border-top:1px solid var(--border-muted);display:flex;justify-content:space-around;padding:10px 0;z-index:100;}
@@ -166,14 +166,15 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
   </div>
 </div>
 
+<!-- EXTRA ACTIONS -->
+<div class="bridge-actions">
+  <a href="https://stan.store/robbybuildsron" class="bridge-button">Merch</a>
+  <a href="https://heyron.ai/chat" class="bridge-button primary">Speak with your AI cadet</a>
+</div>
+
 <!-- MISSION CONTROL IMAGE -->
 <div class="status">
-  <div class="card status-right" aria-label="Mission Control bridge preview">
-    <div class="bridge-actions">
-      <a href="https://stan.store/robbybuildsron" class="bridge-button">Merch</a>
-      <a href="https://heyron.ai/chat" class="bridge-button primary">Speak with your AI cadet</a>
-    </div>
-  </div>
+  <div class="card status-right" aria-label="Mission Control bridge preview"></div>
 </div>
 
 <!-- STATS (moved from top) -->
