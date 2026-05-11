@@ -21,17 +21,24 @@
   .cta-hit{left:32%;top:48%;width:36%;height:13%;}
 }
 
+
+/* Ron embedded Launchpad CTA fix: real anchor over visible image button */
+.cta-hit{z-index:4;display:block;text-indent:-9999px;overflow:hidden;text-decoration:none;-webkit-tap-highlight-color:rgba(34,211,238,.24);pointer-events:auto;}
+.art-link img{pointer-events:none;}
+@media(max-width:700px){.cta-hit{left:3%!important;top:47%!important;width:94%!important;height:15%!important;min-height:52px!important;border-radius:22px;}}
+@media(max-width:390px){.cta-hit{left:2%!important;top:46%!important;width:96%!important;height:16%!important;}}
+
 </style>
 </head>
 <body>
 <main class="page">
   <nav class="topbar" aria-label="Launchpad navigation"><a href="index.html">← Mission Control</a><a href="launchpad-flow.html?path=dashboard">Skip to demo dashboard</a></nav>
   <section class="art-wrap" aria-label="Welcome to Launchpad">
-    <a class="art-link" href="launchpad-flow.html?path=beginner" aria-label="Let’s get started with Launchpad">
+    <div class="art-link" aria-label="Welcome to Launchpad">
       <img src="assets/onboarding/launchpad-start-confirmed.png" alt="Welcome to Launchpad. Step 1 of 6: Set up your agent. Let’s get started." />
-      <span class="cta-hit" aria-hidden="true"></span>
-    </a>
-    <a class="mobile-cta" href="launchpad-flow.html?path=beginner">Let’s get started →</a>
+      <a class="cta-hit" href="https://robbybuilds.github.io/mockheyron-logo-preview/launchpad-flow.html?path=beginner" aria-label="Let’s get started with Launchpad">Let’s get started</a>
+    </div>
+    <a class="mobile-cta" href="https://robbybuilds.github.io/mockheyron-logo-preview/launchpad-flow.html?path=beginner">Let’s get started →</a>
   </section>
 </main>
 </body>
