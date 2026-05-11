@@ -60,6 +60,16 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .quick-card p{font-size:10px;color:var(--text-muted);text-align:center;margin-bottom:10px;flex-grow:1;}
 .icon{width:clamp(28px,5vw,36px);height:clamp(28px,5vw,36px);object-fit:contain;display:block;margin:0 auto 6px;filter:drop-shadow(0 0 6px rgba(34,211,238,0.25));}
 .button{margin-top:6px;display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--accent);color:var(--accent);font-size:10px;text-decoration:none;}
+@keyframes heyronButtonGlow{
+  0%,100%{border-color:rgba(125,225,255,.34);box-shadow:0 0 10px rgba(34,211,238,.08),inset 0 1px 0 rgba(255,255,255,.04);}
+  33%{border-color:rgba(217,164,65,.48);box-shadow:0 0 16px rgba(217,164,65,.13),inset 0 1px 0 rgba(255,255,255,.05);}
+  66%{border-color:rgba(168,85,247,.42);box-shadow:0 0 16px rgba(168,85,247,.12),inset 0 1px 0 rgba(255,255,255,.05);}
+}
+.button,.bridge-button,.footer-symbol,.clippy-quick button,.clippy-send button,.clippy-login button,.mod-access{animation:heyronButtonGlow 7.5s ease-in-out infinite;}
+.button:nth-of-type(2n),.bridge-button:nth-child(2n),.footer-symbol:nth-child(2n),.clippy-quick button:nth-child(2n){animation-delay:1.4s;}
+.button:nth-of-type(3n),.bridge-button:nth-child(3n),.clippy-quick button:nth-child(3n){animation-delay:2.8s;}
+@media (prefers-reduced-motion: reduce){.button,.bridge-button,.footer-symbol,.clippy-quick button,.clippy-send button,.clippy-login button,.mod-access{animation:none!important;}}
+
 .card{box-shadow:inset 0 1px 0 rgba(255,255,255,.025);}
 .quick-card:first-child{border-color:rgba(217,164,65,.45);box-shadow:0 0 30px rgba(217,164,65,.08), inset 0 1px 0 rgba(255,255,255,.03);}
 .status-right + .image-glow{}
@@ -96,27 +106,27 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .footer-symbol.trash{border-color:rgba(220,38,38,.28);color:#fecaca;background:rgba(220,38,38,.05);}
 .footer-symbol.trash:hover{border-color:rgba(220,38,38,.48);box-shadow:0 0 20px rgba(220,38,38,.14),inset 0 1px 0 rgba(255,255,255,.06);}
 
-.clippy-widget{position:fixed;right:22px;bottom:92px;z-index:998;width:min(390px,calc(100vw - 28px));background:linear-gradient(180deg,rgba(15,20,28,.98),rgba(7,9,12,.99));border:1px solid rgba(125,225,255,.54);border-radius:28px 28px 8px 28px;box-shadow:0 0 42px rgba(82,201,255,.20),0 18px 70px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.06);display:none;overflow:hidden;}
+.clippy-widget{position:fixed;right:22px;bottom:92px;z-index:998;width:min(330px,calc(100vw - 28px));background:linear-gradient(180deg,rgba(15,20,28,.98),rgba(7,9,12,.99));border:1px solid rgba(125,225,255,.54);border-radius:24px 24px 8px 24px;box-shadow:0 0 42px rgba(82,201,255,.20),0 18px 70px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.06);display:none;overflow:hidden;}
 .clippy-widget.open{display:block;animation:clippyIn .18s ease-out;}
 @keyframes clippyIn{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
 .clippy-widget::after{content:'';position:absolute;right:38px;bottom:-15px;width:28px;height:28px;background:rgba(7,9,12,.99);border-right:1px solid rgba(125,225,255,.54);border-bottom:1px solid rgba(125,225,255,.54);transform:rotate(45deg);}
-.clippy-header{display:flex;align-items:flex-start;gap:12px;padding:20px 22px 12px;}
-.clippy-avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:rgba(125,225,255,.10);border:1px solid rgba(125,225,255,.42);box-shadow:0 0 22px rgba(82,201,255,.14);font-size:24px;flex:0 0 auto;}
-.clippy-title{flex:1;}.clippy-title h2{font-size:22px;line-height:1.1;margin:0 0 8px;color:#F5F0E8;}.clippy-title p{font-size:15px;line-height:1.55;color:#9BAAC4;margin:0;}
+.clippy-header{display:flex;align-items:flex-start;gap:12px;padding:16px 18px 10px;}
+.clippy-avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:rgba(125,225,255,.10);border:1px solid rgba(125,225,255,.42);box-shadow:0 0 22px rgba(82,201,255,.14);font-size:20px;flex:0 0 auto;}
+.clippy-title{flex:1;}.clippy-title h2{font-size:19px;line-height:1.1;margin:0 0 8px;color:#F5F0E8;}.clippy-title p{font-size:13px;line-height:1.55;color:#9BAAC4;margin:0;}
 .clippy-close{background:transparent;border:0;color:#8B949E;font-size:24px;line-height:1;cursor:pointer;padding:0;margin-left:4px;}
-.clippy-body{padding:0 22px 18px;}
+.clippy-body{padding:0 18px 15px;}
 .clippy-login{display:flex;gap:8px;margin:12px 0 10px;}
-.clippy-login input{flex:1;min-width:0;padding:11px 12px;border-radius:14px;border:1px solid rgba(125,225,255,.28);background:rgba(7,9,12,.70);color:#E6EDF3;outline:none;}
+.clippy-login input{flex:1;min-width:0;padding:9px 10px;border-radius:14px;border:1px solid rgba(125,225,255,.28);background:rgba(7,9,12,.70);color:#E6EDF3;outline:none;}
 .clippy-login input:focus{border-color:rgba(125,225,255,.62);box-shadow:0 0 0 3px rgba(82,201,255,.10);}
-.clippy-login button,.clippy-send button{padding:11px 13px;border-radius:14px;border:1px solid rgba(125,225,255,.45);background:rgba(84,110,143,.82);color:#F5F0E8;font-weight:700;cursor:pointer;}
+.clippy-login button,.clippy-send button{padding:9px 11px;border-radius:14px;border:1px solid rgba(125,225,255,.45);background:rgba(84,110,143,.82);color:#F5F0E8;font-weight:700;cursor:pointer;}
 .clippy-status{font-size:12px;color:#7dd3fc;margin:0 0 12px;}
-.clippy-messages{max-height:250px;overflow:auto;display:flex;flex-direction:column;gap:8px;margin:10px 0 12px;padding-right:4px;}
-.clippy-bubble{font-size:13px;line-height:1.45;padding:9px 11px;border-radius:14px;max-width:88%;}
+.clippy-messages{max-height:190px;overflow:auto;display:flex;flex-direction:column;gap:8px;margin:10px 0 12px;padding-right:4px;}
+.clippy-bubble{font-size:12px;line-height:1.45;padding:8px 10px;border-radius:14px;max-width:88%;}
 .clippy-bubble.bot{align-self:flex-start;background:rgba(22,27,35,.96);color:#E6EDF3;border-bottom-left-radius:5px;}
 .clippy-bubble.user{align-self:flex-end;background:#22D3EE;color:#071018;border-bottom-right-radius:5px;}
 .clippy-quick{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
-.clippy-quick button{font-size:12px;color:#D7F9FF;background:rgba(7,9,12,.45);border:1px solid rgba(125,225,255,.26);border-radius:999px;padding:7px 10px;cursor:pointer;}
-.clippy-send{display:flex;gap:8px;}.clippy-send input{flex:1;min-width:0;padding:10px 11px;border-radius:14px;border:1px solid rgba(125,225,255,.24);background:rgba(7,9,12,.70);color:#E6EDF3;outline:none;}
+.clippy-quick button{font-size:11px;color:#D7F9FF;background:rgba(7,9,12,.45);border:1px solid rgba(125,225,255,.26);border-radius:999px;padding:6px 9px;cursor:pointer;}
+.clippy-send{display:flex;gap:8px;}.clippy-send input{flex:1;min-width:0;padding:9px 10px;border-radius:14px;border:1px solid rgba(125,225,255,.24);background:rgba(7,9,12,.70);color:#E6EDF3;outline:none;}
 @media(max-width:700px){.clippy-widget{right:14px;bottom:86px}.clippy-title h2{font-size:20px}.clippy-title p{font-size:14px}}
 .footer-secret{border:1px solid rgba(220,38,38,.22);border-radius:999px;padding:5px 9px!important;color:rgba(245,240,232,.58)!important;background:rgba(220,38,38,.05);}
 .footer-secret:hover{color:#fecaca!important;border-color:rgba(220,38,38,.42);box-shadow:0 0 16px rgba(220,38,38,.10);}
