@@ -214,9 +214,10 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 #dailyRonSaying{font-size:10.5px;line-height:1.35;color:#FDE68A;min-height:42px;margin:4px 0 8px;text-shadow:0 0 12px rgba(253,224,71,.16);}
 #dailyRonShuffle{background:rgba(253,224,71,.08);color:#FDE68A;border-color:rgba(253,224,71,.34);cursor:pointer;font-family:inherit;}
 
-@keyframes moonSpin{to{transform:rotate(360deg)}}
-.moon-egg{width:38px;height:38px;border-radius:999px;border:1px solid rgba(0,207,255,.40);background:radial-gradient(circle at 35% 30%,#D7F9FF 0 18%,#00CFFF 34%,#075985 70%);box-shadow:0 0 22px rgba(0,207,255,.28),0 0 36px rgba(109,40,217,.12),inset 0 1px 0 rgba(255,255,255,.25);cursor:pointer;font-size:18px;display:grid;place-items:center;animation:moonSpin 18s linear infinite;color:#E0FBFF;}
-.moon-egg:hover{filter:brightness(1.18);box-shadow:0 0 28px rgba(0,207,255,.42),0 0 48px rgba(109,40,217,.18)}
+@keyframes crestPulse{0%,100%{transform:scale(1);filter:drop-shadow(0 0 10px rgba(0,207,255,.28))}50%{transform:scale(1.04);filter:drop-shadow(0 0 18px rgba(217,164,65,.30)) drop-shadow(0 0 22px rgba(109,40,217,.16))}}
+.crest-egg{width:42px;height:42px;border-radius:999px;border:1px solid rgba(217,164,65,.34);background:rgba(7,9,12,.36);box-shadow:0 0 22px rgba(0,207,255,.16),0 0 36px rgba(217,164,65,.10),inset 0 1px 0 rgba(255,255,255,.08);cursor:pointer;display:grid;place-items:center;padding:5px;animation:crestPulse 5.5s ease-in-out infinite;}
+.crest-egg img{width:100%;height:100%;object-fit:contain;display:block;}
+.crest-egg:hover{filter:brightness(1.18);box-shadow:0 0 28px rgba(0,207,255,.26),0 0 44px rgba(217,164,65,.18)}
 .ron-saying-pop{position:fixed;top:72px;right:22px;z-index:1200;width:min(320px,calc(100vw - 28px));padding:14px 15px;border-radius:18px;border:1px solid rgba(0,207,255,.38);background:linear-gradient(180deg,rgba(15,20,28,.98),rgba(7,9,12,.98));color:#FDE68A;box-shadow:0 0 34px rgba(0,207,255,.20),0 18px 60px rgba(0,0,0,.40);font-size:13px;line-height:1.45;display:none;}
 .ron-saying-pop.open{display:block;animation:popIn .16s ease-out}@keyframes popIn{from{opacity:0;transform:translateY(-6px) scale(.98)}to{opacity:1;transform:none}}
 .ron-saying-pop strong{display:block;color:#D7F9FF;margin-bottom:4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;}
@@ -237,7 +238,7 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
     </div>
   </div>
   <div class="header-right">
-    <button type="button" class="moon-egg" id="ronMoonEgg" aria-label="Ron daily saying">🌙</button>
+    <button type="button" class="crest-egg" id="ronMoonEgg" aria-label="Mission Control transmission from Ron"><img src="assets/launchpad-crest.png" alt="" /></button>
     <a href="https://heyron.ai/account" class="header-icon">👤</a>
   </div>
 </div>
@@ -494,7 +495,7 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 
 
 
-<div class="ron-saying-pop" id="ronSayingPop" role="status" aria-live="polite"><strong>Ron Moon Transmission</strong><span id="ronSayingText"></span></div>
+<div class="ron-saying-pop" id="ronSayingPop" role="status" aria-live="polite"><strong>Mission Control transmission from Ron</strong><span id="ronSayingText"></span></div>
 
 <script>
 
