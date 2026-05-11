@@ -71,6 +71,19 @@ Final preview commit: `c6dd61a`
 - `assets/support/robby-cassie-support-hero.png`
   - Support page hero artwork with Robby/Cassie command center framing.
 
+
+## Crew image usage note
+
+Cassie clarified that the existing crew images are now available as the clean reference/example source for future style examples. If Robby wants character examples in onboarding, use the approved crew/card imagery as the source of truth instead of generating random replacement faces.
+
+Recommended approach:
+
+- Use the existing crew images for example/reference cards.
+- Keep working-style labels behavior-first.
+- If adding character examples, render names/text in HTML/CSS when possible so the UI stays responsive.
+- Avoid face overlays that cover labels or make the art feel uncanny.
+- If new character crops are needed, crop cleanly from the approved crew art and QA at mobile size before shipping.
+
 ## Product/UX decisions preserved
 
 - This repo is the separate preview lane: `robbybuilds/mockheyron-logo-preview`.
