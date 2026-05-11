@@ -90,6 +90,22 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .footer-links a{color:var(--text-muted);text-decoration:none;font-size:12px;}
 .footer-links a:hover{color:var(--accent);}
 @media(max-width:700px){.site-footer{justify-content:center;text-align:center}.footer-brand{justify-content:center}.footer-links{justify-content:center}}
+.footer-secret{border:1px solid rgba(220,38,38,.22);border-radius:999px;padding:5px 9px!important;color:rgba(245,240,232,.58)!important;background:rgba(220,38,38,.05);}
+.footer-secret:hover{color:#fecaca!important;border-color:rgba(220,38,38,.42);box-shadow:0 0 16px rgba(220,38,38,.10);}
+.mod-modal{position:fixed;inset:0;z-index:999;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(3,5,8,.72);backdrop-filter:blur(10px);}
+.mod-modal.open{display:flex;}
+.mod-card{width:min(860px,100%);display:grid;grid-template-columns:minmax(220px,42%) 1fr;gap:22px;align-items:center;padding:22px;border-radius:26px;background:linear-gradient(180deg,rgba(15,20,28,.96),rgba(7,9,12,.98));border:1px solid rgba(220,38,38,.48);box-shadow:0 0 42px rgba(220,38,38,.18),0 0 70px rgba(34,211,238,.08),inset 0 1px 0 rgba(255,255,255,.05);}
+.mod-art{width:100%;border-radius:20px;border:1px solid rgba(220,38,38,.24);box-shadow:0 0 26px rgba(220,38,38,.12);object-fit:cover;}
+.mod-copy h2{font-size:24px;margin:0 0 8px;color:#F5F0E8;}
+.mod-copy p{font-size:13px;color:var(--text-muted);line-height:1.55;margin:0 0 16px;}
+.mod-field{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.mod-field input{flex:1;min-width:190px;padding:12px 13px;border-radius:12px;border:1px solid rgba(220,38,38,.34);background:rgba(7,9,12,.78);color:var(--text-primary);outline:none;}
+.mod-field input:focus{border-color:rgba(220,38,38,.66);box-shadow:0 0 0 3px rgba(220,38,38,.12);}
+.mod-access{padding:12px 15px;border-radius:12px;border:1px solid rgba(220,38,38,.55);background:linear-gradient(135deg,rgba(220,38,38,.28),rgba(7,9,12,.72));color:#fee2e2;font-weight:700;cursor:pointer;}
+.mod-cancel{margin-top:12px;background:transparent;border:0;color:var(--text-muted);cursor:pointer;font-size:12px;}
+.mod-error{min-height:18px;margin-top:10px!important;color:#fca5a5!important;font-size:12px!important;}
+@media(max-width:720px){.mod-card{grid-template-columns:1fr}.mod-art{max-height:320px}.mod-copy h2{font-size:21px}}
+
 /* Animation section */
 .space-scene{position:relative;width:100%;height:230px;margin-bottom:24px;overflow:hidden;border-radius:20px;background:var(--bg-page);border:1px solid rgba(34,211,238,.18);box-shadow:0 0 34px rgba(34,211,238,.08), inset 0 1px 0 rgba(255,255,255,.04);}
 .space-bg{position:absolute;width:100%;height:100%;object-fit:cover;opacity:0.68;}
@@ -226,8 +242,48 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
       <a href="support.html">Support</a>
       <a href="https://discord.gg/heyron">Discord</a>
       <a href="https://www.thedenheyron.com/">Socials</a>
+      <button type="button" class="footer-secret" id="modGateOpen" aria-label="Open moderator gate">🗑️</button>
     </nav>
   </footer>
 </div>
+
+<div class="mod-modal" id="modGate" role="dialog" aria-modal="true" aria-labelledby="modGateTitle">
+  <div class="mod-card">
+    <img src="assets/trashcan-ron-mod.png" alt="Trashcan Ron moderator gate" class="mod-art" />
+    <div class="mod-copy">
+      <h2 id="modGateTitle">Dumpster Fire Module</h2>
+      <p>Moderator tools are tucked behind the trashcan. Prototype gate only, real access would need server-side auth.</p>
+      <div class="mod-field">
+        <input id="modPassword" type="password" placeholder="Enter mod password" autocomplete="off" />
+        <button class="mod-access" id="modAccess" type="button">Access Module</button>
+      </div>
+      <p class="mod-error" id="modError"></p>
+      <button class="mod-cancel" id="modCancel" type="button">Cancel</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const open = document.getElementById('modGateOpen');
+  const modal = document.getElementById('modGate');
+  const input = document.getElementById('modPassword');
+  const access = document.getElementById('modAccess');
+  const cancel = document.getElementById('modCancel');
+  const error = document.getElementById('modError');
+  const demoPassword = 'trashpanda';
+  function show(){ modal.classList.add('open'); error.textContent=''; input.value=''; setTimeout(()=>input.focus(), 30); }
+  function hide(){ modal.classList.remove('open'); }
+  function check(){
+    if(input.value.trim().toLowerCase() === demoPassword){ window.location.href = 'mod.html'; }
+    else { error.textContent = 'Nope. Trashcan Ron denies this mess.'; input.select(); }
+  }
+  open && open.addEventListener('click', show);
+  cancel && cancel.addEventListener('click', hide);
+  access && access.addEventListener('click', check);
+  input && input.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') check(); if(e.key === 'Escape') hide(); });
+  modal && modal.addEventListener('click', (e)=>{ if(e.target === modal) hide(); });
+})();
+</script>
+
 </body>
 </html>
