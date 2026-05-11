@@ -95,15 +95,29 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .footer-symbol:hover{transform:translateY(-1px);border-color:rgba(125,225,255,.58);box-shadow:0 0 22px rgba(82,201,255,.18),inset 0 1px 0 rgba(255,255,255,.08);}
 .footer-symbol.trash{border-color:rgba(220,38,38,.28);color:#fecaca;background:rgba(220,38,38,.05);}
 .footer-symbol.trash:hover{border-color:rgba(220,38,38,.48);box-shadow:0 0 20px rgba(220,38,38,.14),inset 0 1px 0 rgba(255,255,255,.06);}
-.clippy-modal{position:fixed;inset:0;z-index:998;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(3,5,8,.66);backdrop-filter:blur(10px);}
-.clippy-modal.open{display:flex;}
-.clippy-card{width:min(520px,100%);padding:22px;border-radius:24px;background:linear-gradient(180deg,rgba(15,20,28,.96),rgba(7,9,12,.98));border:1px solid rgba(125,225,255,.42);box-shadow:0 0 42px rgba(82,201,255,.18),inset 0 1px 0 rgba(255,255,255,.05);}
-.clippy-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
-.clippy-orb{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(125,225,255,.45);box-shadow:0 0 22px rgba(82,201,255,.18);font-size:24px;}
-.clippy-card h2{font-size:22px;margin:0;}.clippy-card p{color:var(--text-muted);font-size:13px;line-height:1.55;margin:8px 0 14px;}
-.clippy-actions{display:flex;gap:10px;flex-wrap:wrap}.clippy-actions a,.clippy-actions button{border-radius:12px;padding:10px 12px;border:1px solid rgba(125,225,255,.35);background:rgba(7,9,12,.50);color:#D7F9FF;text-decoration:none;cursor:pointer;font-size:12px;}
-.clippy-actions .primary{border-color:rgba(217,164,65,.55);color:#FFF4D6;background:linear-gradient(135deg,rgba(217,164,65,.18),rgba(7,9,12,.58));}
 
+.clippy-widget{position:fixed;right:22px;bottom:92px;z-index:998;width:min(390px,calc(100vw - 28px));background:linear-gradient(180deg,rgba(15,20,28,.98),rgba(7,9,12,.99));border:1px solid rgba(125,225,255,.54);border-radius:28px 28px 8px 28px;box-shadow:0 0 42px rgba(82,201,255,.20),0 18px 70px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.06);display:none;overflow:hidden;}
+.clippy-widget.open{display:block;animation:clippyIn .18s ease-out;}
+@keyframes clippyIn{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+.clippy-widget::after{content:'';position:absolute;right:38px;bottom:-15px;width:28px;height:28px;background:rgba(7,9,12,.99);border-right:1px solid rgba(125,225,255,.54);border-bottom:1px solid rgba(125,225,255,.54);transform:rotate(45deg);}
+.clippy-header{display:flex;align-items:flex-start;gap:12px;padding:20px 22px 12px;}
+.clippy-avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:rgba(125,225,255,.10);border:1px solid rgba(125,225,255,.42);box-shadow:0 0 22px rgba(82,201,255,.14);font-size:24px;flex:0 0 auto;}
+.clippy-title{flex:1;}.clippy-title h2{font-size:22px;line-height:1.1;margin:0 0 8px;color:#F5F0E8;}.clippy-title p{font-size:15px;line-height:1.55;color:#9BAAC4;margin:0;}
+.clippy-close{background:transparent;border:0;color:#8B949E;font-size:24px;line-height:1;cursor:pointer;padding:0;margin-left:4px;}
+.clippy-body{padding:0 22px 18px;}
+.clippy-login{display:flex;gap:8px;margin:12px 0 10px;}
+.clippy-login input{flex:1;min-width:0;padding:11px 12px;border-radius:14px;border:1px solid rgba(125,225,255,.28);background:rgba(7,9,12,.70);color:#E6EDF3;outline:none;}
+.clippy-login input:focus{border-color:rgba(125,225,255,.62);box-shadow:0 0 0 3px rgba(82,201,255,.10);}
+.clippy-login button,.clippy-send button{padding:11px 13px;border-radius:14px;border:1px solid rgba(125,225,255,.45);background:rgba(84,110,143,.82);color:#F5F0E8;font-weight:700;cursor:pointer;}
+.clippy-status{font-size:12px;color:#7dd3fc;margin:0 0 12px;}
+.clippy-messages{max-height:250px;overflow:auto;display:flex;flex-direction:column;gap:8px;margin:10px 0 12px;padding-right:4px;}
+.clippy-bubble{font-size:13px;line-height:1.45;padding:9px 11px;border-radius:14px;max-width:88%;}
+.clippy-bubble.bot{align-self:flex-start;background:rgba(22,27,35,.96);color:#E6EDF3;border-bottom-left-radius:5px;}
+.clippy-bubble.user{align-self:flex-end;background:#22D3EE;color:#071018;border-bottom-right-radius:5px;}
+.clippy-quick{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px;}
+.clippy-quick button{font-size:12px;color:#D7F9FF;background:rgba(7,9,12,.45);border:1px solid rgba(125,225,255,.26);border-radius:999px;padding:7px 10px;cursor:pointer;}
+.clippy-send{display:flex;gap:8px;}.clippy-send input{flex:1;min-width:0;padding:10px 11px;border-radius:14px;border:1px solid rgba(125,225,255,.24);background:rgba(7,9,12,.70);color:#E6EDF3;outline:none;}
+@media(max-width:700px){.clippy-widget{right:14px;bottom:86px}.clippy-title h2{font-size:20px}.clippy-title p{font-size:14px}}
 .footer-secret{border:1px solid rgba(220,38,38,.22);border-radius:999px;padding:5px 9px!important;color:rgba(245,240,232,.58)!important;background:rgba(220,38,38,.05);}
 .footer-secret:hover{color:#fecaca!important;border-color:rgba(220,38,38,.42);box-shadow:0 0 16px rgba(220,38,38,.10);}
 .mod-modal{position:fixed;inset:0;z-index:999;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(3,5,8,.72);backdrop-filter:blur(10px);}
@@ -258,14 +272,31 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 </div>
 
 
-<div class="clippy-modal" id="clippyGate" role="dialog" aria-modal="true" aria-labelledby="clippyTitle">
-  <div class="clippy-card">
-    <div class="clippy-head"><div class="clippy-orb">🚀</div><div><h2 id="clippyTitle">Clippy Ron</h2><p style="margin:2px 0 0">Tiny ship. Big help.</p></div></div>
-    <p>Clippy Ron is the lightweight helper lane: quick links, guidance, and “where do I go next?” energy without opening the full Launchpad.</p>
-    <div class="clippy-actions">
-      <a class="primary" href="hello-screen.html">Open Launchpad</a>
-      <a href="https://heyron-ai.github.io/agent-library/tutorials/index.html">Ron Academy</a>
-      <button type="button" id="clippyClose">Close</button>
+<div class="clippy-widget" id="clippyGate" role="dialog" aria-modal="false" aria-labelledby="clippyTitle">
+  <div class="clippy-header">
+    <div class="clippy-avatar">🦝</div>
+    <div class="clippy-title">
+      <h2 id="clippyTitle">Hey, I'm Ron.</h2>
+      <p id="clippyIntro">I watch over your dashboard. Give me your email so I can act like I know which container is yours.</p>
+    </div>
+    <button class="clippy-close" id="clippyClose" type="button" aria-label="Close Clippy Ron">×</button>
+  </div>
+  <div class="clippy-body">
+    <div class="clippy-login" id="clippyLogin">
+      <input id="clippyEmail" type="email" placeholder="you@example.com" autocomplete="email" />
+      <button id="clippyLoginBtn" type="button">Link</button>
+    </div>
+    <p class="clippy-status" id="clippyStatus">Prototype only. Real version should use signed-in account context.</p>
+    <div class="clippy-messages" id="clippyMessages"></div>
+    <div class="clippy-quick" id="clippyQuick">
+      <button data-text="What can you help me with?">What can you do?</button>
+      <button data-text="Check my container status">Container status</button>
+      <button data-text="Open support">Open support</button>
+      <button data-text="Show me Launchpad">Launchpad</button>
+    </div>
+    <div class="clippy-send">
+      <input id="clippyInput" type="text" placeholder="Ask Clippy Ron…" />
+      <button id="clippySend" type="button">Send</button>
     </div>
   </div>
 </div>
@@ -291,11 +322,38 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
   const open = document.getElementById('clippyOpen');
   const modal = document.getElementById('clippyGate');
   const close = document.getElementById('clippyClose');
-  function show(){ modal && modal.classList.add('open'); }
+  const login = document.getElementById('clippyLogin');
+  const email = document.getElementById('clippyEmail');
+  const loginBtn = document.getElementById('clippyLoginBtn');
+  const status = document.getElementById('clippyStatus');
+  const messages = document.getElementById('clippyMessages');
+  const input = document.getElementById('clippyInput');
+  const sendBtn = document.getElementById('clippySend');
+  const quick = document.getElementById('clippyQuick');
+  let linkedEmail = localStorage.getItem('heyronPreviewEmail') || '';
+  function show(){ modal && modal.classList.add('open'); if(!linkedEmail && email) setTimeout(()=>email.focus(), 40); }
   function hide(){ modal && modal.classList.remove('open'); }
+  function add(from, text){ if(!messages) return; const b=document.createElement('div'); b.className='clippy-bubble '+from; b.textContent=text; messages.appendChild(b); messages.scrollTop=messages.scrollHeight; }
+  function link(){ linkedEmail=(email && email.value.trim()) || 'cassie@heyron.ai'; localStorage.setItem('heyronPreviewEmail', linkedEmail); if(login) login.style.display='none'; if(status) status.textContent='Linked to '+linkedEmail+' · demo container c8-0201 · Ron online'; add('bot', "Got it. In production I would use the signed-in session, pull container status, logs, tickets, billing state, and Launchpad progress."); }
+  function reply(text){
+    add('user', text);
+    const t=text.toLowerCase();
+    setTimeout(()=>{
+      if(t.includes('container') || t.includes('status')) add('bot','Container looks healthy in this demo: agent online, dashboard linked, support routes ready. Real version would call the logged-in user profile/container API.');
+      else if(t.includes('support')) add('bot','Support lives in the dashboard and ticket flow. I can prefill a ticket with your email and container snapshot.');
+      else if(t.includes('launchpad')) add('bot','Launchpad is the setup flow. I can send you there, explain each step, or help you remix a starter.');
+      else add('bot','I can answer dashboard questions, explain Launchpad, point you to Ron Academy, help open tickets, and eventually pull logs/restart/check integrations when auth is wired.');
+    }, 380);
+  }
+  if(linkedEmail){ if(login) login.style.display='none'; if(status) status.textContent='Linked to '+linkedEmail+' · demo container c8-0201 · Ron online'; }
+  add('bot', linkedEmail ? 'Welcome back. I have your demo dashboard context open.' : "Hey. Link an email and I’ll act like dashboard Clippy Ron for this prototype.");
   open && open.addEventListener('click', show);
   close && close.addEventListener('click', hide);
-  modal && modal.addEventListener('click', (e)=>{ if(e.target === modal) hide(); });
+  loginBtn && loginBtn.addEventListener('click', link);
+  email && email.addEventListener('keydown', e=>{ if(e.key==='Enter') link(); });
+  sendBtn && sendBtn.addEventListener('click', ()=>{ const v=input.value.trim(); if(v){ input.value=''; reply(v); } });
+  input && input.addEventListener('keydown', e=>{ if(e.key==='Enter'){ const v=input.value.trim(); if(v){ input.value=''; reply(v); } } });
+  quick && quick.addEventListener('click', e=>{ const btn=e.target.closest('button'); if(btn) reply(btn.dataset.text || btn.textContent); });
   document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') hide(); });
 })();
 
