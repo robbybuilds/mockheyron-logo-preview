@@ -649,6 +649,11 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .clippy-support{background:linear-gradient(135deg,rgba(7,89,133,.12),rgba(15,20,28,.97))!important;}
 .sw-panel{background:linear-gradient(180deg,rgba(10,16,26,.99),rgba(5,7,11,.99))!important;}
 @media (prefers-reduced-motion: reduce){.hero::before,.support-hero-banner::before,.card::before,.button::before,.clippy-open::before,.faq-panel::before,.sw-panel::before{animation:none!important;}}
+.billing-modal{position:fixed;inset:0;z-index:1002;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(3,5,8,.72);backdrop-filter:blur(10px);}
+.billing-modal.open{display:flex;}
+.billing-card{width:min(760px,100%);max-height:86vh;overflow:auto;border-radius:24px;padding:22px;background:linear-gradient(180deg,rgba(15,20,28,.99),rgba(7,9,12,.99));border:1px solid rgba(146,64,14,.46);box-shadow:0 0 42px rgba(146,64,14,.18),0 0 52px rgba(7,89,133,.10),inset 0 1px 0 rgba(255,255,255,.06);}
+.billing-card h2{font-size:25px;margin:0 0 6px;}.billing-card p{font-size:13px;color:var(--text-muted);line-height:1.55;margin:0 0 14px;}.billing-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0;}.billing-action{padding:13px;border-radius:16px;border:1px solid rgba(125,225,255,.18);background:rgba(7,9,12,.46);}.billing-action strong{display:block;color:#F8FAFC;margin-bottom:4px}.billing-action span{display:block;color:#9BAAC4;font-size:12px;line-height:1.4}.billing-policy{border:1px solid rgba(253,224,71,.24);background:rgba(253,224,71,.07);border-radius:16px;padding:12px;color:#FDE68A;font-size:12px;line-height:1.5;margin:12px 0;}.billing-form{display:grid;gap:9px;margin-top:12px}.billing-form input,.billing-form select,.billing-form textarea{width:100%;border:1px solid rgba(125,225,255,.24);border-radius:13px;background:rgba(5,7,11,.72);color:var(--text-primary);padding:10px;outline:none}.billing-form textarea{min-height:86px;resize:vertical}.billing-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.billing-buttons button,.billing-buttons a{border:1px solid rgba(125,225,255,.35);border-radius:999px;background:rgba(7,9,12,.52);color:#D7F9FF;padding:10px 14px;cursor:pointer;text-decoration:none;font-size:13px}.billing-buttons .primary{border-color:rgba(251,146,60,.50);background:linear-gradient(135deg,rgba(146,64,14,.30),rgba(7,9,12,.62));color:#FED7AA}@media(max-width:720px){.billing-grid{grid-template-columns:1fr}}
+
 
 /* MOBILE */
 @media (max-width: 600px) {
@@ -731,16 +736,25 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 
  <div class="card">
   <div>
-   <img src="assets/ron-cinematic-astronaut-transparent.png" alt="Clippy Ron" class="clippy-ron-img">
+   <img src="assets/support/clippy-ron-support-helper.png" alt="Clippy Ron" class="clippy-ron-img">
    <h3>Ask Clippy Ron</h3>
    <p>Ron can triage what you need and tell you whether to use docs, Discord, or a ticket.</p>
   </div>
   <button type="button" class="button clippy-open" id="supportClippyOpen">Ask Ron</button>
  </div>
+
+ <div class="card featured">
+  <div>
+   <img src="assets/ticket.svg" alt="Billing">
+   <h3>Billing Center</h3>
+   <p>Cancel, request a refund, change email, update card, or ask a billing question in one supervised ticket flow.</p>
+  </div>
+  <button type="button" class="button" id="billingOpen">Open Billing</button>
+ </div>
 </div>
 
 <div class="clippy-support">
- <img src="assets/ron-cinematic-astronaut-transparent.png" alt="Ron" class="clippy-ron-img">
+ <img src="assets/support/clippy-ron-support-helper.png" alt="Ron" class="clippy-ron-img">
  <div>
   <h3>Ron is overseeing support.</h3>
   <p>Commander Robby and Captain Cassie are the human crew. Ron keeps the board organized, points users to the right lane, and tries not to eat the ticket queue.</p>
@@ -758,8 +772,35 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
  <details class="faq-item"><summary>Should I ask Discord or support?</summary><div>Use Discord for general questions and community ideas. Use tickets for private account-specific problems.</div></details>
 </div>
 
+
+<div class="billing-modal" id="billingModal" role="dialog" aria-modal="true" aria-labelledby="billingTitle">
+ <div class="billing-card">
+  <h2 id="billingTitle">Billing Center</h2>
+  <p>One place for annoying account/billing stuff. These requests should still create a ticket so Robby/Cassie have oversight and a paper trail.</p>
+  <div class="billing-grid">
+   <div class="billing-action"><strong>Cancel subscription</strong><span>Request cancellation and include timing/context so the team can confirm the account cleanly.</span></div>
+   <div class="billing-action"><strong>Request refund</strong><span>Refunds are reviewed. Not guaranteed after three days of active use from purchase time.</span></div>
+   <div class="billing-action"><strong>Change email</strong><span>Ask support to update the account email safely.</span></div>
+   <div class="billing-action"><strong>Change card</strong><span>Get routed to the secure billing update path, not handled in chat.</span></div>
+  </div>
+  <div class="billing-policy"><strong>Refund policy note:</strong> You can request a refund here, but approval is not guaranteed after three days of active use from the time of purchase. A human will review the ticket.</div>
+  <form class="billing-form" id="billingForm">
+   <select id="billingType" aria-label="Billing request type">
+    <option>Cancel subscription</option>
+    <option>Request refund</option>
+    <option>Change account email</option>
+    <option>Change payment card</option>
+    <option>Other billing question</option>
+   </select>
+   <input id="billingEmail" type="email" placeholder="Account email" />
+   <textarea id="billingDetails" placeholder="Add details for the human support ticket…"></textarea>
+   <div class="billing-buttons"><button class="primary" type="submit">Create Billing Ticket</button><button type="button" id="billingClose">Close</button></div>
+  </form>
+ </div>
+</div>
+
 <div class="sw-panel" id="supportClippy" role="dialog" aria-modal="false" aria-labelledby="supportClippyTitle">
- <div class="sw-header"><img src="assets/ron-cinematic-astronaut-transparent.png" alt="Ron" class="clippy-ron-img"><div><strong id="supportClippyTitle">Clippy Ron</strong><span>Support triage raccoon</span></div><button class="sw-close" id="supportClippyClose" type="button">×</button></div>
+ <div class="sw-header"><img src="assets/support/clippy-ron-support-helper.png" alt="Ron" class="clippy-ron-img"><div><strong id="supportClippyTitle">Clippy Ron</strong><span>Support triage raccoon</span></div><button class="sw-close" id="supportClippyClose" type="button">×</button></div>
  <div class="sw-body">
   <div class="sw-msg" id="supportClippyMsg">Tell me what’s going on. I’ll help you pick: quick answer, Discord, or ticket.</div>
   <div class="sw-quick">
@@ -772,6 +813,21 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 </div>
 
 <script>
+
+(function(){
+ const modal=document.getElementById('billingModal');
+ const open=document.getElementById('billingOpen');
+ const close=document.getElementById('billingClose');
+ const form=document.getElementById('billingForm');
+ function show(){modal&&modal.classList.add('open');}
+ function hide(){modal&&modal.classList.remove('open');}
+ open&&open.addEventListener('click',show);
+ close&&close.addEventListener('click',hide);
+ modal&&modal.addEventListener('click',e=>{if(e.target===modal)hide();});
+ form&&form.addEventListener('submit',e=>{e.preventDefault(); alert('Billing ticket draft created for human oversight. Real hookup should create a support ticket with this request.'); hide();});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')hide();});
+})();
+
 (function(){
  const panel=document.getElementById('supportClippy');
  const msg=document.getElementById('supportClippyMsg');
