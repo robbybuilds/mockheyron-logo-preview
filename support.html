@@ -24,7 +24,7 @@
 
 /* LAYOUT */
 body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'DM Sans',sans-serif;}
-.app-shell{position:relative;z-index:1;width:100%;max-width:1100px;min-width:320px;margin:0 auto;padding:0 12px;padding-bottom:80px;}
+.app-shell{position:relative;z-index:1;width:100%;max-width:1100px;min-width:320px;margin:0 auto;padding:0 12px;padding-bottom:34px;}
 .support-hero-banner{position:relative;margin-bottom:24px;border-radius:24px;overflow:hidden;min-height:520px;border:1px solid rgba(125,225,255,.28);background:#05070B;box-shadow:0 24px 70px rgba(0,0,0,.38),0 0 54px rgba(34,211,238,.10);} .support-hero-banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;display:block;background:#05070B;} .support-hero-banner::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(5,7,11,.18),transparent 38%);pointer-events:none;}
 
 /* HEADER */
@@ -613,28 +613,6 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
  color: var(--accent);
 }
 
-/* FOOTER NAV */
-.footer-nav {
- position: fixed;
- bottom: 0;
- width: 100%;
- background: #0a0f14;
- border-top: 1px solid var(--border-muted);
- display: flex;
- justify-content: space-around;
- padding: 10px 0;
- z-index: 100;
-}
-
-.footer-nav a {
- color: var(--text-muted);
- text-decoration: none;
- font-size: 12px;
-}
-
-.footer-nav a:hover {
- color: var(--accent);
-}
 
 
 .command-copy{margin-bottom:16px;padding:18px 20px;border-radius:18px;background:rgba(7,9,12,.46);border:1px solid rgba(125,225,255,.18);color:var(--text-muted);font-size:14px;line-height:1.6;text-align:center;}
@@ -658,6 +636,10 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .billing-card{width:min(760px,100%);max-height:86vh;overflow:auto;border-radius:24px;padding:22px;background:linear-gradient(180deg,rgba(15,20,28,.99),rgba(7,9,12,.99));border:1px solid rgba(146,64,14,.46);box-shadow:0 0 42px rgba(146,64,14,.18),0 0 52px rgba(7,89,133,.10),inset 0 1px 0 rgba(255,255,255,.06);}
 .billing-card h2{font-size:25px;margin:0 0 6px;}.billing-card p{font-size:13px;color:var(--text-muted);line-height:1.55;margin:0 0 14px;}.billing-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0;}.billing-action{padding:13px;border-radius:16px;border:1px solid rgba(125,225,255,.18);background:rgba(7,9,12,.46);}.billing-action strong{display:block;color:#F8FAFC;margin-bottom:4px}.billing-action span{display:block;color:#9BAAC4;font-size:12px;line-height:1.4}.billing-policy{border:1px solid rgba(253,224,71,.24);background:rgba(253,224,71,.07);border-radius:16px;padding:12px;color:#FDE68A;font-size:12px;line-height:1.5;margin:12px 0;}.billing-form{display:grid;gap:9px;margin-top:12px}.billing-form input,.billing-form select,.billing-form textarea{width:100%;border:1px solid rgba(125,225,255,.24);border-radius:13px;background:rgba(5,7,11,.72);color:var(--text-primary);padding:10px;outline:none}.billing-form textarea{min-height:86px;resize:vertical}.billing-buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.billing-buttons button,.billing-buttons a{border:1px solid rgba(125,225,255,.35);border-radius:999px;background:rgba(7,9,12,.52);color:#D7F9FF;padding:10px 14px;cursor:pointer;text-decoration:none;font-size:13px}.billing-buttons .primary{border-color:rgba(251,146,60,.50);background:linear-gradient(135deg,rgba(146,64,14,.30),rgba(7,9,12,.62));color:#FED7AA}@media(max-width:720px){.billing-grid{grid-template-columns:1fr}}
 
+
+
+.ted-panel{margin:24px 0;border:1px solid rgba(125,225,255,.20);border-radius:20px;background:linear-gradient(180deg,rgba(15,20,28,.96),rgba(7,9,12,.96));padding:18px;box-shadow:0 0 32px rgba(7,89,133,.10)}
+.ted-panel h2{font-size:21px;margin:0 0 6px;color:#D7F9FF}.ted-panel p{color:var(--text-muted);font-size:13px;line-height:1.55;margin:0 0 12px}.ted-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}.ted-card{border:1px solid rgba(125,225,255,.16);border-radius:16px;padding:12px;background:rgba(7,9,12,.42)}.ted-card strong{display:block;color:#F8FAFC;margin-bottom:4px}.ted-card span{display:block;color:#9BAAC4;font-size:12px;line-height:1.4}.ted-form{display:grid;gap:9px;margin-top:12px}.ted-form input,.ted-form textarea{width:100%;border:1px solid rgba(125,225,255,.24);border-radius:13px;background:rgba(5,7,11,.72);color:var(--text-primary);padding:10px;outline:none}.ted-form textarea{min-height:82px;resize:vertical}.ted-form button{justify-self:start;border:1px solid rgba(125,225,255,.35);border-radius:999px;background:rgba(7,9,12,.52);color:#D7F9FF;padding:10px 14px;cursor:pointer}@media(max-width:720px){.ted-grid{grid-template-columns:1fr}}
 
 /* MOBILE */
 @media (max-width: 600px) {
@@ -760,38 +742,32 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 <!-- FAQ -->
 <div class="faq-panel" id="faq">
  <h2>Quick answers</h2>
- <p>For small things that should not require a whole ticket.</p>
- <details class="faq-item"><summary>My agent is not responding. What should I try first?</summary><div>Refresh the dashboard, check whether your channel is connected, then ask Clippy Ron to help decide if this needs a ticket.</div></details>
- <details class="faq-item"><summary>Where do I set up my agent?</summary><div>Start in Launchpad. It walks you through name, agent name, first mission, tools, and guardrails.</div></details>
- <details class="faq-item"><summary>When should I make a ticket?</summary><div>If it involves billing, account access, broken container behavior, lost setup, or something private, make a ticket so Robby and Cassie can see the details.</div></details>
- <details class="faq-item"><summary>Should I ask Discord or support?</summary><div>Use Discord for general questions and community ideas. Use tickets for private account-specific problems.</div></details>
+ <p>For small things that should not require a whole ticket. If your issue is private/account-specific, use tickets instead of DMs.</p>
+ <details class="faq-item"><summary>Do you answer DMs for support?</summary><div>No. DMs get flooded and are easy to lose. Please make a ticket so the humans can track it properly.</div></details>
+ <details class="faq-item"><summary>How long should I wait for ticket review?</summary><div>Please give support tickets up to 48 hours to be reviewed. If something is urgent, include that clearly in the ticket title and details.</div></details>
+ <details class="faq-item"><summary>When should I make a ticket?</summary><div>Make a ticket for billing, refunds, account access, broken containers, private information, channel connection problems, or anything you would not want in public Discord.</div></details>
+ <details class="faq-item"><summary>When should I ask Discord?</summary><div>Use Discord for general learning, ideas, prompts, examples, community questions, and “how would you build this?” conversations.</div></details>
+ <details class="faq-item"><summary>My agent is not responding. What should I try first?</summary><div>Refresh the dashboard, check the connected channel, and try one clean test message. If it still fails, make a ticket with screenshots and what you tried.</div></details>
+ <details class="faq-item"><summary>Where do I set up my agent?</summary><div>Start in Launchpad. It walks you through your name, agent name, first mission, tools, and guardrails.</div></details>
+ <details class="faq-item"><summary>How do refunds work?</summary><div>You can request a refund in Billing Center. Refunds are reviewed by humans and are not guaranteed after three days of active use from purchase time.</div></details>
+ <details class="faq-item"><summary>Can I change my email or card?</summary><div>Yes. Use Billing Center so the request becomes a supervised ticket with the right details.</div></details>
+ <details class="faq-item"><summary>What should I include in a ticket?</summary><div>Your account email, agent/container name if you know it, screenshots, what you expected, what happened, and the exact channel/tool involved.</div></details>
+ <details class="faq-item"><summary>Who is watching support?</summary><div>The Heyron Command Center: Commander Robby and Captain Cassie help with human review, and Ron keeps the board organized.</div></details>
 </div>
 
-
-<div class="billing-modal" id="billingModal" role="dialog" aria-modal="true" aria-labelledby="billingTitle">
- <div class="billing-card">
-  <h2 id="billingTitle">Billing Center</h2>
-  <p>One place for annoying account/billing stuff. These requests should still create a ticket so Robby/Cassie have oversight and a paper trail.</p>
-  <div class="billing-grid">
-   <div class="billing-action"><strong>Cancel subscription</strong><span>Request cancellation and include timing/context so the team can confirm the account cleanly.</span></div>
-   <div class="billing-action"><strong>Request refund</strong><span>Refunds are reviewed. Not guaranteed after three days of active use from purchase time.</span></div>
-   <div class="billing-action"><strong>Change email</strong><span>Ask support to update the account email safely.</span></div>
-   <div class="billing-action"><strong>Change card</strong><span>Get routed to the secure billing update path, not handled in chat.</span></div>
-  </div>
-  <div class="billing-policy"><strong>Refund policy note:</strong> You can request a refund here, but approval is not guaranteed after three days of active use from the time of purchase. A human will review the ticket.</div>
-  <form class="billing-form" id="billingForm">
-   <select id="billingType" aria-label="Billing request type">
-    <option>Cancel subscription</option>
-    <option>Request refund</option>
-    <option>Change account email</option>
-    <option>Change payment card</option>
-    <option>Other billing question</option>
-   </select>
-   <input id="billingEmail" type="email" placeholder="Account email" />
-   <textarea id="billingDetails" placeholder="Add details for the human support ticket…"></textarea>
-   <div class="billing-buttons"><button class="primary" type="submit">Create Billing Ticket</button><button type="button" id="billingClose">Close</button></div>
-  </form>
+<div class="ted-panel" id="ted-talks">
+ <h2>TED Talks at The Den</h2>
+ <p>We do community talks twice a week so questions and showcases do not get lost in chat.</p>
+ <div class="ted-grid">
+  <div class="ted-card"><strong>Wednesday</strong><span>Weekly Den art showcase. We talk about featured community art and what people are making.</span></div>
+  <div class="ted-card"><strong>Saturday</strong><span>Announcements, community questions, and live Q&A.</span></div>
  </div>
+ <form class="ted-form" id="tedQuestionForm">
+  <input type="text" placeholder="Your name or Discord handle" />
+  <input type="text" placeholder="Question topic" />
+  <textarea placeholder="Submit a TED Talk question so we can compile the list in advance…"></textarea>
+  <button type="submit">Submit Question</button>
+ </form>
 </div>
 
 <div class="sw-panel" id="supportClippy" role="dialog" aria-modal="false" aria-labelledby="supportClippyTitle">
@@ -837,13 +813,6 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 })();
 </script>
 </div>
-
-<!-- FOOTER NAV -->
-<nav class="footer-nav">
- <a href="https://heyron.ai/chat">💬 Chat</a>
- <a href="https://heyron.ai/support">🎧 Support</a>
- <a href="https://discord.com">🧠 Discord</a>
-</nav>
 
 </body>
 </html>
