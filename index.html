@@ -668,10 +668,12 @@ const SAFE_HOOKS = {
   }
 })();
 
-const HEYRON_DEMO_CONTAINER_LOOKUP = {
-  // Demo-only allowlist. Do not add secrets, host IPs, tokens, logs, or private config here.
+const HEYRON_DEMO_USERS = {
+  // Demo-only fixtures. Product code should replace this with authenticated `/api/me/container-summary`.
+  // Do not add secrets, host IPs, tokens, logs, or private config here.
   'cassie@heyron.ai': {
     email: 'cassie@heyron.ai',
+    name: 'Cassie',
     agentName: 'Ron',
     container: 'c8-0201',
     status: 'online',
@@ -679,14 +681,51 @@ const HEYRON_DEMO_CONTAINER_LOOKUP = {
     channels: ['Discord', 'Telegram groups'],
     safety: 'Telegram DMs disabled',
     nextSafeActions: ['open support ticket', 'view Launchpad progress', 'queue Agent Jam entry']
+  },
+  'demo@heyron.ai': {
+    email: 'demo@heyron.ai',
+    name: 'Demo User',
+    agentName: 'Nova',
+    container: 'demo-0001',
+    status: 'online',
+    access: 'read-only preview',
+    channels: ['Discord'],
+    safety: 'No elevated tools enabled',
+    nextSafeActions: ['open support ticket', 'finish Launchpad']
   }
 };
-function demoContainerForEmail(email){ return HEYRON_DEMO_CONTAINER_LOOKUP[String(email || '').trim().toLowerCase()] || null; }
+function normalizeEmail(email){ return String(email || '').trim().toLowerCase(); }
+function buildPendingContext(email){
+  return {
+    email: normalizeEmail(email) || 'unknown@heyron.ai',
+    name: 'Heyron User',
+    agentName: 'Unassigned agent',
+    container: 'not assigned yet',
+    status: 'setup needed',
+    access: 'safe preview',
+    channels: [],
+    safety: 'No container actions available until account context is verified',
+    nextSafeActions: ['finish Launchpad', 'open support ticket'],
+    pending: true
+  };
+}
+function resolveUserContext(email){
+  const key = normalizeEmail(email);
+  const launchpad = SAFE_HOOKS.get('heyronLaunchpadComplete', null);
+  const fixture = HEYRON_DEMO_USERS[key];
+  if(fixture) return { ...fixture, launchpadComplete: !!launchpad };
+  if(launchpad && normalizeEmail(launchpad.email) === key){
+    return { ...buildPendingContext(key), agentName: launchpad.agentName || 'Launchpad agent', status: 'launchpad complete', launchpadComplete: true };
+  }
+  return buildPendingContext(key);
+}
 function renderContainerCard(el, ctx){
   if(!el) return;
   if(!ctx){ el.hidden = true; el.textContent = ''; return; }
   el.hidden = false;
-  el.innerHTML = `<strong>${ctx.agentName} · ${ctx.container}</strong><span>Status: <b class="ok">${ctx.status}</b> · ${ctx.access}</span><span>Channels: ${ctx.channels.join(', ')}</span><span>Safety: ${ctx.safety}</span>`;
+  const channels = ctx.channels && ctx.channels.length ? ctx.channels.join(', ') : 'none connected yet';
+  const statusClass = ctx.pending ? '' : 'ok';
+  el.innerHTML = `<strong>${ctx.agentName} · ${ctx.container}</strong><span>Status: <b class="${statusClass}">${ctx.status}</b> · ${ctx.access}</span><span>Channels: ${channels}</span><span>Safety: ${ctx.safety}</span>`;
 }
 
 (function(){
@@ -709,19 +748,19 @@ function renderContainerCard(el, ctx){
   function show(){ modal && modal.classList.add('open'); if(!linkedEmail && email) setTimeout(()=>email.focus(), 40); }
   function hide(){ modal && modal.classList.remove('open'); }
   function add(from, text){ if(!messages) return; const b=document.createElement('div'); b.className='clippy-bubble '+from; b.textContent=text; messages.appendChild(b); messages.scrollTop=messages.scrollHeight; }
-  function link(){ linkedEmail=(email && email.value.trim()) || (launchpad?.email || 'cassie@heyron.ai'); localStorage.setItem('heyronPreviewEmail', linkedEmail); const ctx=demoContainerForEmail(linkedEmail); if(login) login.style.display='none'; renderContainerCard(containerCard, ctx); if(status) status.textContent=ctx ? 'Linked to '+linkedEmail+' · '+ctx.container+' · safe read-only preview' : 'Linked to '+linkedEmail+' · no demo container found · safe preview'; add('bot', ctx ? `Found ${ctx.agentName} on ${ctx.container}. I can show safe status/context only: no logs, tokens, restarts, or real container actions.` : `I do not have a demo container for that email yet. In production this should call the signed-in profile/container API.`); }
+  function link(){ linkedEmail=(email && email.value.trim()) || (launchpad?.email || 'cassie@heyron.ai'); localStorage.setItem('heyronPreviewEmail', linkedEmail); const ctx=resolveUserContext(linkedEmail); if(login) login.style.display='none'; renderContainerCard(containerCard, ctx); if(status) status.textContent=ctx.pending ? 'Linked to '+linkedEmail+' · setup needed · safe preview' : 'Linked to '+linkedEmail+' · '+ctx.container+' · safe read-only preview'; add('bot', ctx ? `${ctx.pending ? `I do not see an assigned container for ${linkedEmail} yet. I can still help finish Launchpad or open support.` : `Found ${ctx.agentName} on ${ctx.container}. I can show safe status/context only: no logs, tokens, restarts, or real container actions.`}` : `I do not have a demo container for that email yet. In production this should call the signed-in profile/container API.`); }
   function reply(text){
     add('user', text);
     const t=text.toLowerCase();
     setTimeout(()=>{
-      if(t.includes('container') || t.includes('status')) { const ctx=demoContainerForEmail(linkedEmail); add('bot', ctx ? `${ctx.agentName} is mapped to ${ctx.container}. Status: ${ctx.status}. Safety: ${ctx.safety}. I can only read this demo card, not touch the container.` : `No demo container mapped for ${linkedEmail || 'this email'} yet. Real version should use authenticated profile lookup.`); }
+      if(t.includes('container') || t.includes('status')) { const ctx=resolveUserContext(linkedEmail); add('bot', ctx.pending ? `${linkedEmail || 'This email'} is linked, but no assigned container is visible yet. Next safe step: finish Launchpad or open support.` : `${ctx.agentName} is mapped to ${ctx.container}. Status: ${ctx.status}. Safety: ${ctx.safety}. I can only read this summary card, not touch the container.`); }
       else if(t.includes('support')) add('bot',`Support is local-queued safely right now. ${ticketCount()} ticket(s) in this browser. Production should write to Supabase tickets with signed-in user auth.`);
       else if(t.includes('launchpad')) add('bot', launchpad ? `Launchpad complete for ${launchpad.agentName || 'your agent'}. Focus areas: ${(launchpad.useCases || []).join(', ') || 'none saved'}.` : 'Launchpad is ready. Run it once and I will read the local saved setup here.');
       else add('bot','I can answer dashboard questions, explain Launchpad, point you to Ron Academy, help open tickets, and eventually pull logs/restart/check integrations when auth is wired.');
     }, 380);
   }
-  if(linkedEmail){ const ctx=demoContainerForEmail(linkedEmail); if(login) login.style.display='none'; renderContainerCard(containerCard, ctx); if(status) status.textContent=ctx ? 'Linked to '+linkedEmail+' · '+ctx.container+' · safe read-only preview' : 'Linked to '+linkedEmail+' · no demo container found · safe preview'; }
-  add('bot', linkedEmail ? (demoContainerForEmail(linkedEmail) ? 'Welcome back. I found your safe demo container context.' : 'Welcome back. Email linked, no demo container mapped yet.') : "Hey. Link an email and I’ll act like dashboard Clippy Ron for this prototype.");
+  if(linkedEmail){ const ctx=resolveUserContext(linkedEmail); if(login) login.style.display='none'; renderContainerCard(containerCard, ctx); if(status) status.textContent=ctx.pending ? 'Linked to '+linkedEmail+' · setup needed · safe preview' : 'Linked to '+linkedEmail+' · '+ctx.container+' · safe read-only preview'; }
+  add('bot', linkedEmail ? (resolveUserContext(linkedEmail).pending ? 'Welcome back. Email linked, no assigned container yet.' : 'Welcome back. I found your safe account/container context.') : "Hey. Link an email and I’ll act like dashboard Clippy Ron for this prototype.");
   open && open.addEventListener('click', show);
   close && close.addEventListener('click', hide);
   loginBtn && loginBtn.addEventListener('click', link);

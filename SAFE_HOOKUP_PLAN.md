@@ -55,17 +55,24 @@ This preview is wired to behave like the real product without touching productio
 
 None. All state is local-only in the browser so Cassie/Robby can test flow safely.
 
-## Demo container lookup added
+## Generic Clippy app context
 
-Clippy Ron can now resolve a tiny allowlisted demo profile by email in the static preview.
+Clippy Ron is now shaped like an application-level current-user helper, not a Cassie-only demo.
 
-Current demo mapping:
+Preview behavior:
+- Known demo users resolve to safe read-only summary cards.
+- Unknown emails still work: they get a pending/setup-needed context instead of an error.
+- Launchpad completion can fill in a user's pending context locally.
+
+Current demo fixtures:
 - `cassie@heyron.ai` -> agent `Ron`, container `c8-0201`, status `online`, read-only preview
+- `demo@heyron.ai` -> agent `Nova`, container `demo-0001`, status `online`, read-only preview
+- Any other email -> pending context: no assigned container visible yet, safe next actions only
 
 Rules for this lookup:
 - Static preview may show container id/status only.
 - Do not include host IPs, API keys, bot tokens, gateway tokens, logs, runtime config, private messages, or secrets.
-- Real production version should replace this map with an authenticated server endpoint.
+- Real production version should replace fixture maps with an authenticated server endpoint.
 
 Suggested production endpoint:
 
@@ -74,6 +81,7 @@ Suggested production endpoint:
 Returns only:
 ```json
 {
+  "user": { "email": "user@example.com" },
   "agentName": "Ron",
   "container": "c8-0201",
   "status": "online",
