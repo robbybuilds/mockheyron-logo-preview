@@ -78,7 +78,7 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
   70%{border-color:rgba(253,224,71,.76);box-shadow:0 0 20px rgba(253,224,71,.26),0 0 36px rgba(253,224,71,.12),inset 0 1px 0 rgba(248,250,252,.10);} /* yellow */
   84%{border-color:rgba(251,146,60,.76);box-shadow:0 0 20px rgba(251,146,60,.26),0 0 36px rgba(251,146,60,.12),inset 0 1px 0 rgba(248,250,252,.10);} /* orange */
 }
-.button,.bridge-button,.footer-symbol,.clippy-quick button,.clippy-send button,.clippy-login button,.mod-access,.status-right{animation:heyronButtonGlow 5.2s ease-in-out infinite;}
+.button,.bridge-button,.footer-symbol,.clippy-quick button,.clippy-send button,.clippy-login button,.mod-access,.status-right{animation:heyronButtonGlow 8s ease-in-out infinite;}
 @media (prefers-reduced-motion: reduce){.button,.bridge-button,.footer-symbol,.clippy-quick button,.clippy-send button,.clippy-login button,.mod-access{animation:none!important;}}
 .card.selected,.bridge-button.selected,.footer-symbol.selected,.button.selected{border-color:rgba(248,250,252,.92)!important;box-shadow:0 0 0 1px rgba(248,250,252,.30),0 0 26px rgba(0,207,255,.34),0 0 46px rgba(109,40,217,.18),inset 0 1px 0 rgba(255,255,255,.16)!important;filter:brightness(1.24) saturate(1.16);transform:translateY(-2px);}
 .bridge-button.primary.selected,.quick-card:first-child.selected{box-shadow:0 0 0 1px rgba(248,250,252,.34),0 0 32px rgba(0,207,255,.40),0 0 54px rgba(109,40,217,.24),0 0 34px rgba(253,224,71,.12),inset 0 1px 0 rgba(255,255,255,.18)!important;}
@@ -114,11 +114,19 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .footer-links a{color:var(--text-muted);text-decoration:none;font-size:12px;}
 .footer-links a:hover{color:var(--accent);}
 @media(max-width:700px){.site-footer{justify-content:center;text-align:center}.footer-brand{justify-content:center}.footer-links{justify-content:center}}
-.footer-icons{display:flex;gap:12px;align-items:center;justify-content:center;}
-.footer-symbol{width:42px;height:42px;border-radius:999px;border:1px solid rgba(125,225,255,.30);background:rgba(7,9,12,.38);color:#D7F9FF;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:20px;cursor:pointer;box-shadow:0 0 18px rgba(82,201,255,.08),inset 0 1px 0 rgba(255,255,255,.05);}
+.footer-icons{display:flex;gap:16px;align-items:flex-start;justify-content:center;}
+.footer-symbol{width:54px;height:54px;border-radius:999px;border:1px solid rgba(125,225,255,.30);background:rgba(7,9,12,.38);color:#D7F9FF;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;font-size:26px;cursor:pointer;box-shadow:0 0 18px rgba(82,201,255,.08),inset 0 1px 0 rgba(255,255,255,.05);}
 .footer-symbol:hover{transform:translateY(-1px);border-color:rgba(125,225,255,.58);box-shadow:0 0 22px rgba(82,201,255,.18),inset 0 1px 0 rgba(255,255,255,.08);}
 .footer-symbol.trash{border-color:rgba(220,38,38,.28);color:#fecaca;background:rgba(220,38,38,.05);}
 .footer-symbol.trash:hover{border-color:rgba(220,38,38,.48);box-shadow:0 0 20px rgba(220,38,38,.14),inset 0 1px 0 rgba(255,255,255,.06);}
+.footer-tool{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:72px;}
+.footer-tool-label{font-size:11px;color:var(--text-muted);line-height:1.2;text-align:center;}
+.footer-tool:hover .footer-tool-label{color:#D7F9FF;}
+.memory-modal{position:fixed;inset:0;z-index:998;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(3,5,8,.66);backdrop-filter:blur(10px);}
+.memory-modal.open{display:flex;}
+.memory-card{width:min(520px,100%);padding:22px;border-radius:24px;background:linear-gradient(180deg,rgba(15,20,28,.96),rgba(7,9,12,.98));border:1px solid rgba(94,234,212,.42);box-shadow:0 0 42px rgba(94,234,212,.18),inset 0 1px 0 rgba(255,255,255,.05);}
+.memory-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;}.memory-orb{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(94,234,212,.45);box-shadow:0 0 22px rgba(94,234,212,.18);font-size:24px;}.memory-card h2{font-size:22px;margin:0;}.memory-card p{color:var(--text-muted);font-size:13px;line-height:1.55;margin:8px 0 14px;}.memory-actions{display:flex;gap:10px;flex-wrap:wrap}.memory-actions a,.memory-actions button{border-radius:12px;padding:10px 12px;border:1px solid rgba(94,234,212,.35);background:rgba(7,9,12,.50);color:#D7F9FF;text-decoration:none;cursor:pointer;font-size:12px;}.memory-actions .primary{border-color:rgba(94,234,212,.55);color:#ECFEFF;background:linear-gradient(135deg,rgba(94,234,212,.18),rgba(7,9,12,.58));}
+
 
 .clippy-widget{position:fixed;right:22px;bottom:92px;z-index:998;width:min(330px,calc(100vw - 28px));background:linear-gradient(180deg,rgba(15,20,28,.98),rgba(7,9,12,.99));border:1px solid rgba(125,225,255,.54);border-radius:24px 24px 8px 24px;box-shadow:0 0 42px rgba(82,201,255,.20),0 18px 70px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.06);display:none;overflow:hidden;}
 .clippy-widget.open{display:block;animation:clippyIn .18s ease-out;}
@@ -158,6 +166,7 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .mod-error{min-height:18px;margin-top:10px!important;color:#fca5a5!important;font-size:12px!important;}
 @media(max-width:720px){.mod-card{grid-template-columns:1fr}.mod-art{max-height:320px}.mod-copy h2{font-size:21px}}
 
+.page-kicker{margin:6px 0 10px;text-align:center;color:#D7F9FF;font-size:12px;letter-spacing:.18em;text-transform:uppercase;text-shadow:0 0 14px rgba(34,211,238,.38);}.page-title{margin:0 0 14px;text-align:center;font-size:34px;line-height:1.05;letter-spacing:-.03em;color:var(--text-primary);}.page-subtitle{margin:-6px auto 18px;text-align:center;color:var(--text-muted);font-size:13px;max-width:560px;}
 /* Animation section */
 .space-scene{position:relative;width:100%;height:230px;margin-bottom:24px;overflow:hidden;border-radius:20px;background:var(--bg-page);border:1px solid rgba(34,211,238,.18);box-shadow:0 0 34px rgba(34,211,238,.08), inset 0 1px 0 rgba(255,255,255,.04);}
 .space-bg{position:absolute;width:100%;height:100%;object-fit:cover;opacity:0.68;}
@@ -192,12 +201,15 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
   </div>
 </div>
 
+<div class="page-kicker">Mission Control</div>
+<h2 class="page-title">Your Heyron command center</h2>
+<p class="page-subtitle">Launch your agent, learn the tools, talk to Ron, and keep your workspace moving.</p>
+
 <!-- ANIMATION SECTION (from hello-screen) -->
 <div class="space-scene">
     <img src="assets/bg-space.png" alt="Space background" class="space-bg" />
     <img src="assets/mission-control-floating-spaceship-transparent.png" alt="Mission Control spaceship" class="space-ship mission-ship" />
     <img src="assets/ron-cinematic-astronaut-transparent.png" alt="Floating astronaut Ron" class="space-raccoon astronaut-ron" />
-    <div class="scene-label">Mission Control</div>
     <img src="assets/launchpad-crest.png" alt="Launchpad crest" class="scene-crest" />
 </div>
 
@@ -289,12 +301,25 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
       </div>
     </div>
     <div class="footer-icons" aria-label="Footer utility links">
-      <button type="button" class="footer-symbol" id="clippyOpen" aria-label="Open Clippy Ron">🚀</button>
-      <button type="button" class="footer-symbol trash" id="modGateOpen" aria-label="Open moderator gate">🗑️</button>
+      <div class="footer-tool"><button type="button" class="footer-symbol" id="clippyOpen" aria-label="Open Clippy Ron">🚀</button><span class="footer-tool-label">Clippy Ron</span></div>
+      <div class="footer-tool"><button type="button" class="footer-symbol" id="memoryOpen" aria-label="Open memory file cabinet">🗄️</button><span class="footer-tool-label">Memory Cabinet</span></div>
+      <div class="footer-tool"><button type="button" class="footer-symbol trash" id="modGateOpen" aria-label="Open moderator gate">🗑️</button><span class="footer-tool-label">Mod Gate</span></div>
     </div>
   </footer>
 </div>
 
+
+
+<div class="memory-modal" id="memoryGate" role="dialog" aria-modal="false" aria-labelledby="memoryTitle">
+  <div class="memory-card">
+    <div class="memory-head"><div class="memory-orb">🗄️</div><div><h2 id="memoryTitle">Memory File Cabinet</h2><p style="margin:2px 0 0">Robby's memory cabinet lane.</p></div></div>
+    <p>This is where the signed-in dashboard can expose saved memory, notes, durable context, and searchable cabinet files. Prototype link for now.</p>
+    <div class="memory-actions">
+      <a class="primary" href="https://app.heyron.ai" target="_blank" rel="noopener">Open Dashboard</a>
+      <button type="button" id="memoryClose">Close</button>
+    </div>
+  </div>
+</div>
 
 <div class="clippy-widget" id="clippyGate" role="dialog" aria-modal="false" aria-labelledby="clippyTitle">
   <div class="clippy-header">
