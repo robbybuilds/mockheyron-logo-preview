@@ -373,14 +373,19 @@ button,a,input,textarea,select,.btn,.chip,.option,.usecase,.integration,.checkbo
 @media(max-width:390px){h1.headline,.headline{font-size:22px!important}.hero img{width:min(92vw,320px)!important;}}
 
 
-/* Ron dynamic art labels: fill baked-in blank lines with chosen agent name */
-.agent-art{position:relative;width:180px;height:120px;flex:0 0 auto;border-radius:16px;overflow:hidden;}
+/* Ron dynamic art label: rebuild the baked headline as real responsive text */
+.agent-art{position:relative;width:260px;height:auto;aspect-ratio:1672/941;flex:0 0 auto;border-radius:16px;overflow:hidden;}
 .agent-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;border-radius:16px;}
-.agent-art-name{position:absolute;left:24%;top:13.1%;width:17%;height:7%;display:flex;align-items:center;justify-content:center;color:#F8FAFC;font-weight:900;font-size:clamp(8px,1.05vw,13px);line-height:1;text-align:center;letter-spacing:-.035em;text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 7px rgba(34,211,238,.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none;}
-@media(max-width:700px){.agent-art{width:min(88vw,340px)!important;height:auto!important;aspect-ratio:1672/941;}.agent-art-name{left:25.2%;top:12.6%;width:12.8%;height:7%;font-size:clamp(12px,3.75vw,18px);padding:0;border-radius:0;background:transparent;box-shadow:none;text-shadow:0 1px 4px rgba(0,0,0,.95),0 0 8px rgba(34,211,238,.42);}}
-@media(min-width:701px){.agent-art-name{left:24%;top:13.1%;width:17%;font-size:clamp(8px,1.05vw,13px);}}
-@media(min-width:1000px){.agent-art-name{left:23.5%;top:12.8%;width:17%;font-size:13px;}}
+.agent-art-title{position:absolute;left:3.8%;top:6.6%;width:64%;min-height:23%;padding:2.2% 2.8% 2.4% 2.4%;border-radius:10px;background:linear-gradient(90deg,rgba(4,7,14,.95) 0%,rgba(4,7,14,.86) 74%,rgba(4,7,14,0) 100%);box-shadow:0 0 18px rgba(5,10,18,.38);pointer-events:none;}
+.agent-art-question{display:flex;align-items:baseline;gap:.24em;flex-wrap:nowrap;color:#F8FAFC;font-weight:900;font-size:clamp(12px,1.1vw,15px);line-height:1.02;letter-spacing:-.055em;text-shadow:0 1px 4px rgba(0,0,0,.95),0 0 10px rgba(34,211,238,.26);}
+.agent-art-question strong{color:#F8FAFC;font:inherit;max-width:7.8em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-decoration:underline;text-decoration-thickness:.08em;text-underline-offset:.14em;text-decoration-color:rgba(248,250,252,.9);}
+.agent-art-subtitle{margin-top:.35em;color:rgba(216,249,255,.9);font-weight:800;font-size:clamp(5px,.58vw,8px);line-height:1.08;letter-spacing:-.02em;text-shadow:0 1px 3px rgba(0,0,0,.85);}
+@media(max-width:700px){.agent-art{width:min(100%,320px)!important;max-width:320px!important;height:auto!important;aspect-ratio:1672/941;}.agent-art-title{left:3.4%;top:6.2%;width:64%;min-height:25%;padding:2.4% 3% 2.8% 2.8%;border-radius:12px;background:linear-gradient(90deg,rgba(4,7,14,.96) 0%,rgba(4,7,14,.86) 78%,rgba(4,7,14,0) 100%);}.agent-art-question{font-size:clamp(14px,4.45vw,18px);gap:.22em;}.agent-art-question strong{max-width:6.7em;}.agent-art-subtitle{font-size:clamp(7px,2.1vw,9px);margin-top:.42em;}}
+@media(min-width:701px){.agent-art-title{left:3.8%;top:6.6%;width:64%;}.agent-art-question{font-size:clamp(12px,1.1vw,15px);}}
+@media(min-width:1000px){.agent-art-question{font-size:15px}.agent-art-subtitle{font-size:8px}}
 
+/* Ron mobile use-case screen hard stop: no horizontal drift */
+@media(max-width:700px){.panel,.hero,.hero-text{max-width:100%!important;}.hero{overflow:hidden!important;}.agent-art-usecases{justify-self:center!important;align-self:center!important;}.hero-text .headline,.hero-text .sub{max-width:100%!important;white-space:normal!important;overflow-wrap:break-word!important;}.hero-text .headline{font-size:clamp(21px,6.2vw,24px)!important;}}
 
 /* Ron vibrant Launchpad controls: positive rainbow breathing */
 @property --launch-rainbow-angle{syntax:'<angle>';inherits:false;initial-value:0deg;}
@@ -527,7 +532,7 @@ function UseCasesScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
       <div className="hero">
-        <div className="agent-art agent-art-usecases"><img src="assets/onboarding/use-cases.png" alt="" /><span className="agent-art-name">{data.agentName || 'Ron'}</span></div>
+        <div className="agent-art agent-art-usecases"><img src="assets/onboarding/use-cases.png" alt="" /><div className="agent-art-title" aria-hidden="true"><div className="agent-art-question"><span>What is</span><strong>{data.agentName || 'Ron'}</strong><span>here for?</span></div><div className="agent-art-subtitle">Choose a purpose. Focus the mission.</div></div></div>
         <div className="hero-text">
           <h1 className="headline">What should {data.agentName || 'your agent'} focus on?</h1>
           <p className="sub">Pick everything that applies — these become your agent's priorities.</p>
