@@ -57,6 +57,12 @@ a,button,.path-card,.back-button{min-height:44px;touch-action:manipulation;}
   .welcome-hotspot{right:4%;bottom:5%;width:46%;height:27%;}
 }
 
+
+/* Ron hotspot fix: no random glow, forgiving mobile tap */
+.welcome-hotspot{box-shadow:none!important;animation:none!important;background:transparent!important;border:0!important;outline:none;}
+.welcome-frame{cursor:pointer;}
+.welcome-img{pointer-events:none;}
+
 </style>
 </head>
 <body>
@@ -86,7 +92,13 @@ a,button,.path-card,.back-button{min-height:44px;touch-action:manipulation;}
 </section>
 <script>
 const welcome=document.getElementById('welcome');const choose=document.getElementById('choose');
-document.getElementById('start').addEventListener('click',()=>{welcome.classList.remove('active');choose.classList.add('active');});
+const advanceLaunchpad=()=>{welcome.classList.remove('active');choose.classList.add('active');};
+document.getElementById('start').addEventListener('click',(event)=>{event.stopPropagation();advanceLaunchpad();});
+document.querySelector('.welcome-frame').addEventListener('click',advanceLaunchpad);
+document.querySelector('.welcome-frame').addEventListener('keydown',(event)=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();advanceLaunchpad();}});
+document.querySelector('.welcome-frame').setAttribute('tabindex','0');
+document.querySelector('.welcome-frame').setAttribute('role','button');
+document.querySelector('.welcome-frame').setAttribute('aria-label','Continue Launchpad onboarding');
 document.getElementById('back').addEventListener('click',()=>{choose.classList.remove('active');welcome.classList.add('active');});
 </script>
 </body>
