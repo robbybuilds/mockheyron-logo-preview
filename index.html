@@ -129,6 +129,9 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .community-modal.open{display:flex;}
 .community-card{width:min(560px,100%);padding:22px;border-radius:24px;background:linear-gradient(180deg,rgba(15,20,28,.97),rgba(7,9,12,.98));border:1px solid rgba(249,168,212,.38);box-shadow:0 0 42px rgba(249,168,212,.14),0 0 52px rgba(0,207,255,.08),inset 0 1px 0 rgba(255,255,255,.05);}
 .community-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;}.community-orb{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(249,168,212,.45);box-shadow:0 0 22px rgba(249,168,212,.18);font-size:25px;}.community-card h2{font-size:22px;margin:0;}.community-card p{color:var(--text-muted);font-size:13px;line-height:1.55;margin:8px 0 14px;}.community-list{display:grid;gap:9px;margin:12px 0 14px;}.community-item{padding:10px 11px;border-radius:14px;border:1px solid rgba(125,225,255,.18);background:rgba(7,9,12,.42);}.community-item strong{display:block;color:#F8FAFC;font-size:13px;margin-bottom:3px;}.community-item a{color:#D7F9FF;text-decoration:none;font-size:12px;}.community-actions{display:flex;gap:10px;flex-wrap:wrap}.community-actions a,.community-actions button{border-radius:12px;padding:10px 12px;border:1px solid rgba(249,168,212,.35);background:rgba(7,9,12,.50);color:#FCE7F3;text-decoration:none;cursor:pointer;font-size:12px;}.community-actions .primary{border-color:rgba(249,168,212,.55);color:#fff;background:linear-gradient(135deg,rgba(249,168,212,.18),rgba(0,207,255,.12),rgba(7,9,12,.58));}.billing-form{display:grid;gap:9px;margin-top:12px}.billing-form input,.billing-form textarea{width:100%;border:1px solid rgba(125,225,255,.24);border-radius:13px;background:rgba(5,7,11,.72);color:#E6EDF3;padding:10px;outline:none}.billing-form textarea{min-height:82px;resize:vertical}.billing-buttons{display:flex;gap:10px;flex-wrap:wrap}.billing-buttons button{border:1px solid rgba(249,168,212,.40);border-radius:999px;background:rgba(7,9,12,.52);color:#FCE7F3;padding:10px 14px;cursor:pointer}
+.jam-hero{border:1px solid rgba(249,168,212,.24);border-radius:20px;padding:16px;background:radial-gradient(circle at top left,rgba(249,168,212,.13),rgba(7,9,12,.40) 58%);margin:12px 0 14px;}
+.jam-hero strong{display:block;color:#FCE7F3;font-size:15px;margin-bottom:5px}.jam-hero span{display:block;color:#D6E4F5;font-size:13px;line-height:1.45}.jam-section-title{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#D7F9FF;margin:16px 0 8px}.jam-submit-panel{display:none;border:1px solid rgba(249,168,212,.24);border-radius:18px;padding:13px;background:rgba(7,9,12,.46);margin-top:12px}.jam-submit-panel.open{display:block}.jam-submit-toggle{border:1px solid rgba(249,168,212,.42);border-radius:999px;background:linear-gradient(135deg,rgba(249,168,212,.18),rgba(0,207,255,.10));color:#FCE7F3;padding:10px 13px;cursor:pointer;font-weight:700}.jam-actions-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.jam-actions-row a,.jam-actions-row button{border:1px solid rgba(125,225,255,.28);border-radius:999px;background:rgba(7,9,12,.52);color:#D7F9FF;padding:10px 13px;text-decoration:none;cursor:pointer;font-size:12px}.jam-actions-row .primary{border-color:rgba(249,168,212,.44);color:#FCE7F3;background:rgba(249,168,212,.10)}
+
 .community-card.large{width:min(780px,100%);max-height:min(82vh,760px);overflow:auto;}
 .community-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0;}
 .resource-card{padding:13px;border-radius:16px;border:1px solid rgba(125,225,255,.18);background:linear-gradient(180deg,rgba(22,27,35,.72),rgba(7,9,12,.54));box-shadow:inset 0 1px 0 rgba(255,255,255,.04);}
@@ -359,23 +362,40 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 
 <div class="community-modal" id="jamGate" role="dialog" aria-modal="false" aria-labelledby="jamTitle">
   <div class="community-card large">
-    <div class="community-head"><div class="community-orb">🫙</div><div><h2 id="jamTitle">Huckleberry Agent Jam</h2><p style="margin:2px 0 0">Weekly builds from the community jar.</p></div></div>
-    <p>Show last week’s winners, their GitHub files, the next theme, and Robby’s announcement clip after each live.</p>
+    <div class="community-head"><div class="community-orb">🫙</div><div><h2 id="jamTitle">Huckleberry Agent Jam</h2><p style="margin:2px 0 0">A weekly build challenge from the community jar.</p></div></div>
+    <div class="jam-hero"><strong>Last week’s jam is in the jar.</strong><span>Winners, source links, Robby/Cassie recap video, next prompt, and entry submissions all live here so people know exactly what to do.</span></div>
+
+    <div class="jam-section-title">Last week’s winners</div>
     <div class="community-grid">
-      <div class="resource-card"><span class="tag">Winner</span><h3>Best Agent Build</h3><p>Short description of what it does and why it won.</p><a href="#" data-soon="GitHub winning file">GitHub winning file →</a></div>
-      <div class="resource-card"><span class="tag">Runner-up</span><h3>Best Workflow</h3><p>A useful automation, prompt chain, or tool setup from the week.</p><a href="#" data-soon="GitHub winning file">GitHub winning file →</a></div>
-      <div class="resource-card"><span class="tag">Next Theme</span><h3>Tiny agents that save 10 minutes</h3><p>Build something small, useful, and easy for someone else to remix.</p><a href="#" data-soon="Submit next jam">Submit next jam →</a></div>
-      <div class="resource-card"><span class="tag">Video</span><h3>Winner Announcement Clip</h3><p>Drop Robby’s clipped live announcement here each week.</p><a href="#" data-soon="Watch announcement">Watch announcement →</a></div>
+      <div class="resource-card"><span class="tag">Winner</span><h3>Best Agent Build</h3><p>Top build from last week. Replace this with the actual winner and what made it useful.</p><a href="#" data-soon="Winner GitHub file">GitHub winning file →</a></div>
+      <div class="resource-card"><span class="tag">Runner-up</span><h3>Best Workflow</h3><p>Strong automation, prompt chain, or tool setup worth remixing.</p><a href="#" data-soon="Runner-up GitHub file">GitHub winning file →</a></div>
     </div>
-    <form class="billing-form" id="agentJamForm" style="margin-top:12px">
-      <input type="text" placeholder="Builder name / Discord handle" />
-      <input type="url" placeholder="GitHub link to the file or repo" />
-      <input type="url" placeholder="Demo video or screenshot link" />
-      <textarea placeholder="What did you build? What problem does it solve? What should judges review?"></textarea>
-      <textarea placeholder="Setup notes, dependencies, secrets to avoid, judging notes…"></textarea>
-      <div class="billing-buttons"><button class="primary" type="submit">Submit to Huckleberry Agent Jam</button></div>
-    </form>
-    <div class="community-actions"><button type="button" id="jamClose">Close</button></div>
+
+    <div class="jam-section-title">Watch the recap</div>
+    <div class="resource-card"><span class="tag">Video</span><h3>Robby + Cassie Winner Announcement</h3><p>Drop the clipped live announcement here after Robby films it, so the week has receipts.</p><a href="#" data-soon="Agent Jam announcement video">Watch announcement video →</a></div>
+
+    <div class="jam-section-title">Next prompt</div>
+    <div class="resource-card"><span class="tag">Coming up</span><h3>Tiny agents that save 10 minutes</h3><p>Build something small, useful, and easy for someone else to remix. Bonus points if the setup is clear and the files are clean.</p></div>
+
+    <div class="jam-section-title">How to submit</div>
+    <div class="community-grid">
+      <div class="resource-card"><span class="tag">Need</span><h3>GitHub link</h3><p>Link the repo or exact file judges should review.</p></div>
+      <div class="resource-card"><span class="tag">Need</span><h3>Demo proof</h3><p>Screenshot, video, or short notes showing it works.</p></div>
+      <div class="resource-card"><span class="tag">Need</span><h3>Build notes</h3><p>What it does, how to run it, and what not to leak.</p></div>
+      <div class="resource-card"><span class="tag">Need</span><h3>Judging notes</h3><p>Why it matters, who it helps, and what category it fits.</p></div>
+    </div>
+
+    <div class="jam-actions-row"><button type="button" class="primary" id="jamSubmitToggle">Submit an Entry</button><button type="button" id="jamClose">Close</button></div>
+    <div class="jam-submit-panel" id="jamSubmitPanel">
+      <form class="billing-form" id="agentJamForm">
+        <input type="text" placeholder="Builder name / Discord handle" required />
+        <input type="url" placeholder="GitHub link to the file or repo" required />
+        <input type="url" placeholder="Demo video or screenshot link" />
+        <textarea placeholder="What did you build? What problem does it solve?" required></textarea>
+        <textarea placeholder="Setup notes, dependencies, secrets to avoid, judging notes…"></textarea>
+        <div class="billing-buttons"><button class="primary" type="submit">Send to Review List</button></div>
+      </form>
+    </div>
   </div>
 </div>
 
@@ -452,7 +472,31 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
     </div>
   </div>
 </div>
+<div class="agent-modal" id="agentCrewModal" role="dialog" aria-modal="true" aria-labelledby="agentCrewTitle">
+  <div class="agent-card">
+    <h2 id="agentCrewTitle">Robby's AI Agent Crew</h2>
+    <p>Robby’s exposed/merch-worthy agent crew. Tiny lore easter egg mode.</p>
+    <img class="agent-crew-art" src="assets/easter-eggs/robbys-crew.png" alt="Robby's AI agent crew easter egg" />
+    <div class="agent-roster-note"><strong>Roster:</strong> Ron, Eloise, Mac, Ari, Navi, Carter, Spencer, and the newest crew member. Clicked the 8, found the crew.</div>
+    <button type="button" id="agentCrewClose">Close</button>
+  </div>
+</div>
+
+
 <script>
+
+(function(){
+  document.addEventListener('click', function(e){
+    if(e.target.closest('#agentCrewOpen')){
+      e.preventDefault();
+      document.getElementById('agentCrewModal')?.classList.add('open');
+    }
+    if(e.target.closest('#agentCrewClose') || e.target.id === 'agentCrewModal'){
+      document.getElementById('agentCrewModal')?.classList.remove('open');
+    }
+  });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') document.getElementById('agentCrewModal')?.classList.remove('open'); });
+})();
 
 (function(){
   const el = document.getElementById('communityMessageCount');
@@ -464,18 +508,6 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
   }, 4200);
 })();
 
-
-(function(){
-  const open = document.getElementById('agentCrewOpen');
-  const modal = document.getElementById('agentCrewModal');
-  const close = document.getElementById('agentCrewClose');
-  function show(){ modal && modal.classList.add('open'); }
-  function hide(){ modal && modal.classList.remove('open'); }
-  open && open.addEventListener('click', show);
-  close && close.addEventListener('click', hide);
-  modal && modal.addEventListener('click', e => { if(e.target === modal) hide(); });
-  document.addEventListener('keydown', e => { if(e.key === 'Escape') hide(); });
-})();
 
 
 
@@ -560,16 +592,6 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 
 
 
-<div class="agent-modal" id="agentCrewModal" role="dialog" aria-modal="true" aria-labelledby="agentCrewTitle">
-  <div class="agent-card">
-    <h2 id="agentCrewTitle">Robby's AI Agent Crew</h2>
-    <p>Robby’s exposed/merch-worthy agent crew. Tiny lore easter egg mode.</p>
-    <img class="agent-crew-art" src="assets/easter-eggs/robbys-crew.png" alt="Robby's AI agent crew easter egg" />
-    <div class="agent-roster-note"><strong>Roster:</strong> Ron, Eloise, Mac, Ari, Navi, Carter, Spencer, and the newest crew member. Clicked the 8, found the crew.</div>
-    <button type="button" id="agentCrewClose">Close</button>
-  </div>
-</div>
-
 <div class="soon-modal" id="soonModal" role="dialog" aria-modal="true" aria-labelledby="soonTitle">
   <div class="soon-card">
     <h2 id="soonTitle">Coming soon</h2>
@@ -608,7 +630,19 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
     if(card) card.classList.add('selected');
   }, true);
 })();
-document.getElementById('agentJamForm')?.addEventListener('submit',e=>{e.preventDefault(); alert('Agent Jam submission draft saved. Real hookup should send this to the review list for winner selection.'); e.target.reset();});
+
+
+document.addEventListener('click', e => {
+  if(e.target.closest('#jamSubmitToggle')) document.getElementById('jamSubmitPanel')?.classList.toggle('open');
+});
+document.addEventListener('submit', e => {
+  if(e.target && e.target.id === 'agentJamForm'){
+    e.preventDefault();
+    alert('Agent Jam entry queued for review. Real hookup should send this to the winner selection list.');
+    e.target.reset();
+    document.getElementById('jamSubmitPanel')?.classList.remove('open');
+  }
+});
 </script>
 
 </body>
