@@ -86,12 +86,16 @@ select.input { appearance: none; -webkit-appearance: none; background-image: lin
 .options-list .option.selected .option-mark { border-color: var(--accent); }
 .options-list .option.selected .option-mark::after { content: ''; position: absolute; inset: 4px; background: var(--accent); border-radius: 50%; }
 
-.persona-card { padding: 18px; }
-.persona-name { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
-.persona-tag { font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; }
-.persona-sample { font-size: 12px; color: var(--text-primary); background: var(--bg-panel-2); padding: 10px 12px; border-radius: var(--r-sm); margin-bottom: 10px; line-height: 1.5; font-style: italic; border-left: 2px solid var(--accent); }
-.persona-best { font-size: 11px; color: var(--text-tertiary); }
+.persona-card { padding: 16px; display:flex; flex-direction:column; gap:8px; }
+.persona-card.selected { background: linear-gradient(180deg, rgba(34,211,238,.10), rgba(22,27,35,.98)); box-shadow: 0 0 0 1px rgba(34,211,238,.22), 0 0 26px rgba(34,211,238,.08); }
+.persona-eyebrow { display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+.persona-inspired { color:var(--text-tertiary); letter-spacing:0; text-transform:none; font-size:11px; }
+.persona-name { font-size: 16px; font-weight: 650; margin:0; letter-spacing:-.01em; }
+.persona-tag { font-size: 12px; color: var(--text-secondary); margin:0; line-height:1.45; }
+.persona-sample { font-size: 12px; color: var(--text-primary); background: var(--bg-panel-2); padding: 10px 12px; border-radius: var(--r-sm); margin:2px 0 0; line-height: 1.5; font-style: italic; border-left: 2px solid var(--accent); }
+.persona-best { font-size: 11px; color: var(--text-tertiary); line-height:1.45; }
 .persona-best strong { color: var(--text-secondary); font-weight: 500; }
+.persona-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}.persona-chip{font-size:10px;color:#D7F9FF;background:rgba(34,211,238,.08);border:0.5px solid rgba(34,211,238,.24);border-radius:999px;padding:3px 7px}.persona-custom{margin-top:16px}.persona-custom textarea{min-height:74px}.char-count{text-align:right;font-size:11px;color:var(--text-tertiary);margin-top:5px}.edit-note{background:rgba(94,234,212,.08);border:0.5px solid rgba(94,234,212,.28);border-radius:var(--r-md);padding:12px 14px;margin-top:16px;font-size:12px;line-height:1.5;color:#D7F9FF}.edit-note strong{color:var(--text-primary)}
 
 .comm-sample { font-size: 13px; color: var(--text-primary); background: var(--bg-panel-2); padding: 10px 12px; border-radius: var(--r-sm); margin-top: 10px; line-height: 1.5; font-style: italic; border-left: 2px solid var(--accent); }
 
@@ -585,26 +589,34 @@ function UseCasesScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
 
 /* ─── Personality, Comm style, Model ────────────────────────────── */
 const PERSONAS = [
-  { id: 'steady', name: 'Steady', tag: 'Calm, clear, no-frills.', sample: '"Sent. Three more in the queue."', best: 'Focused work with tight deadlines.' },
-  { id: 'curious', name: 'Curious', tag: 'Asks before acting.', sample: '"Quick check — should I include the design team on this?"', best: 'Ambiguous projects with many stakeholders.' },
-  { id: 'sharp', name: 'Sharp', tag: 'Terse and high-signal.', sample: '"Done. Doc here. Anything else?"', best: 'Power users who hate small talk.' },
-  { id: 'warm', name: 'Warm', tag: 'Friendly, encouraging, on your team.', sample: '"Got this one covered. You take care of the harder thing."', best: 'High-stress weeks and heavy workloads.' },
-  { id: 'playful', name: 'Playful', tag: 'Witty and light.', sample: '"Five down, two to go. Worth a snack break?"', best: 'Casual teams that like a little personality.' },
-  { id: 'formal', name: 'Formal', tag: 'Polished and careful.', sample: '"I have completed the draft and saved it for your review."', best: 'Client-facing or regulated environments.' },
+  { id: 'direct-strategic', style: 'Direct & strategic', inspired: 'Ron', tag: 'Short, clear, action-first. Flags risk without drama.', sample: '"Done. The risky part is billing auth, so I queued that for human review instead of touching Stripe."', best: 'Founders, operators, and people who want the truth fast.', chips: ['decisive','practical'] },
+  { id: 'warm-encouraging', style: 'Warm & encouraging', inspired: 'Eloise', tag: 'Supportive, calm, and human. Helps you keep going.', sample: '"I’ve got the messy part sorted. Next tiny step: review this draft and tell me what feels off."', best: 'Overwhelmed days, onboarding, and confidence-building.', chips: ['kind','steady'] },
+  { id: 'technical-precise', style: 'Technical & precise', inspired: 'Mac', tag: 'Specific, structured, and careful with details.', sample: '"I found the issue: the callback URL is missing the /auth segment. Fixing that should unblock login."', best: 'Code, systems, debugging, and implementation work.', chips: ['exact','systems'] },
+  { id: 'creative-playful', style: 'Creative & playful', inspired: 'Ari', tag: 'Inventive, upbeat, and good at brainstorming.', sample: '"Three directions: cozy spaceship, neon command board, or raccoon ops bunker. I’d test the bunker first."', best: 'Content, art direction, naming, and weird little ideas.', chips: ['imaginative','fun'] },
+  { id: 'executive-polished', style: 'Executive & polished', inspired: 'Spencer', tag: 'Composed, concise, and ready for clients or leadership.', sample: '"Summary: launch flow is stable, support queue is safe, and production API work is the next dependency."', best: 'Reports, client notes, investor updates, and clean handoffs.', chips: ['polished','brief'] },
+  { id: 'gentle-organized', style: 'Gentle & organized', inspired: 'Navi', tag: 'Patient, step-by-step, and good at keeping you oriented.', sample: '"You’re on step 3 of 5. We already saved the name and focus areas, so only tools and safety are left."', best: 'ADHD support, setup flows, reminders, and routines.', chips: ['patient','clear'] },
+  { id: 'bright-community', style: 'Bright & community-minded', inspired: 'Glow Cloud', tag: 'Friendly, celebratory, and good at helping groups feel seen.', sample: '"This is a win. I’d share the build, ask one question, and invite others to remix it."', best: 'Community, launches, showcases, and feedback.', chips: ['social','upbeat'] },
+  { id: 'protective-guardrails', style: 'Protective & careful', inspired: 'Carter', tag: 'Security-minded, permission-aware, and cautious with sensitive actions.', sample: '"I can help, but this touches private data. I’ll summarize what I need and wait for your approval."', best: 'Privacy, account work, risky tools, and sensitive tasks.', chips: ['safe','careful'] },
 ];
 function PersonalityScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const notes = data.personalityNotes || '';
+  const setNotes = (value) => onUpdate({ personalityNotes: value.slice(0, 300) });
   return (
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
-      <div className="hero"><img src="assets/onboarding/final/personality.png" alt="" className="flow-art" /><div className="hero-text"><h1 className="headline">Pick a starter personality.</h1><p className="sub">This shapes how {data.agentName || 'your agent'} talks. It's part of the soul too — refine anytime.</p></div></div>
+      <div className="hero"><img src="assets/onboarding/final/personality.png" alt="" className="flow-art" /><div className="hero-text"><h1 className="headline">Pick your agent's working style.</h1><p className="sub">Choose how {data.agentName || 'your agent'} should communicate. The characters are inspiration — the behavior is what gets saved.</p></div></div>
       <div className="options options-rich">
         {PERSONAS.map((p) => (
           <button key={p.id} className={`option persona-card ${data.personality === p.id ? 'selected' : ''}`} onClick={() => onUpdate({ personality: p.id })}>
-            <p className="persona-name">{p.name}</p><p className="persona-tag">{p.tag}</p>
+            <div className="persona-eyebrow"><span>{data.personality === p.id ? 'Selected style' : 'Style'}</span><span className="persona-inspired">Inspired by {p.inspired}</span></div>
+            <p className="persona-name">{p.style}</p><p className="persona-tag">{p.tag}</p>
+            <div className="persona-chips">{p.chips.map((chip) => <span key={chip} className="persona-chip">{chip}</span>)}</div>
             <p className="persona-sample">{p.sample}</p><p className="persona-best"><strong>Best for:</strong> {p.best}</p>
           </button>
         ))}
       </div>
+      <div className="edit-note"><strong>Not permanent:</strong> this is a starting tone for the soul file. You can customize it later, or tell {data.agentName || 'your agent'} exactly how to talk below.</div>
+      <div className="field persona-custom"><label>Optional tone notes</label><textarea className="input" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Example: keep replies short, be warm but honest, ask before risky actions, flag blockers early…" maxLength={300} /><div className="char-count">{notes.length}/300</div></div>
       <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={!data.personality}>Continue</button></div>
     </div>
   );
@@ -1940,7 +1952,7 @@ const integrationFromScreen = (s) => INTEGRATION_TOOL_SLUGS.find(t => s === `exp
 
 const INITIAL_DATA = {
   email: 'you@heyron.app', yourName: '', agentName: '', aboutSelf: '', launchAck: false,
-  useCases: [], personality: null, commStyle: null,
+  useCases: [], personality: null, personalityNotes: '', commStyle: null,
   model: null, tools: [], toSetup: [], memory: null, editableMemory: true,
   timezone: 'Pacific (PT)', workStart: '09:00', workEnd: '18:00', workDays: ['Mon','Tue','Wed','Thu','Fri'],
   notifyEmail: true, notifyPush: false, notifyFreq: 'important',
