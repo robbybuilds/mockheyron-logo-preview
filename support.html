@@ -25,7 +25,7 @@
 /* LAYOUT */
 body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'DM Sans',sans-serif;}
 .app-shell{position:relative;z-index:1;width:100%;max-width:1100px;min-width:320px;margin:0 auto;padding:0 12px;padding-bottom:80px;}
-.support-hero-banner{position:relative;margin-bottom:24px;border-radius:24px;overflow:hidden;min-height:430px;border:1px solid rgba(125,225,255,.28);background:#05070B;box-shadow:0 24px 70px rgba(0,0,0,.38),0 0 54px rgba(34,211,238,.10);} .support-hero-banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;} .support-hero-banner::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(5,7,11,.18),transparent 38%);pointer-events:none;}
+.support-hero-banner{position:relative;margin-bottom:24px;border-radius:24px;overflow:hidden;min-height:520px;border:1px solid rgba(125,225,255,.28);background:#05070B;box-shadow:0 24px 70px rgba(0,0,0,.38),0 0 54px rgba(34,211,238,.10);} .support-hero-banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center;display:block;background:#05070B;} .support-hero-banner::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(5,7,11,.18),transparent 38%);pointer-events:none;}
 
 /* HEADER */
 .header{display:flex;justify-content:space-between;align-items:center;padding:16px 0;}
@@ -632,6 +632,10 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
  color: var(--accent);
 }
 
+
+.command-copy{margin-bottom:16px;padding:18px 20px;border-radius:18px;background:rgba(7,9,12,.46);border:1px solid rgba(125,225,255,.18);color:var(--text-muted);font-size:14px;line-height:1.6;text-align:center;}
+.command-copy strong{color:#F8FAFC;}.support-grid.clean{grid-template-columns:repeat(2,1fr);margin-bottom:24px;}.support-grid.clean .card{min-height:170px;}.card.featured{border-color:rgba(34,211,238,.42);box-shadow:0 0 28px rgba(34,211,238,.10),inset 0 1px 0 rgba(255,255,255,.05);}.faq-panel{margin:24px 0;border:1px solid var(--border-muted);border-radius:18px;background:var(--bg-panel);overflow:hidden}.faq-panel h2{font-size:20px;margin:0;padding:18px 18px 6px}.faq-panel p{margin:0;padding:0 18px 12px;color:var(--text-muted);font-size:13px}.faq-item{display:block;padding:14px 18px;border-top:1px solid var(--border-muted);font-size:13px;cursor:pointer}.faq-item summary{color:var(--text-primary);font-weight:600}.faq-item div{color:var(--text-muted);line-height:1.55;margin-top:8px}.clippy-support{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:24px 0;padding:20px;border-radius:20px;border:1px solid rgba(125,225,255,.24);background:linear-gradient(135deg,rgba(34,211,238,.08),rgba(15,20,28,.96));}.clippy-support img{width:64px;height:64px;border-radius:50%;}.clippy-support h3{margin:0 0 5px;color:#D7F9FF}.clippy-support p{margin:0;color:var(--text-muted);font-size:13px;line-height:1.5}.clippy-open{border:1px solid rgba(125,225,255,.42);border-radius:999px;background:rgba(7,9,12,.50);color:#D7F9FF;padding:10px 14px;cursor:pointer;white-space:nowrap}.sw-panel{position:fixed;right:20px;bottom:78px;z-index:1000;width:min(360px,calc(100vw - 28px));display:none;border-radius:24px;background:linear-gradient(180deg,rgba(15,20,28,.98),rgba(7,9,12,.99));border:1px solid rgba(125,225,255,.45);box-shadow:0 0 42px rgba(34,211,238,.18),0 24px 70px rgba(0,0,0,.45);overflow:hidden}.sw-panel.open{display:block}.sw-header{display:flex;align-items:center;gap:10px;padding:15px 16px;border-bottom:1px solid rgba(125,225,255,.14)}.sw-header img{width:38px;height:38px;border-radius:50%}.sw-header strong{display:block}.sw-header span{display:block;color:var(--text-muted);font-size:12px}.sw-close{margin-left:auto;background:transparent;border:0;color:var(--text-muted);font-size:22px;cursor:pointer}.sw-body{padding:14px 16px}.sw-msg{padding:10px 11px;border-radius:14px;background:rgba(22,27,35,.88);font-size:13px;line-height:1.45;margin-bottom:8px}.sw-quick{display:grid;gap:7px;margin:10px 0}.sw-quick button{border:1px solid rgba(125,225,255,.24);border-radius:999px;background:rgba(7,9,12,.42);color:#D7F9FF;padding:8px 10px;cursor:pointer;text-align:left}.sw-input{display:flex;gap:8px}.sw-input input{flex:1;min-width:0;border:1px solid rgba(125,225,255,.24);border-radius:14px;background:rgba(7,9,12,.70);color:var(--text-primary);padding:10px}.sw-input button{border:1px solid rgba(125,225,255,.36);border-radius:14px;background:rgba(34,211,238,.14);color:#D7F9FF;padding:10px 12px;cursor:pointer}@media(max-width:760px){.support-grid.clean{grid-template-columns:1fr}.clippy-support{align-items:flex-start;flex-direction:column}.support-hero-banner{min-height:360px}}
+
 /* MOBILE */
 @media (max-width: 600px) {
  .hero-title {
@@ -661,8 +665,8 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
  </div>
  </div>
  <div class="header-right">
- <a href="site-dashboard.html" class="header-link">Home</a>
- <a href="hello-screen.html" class="header-link">Launchpad</a>
+ <a href="index.html" class="header-link">Home</a>
+ <a href="launchpad-onboarding.html" class="header-link">Launchpad</a>
  <a href="#" class="header-link">Academy</a>
  </div>
 </header>
@@ -670,155 +674,104 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 <!-- HERO SECTION -->
 <div class="hero">
  <h2 class="hero-title">Need Help?</h2>
- <p class="hero-tagline">Robby · Cassie · Ron on deck</p>
- <p class="hero-body">Support should feel like people are actually here with you, because they are. Start with tools, tickets, community, or Ron.</p>
+ <p class="hero-tagline">Human command center online</p>
+ <p class="hero-body">The human employees at the Heyron Command Center are on it. Commander Robby and Captain Cassie are here to help, with Ron overseeing the board.</p>
 </div>
 
 <div class="support-hero-banner">
- <img src="assets/support/robby-cassie-support-hero.png" alt="Robby and Cassie at Heyron support command" />
+ <img src="assets/support/robby-cassie-support-hero.png" alt="Commander Robby and Captain Cassie at Heyron support command with hologram Ron" />
 </div>
 
-<!-- WORKFLOW BAR -->
-<div class="workflow">
- <div class="workflow-step">
- <img src="assets/tools.svg" alt="Self-Help">
- <span>Reset</span>
- </div>
- <div class="workflow-arrow">→</div>
- <div class="workflow-step">
- <img src="assets/ticket.svg" alt="Create Ticket">
- <span>Create Ticket</span>
- </div>
- <div class="workflow-arrow">→</div>
- <div class="workflow-step">
- <img src="assets/discord.svg" alt="Peer Support">
- <span>Peer Support</span>
- </div>
- <div class="workflow-arrow">→</div>
- <div class="workflow-step">
- <img src="assets/status.svg" alt="Track Ticket">
- <span>Track Ticket</span>
- </div>
+<div class="command-copy">
+ <strong>Support path:</strong> make a ticket, check your ticket, get quick answers, or ask Clippy Ron to point you in the right direction.
 </div>
 
 <!-- SUPPORT GRID -->
-<div class="support-grid">
- <div class="card">
- <div>
- <img src="assets/tools.svg" alt="Self-Help">
- <h3>Self Help Tools</h3>
- <p>Reset container or API key, clear chat, all in one place</p>
+<div class="support-grid clean">
+ <div class="card featured">
+  <div>
+   <img src="assets/ticket.svg" alt="Ticket">
+   <h3>Make a Ticket</h3>
+   <p>Something broken, confusing, or account-specific? Send it to the humans at command center.</p>
+  </div>
+  <a href="https://heyron.ai/support" class="button">Create Ticket</a>
  </div>
- <a href="https://heyron.ai/chat" class="button">Use Tools</a>
+
+ <div class="card featured">
+  <div>
+   <img src="assets/status.svg" alt="Ticket status">
+   <h3>Check Your Ticket</h3>
+   <p>Already asked for help? Check status, replies, and next steps without guessing.</p>
+  </div>
+  <a href="https://heyron.ai/support/ticket" class="button">View Ticket</a>
  </div>
 
  <div class="card">
- <div>
- <img src="assets/ticket.svg" alt="Ticket">
- <h3>Open a Ticket</h3>
- <p>Submit a support ticket and our team will assist as soon as possible.</p>
- </div>
- <a href="https://heyron.ai/support" class="button">Create Ticket</a>
- </div>
-
- <div class="card">
- <div>
- <img src="assets/discord.svg" alt="Discord">
- <h3>Get Peer Support</h3>
- <p>Join the community to ask questions and learn from others.</p>
- </div>
- <a href="https://discord.com" class="button">Join Discord</a>
+  <div>
+   <img src="assets/bulb.svg" alt="Simple questions">
+   <h3>Simple Questions</h3>
+   <p>Common answers for setup, Launchpad, memory, tools, and agent behavior.</p>
+  </div>
+  <a href="#faq" class="button">Read FAQ</a>
  </div>
 
  <div class="card">
- <div>
- <img src="assets/status.svg" alt="Status">
- <h3>Check Ticket Status</h3>
- <p>View and manage your tickets and track progress.</p>
- </div>
- <a href="https://heyron.ai/support/ticket" class="button">View Tickets</a>
+  <div>
+   <img src="assets/ron-avatar.png" alt="Clippy Ron">
+   <h3>Ask Clippy Ron</h3>
+   <p>Ron can triage what you need and tell you whether to use docs, Discord, or a ticket.</p>
+  </div>
+  <button type="button" class="button clippy-open" id="supportClippyOpen">Ask Ron</button>
  </div>
 </div>
 
-<!-- RON CHAT WITH DUMPSTER -->
-<div class="ron-panel">
- <div class="ron-panel-left">
-  <img src="assets/ron-avatar.png" alt="Ron" class="ron-avatar" />
-  <div class="ron-text">
-   <h3>Hey, I'm Ron</h3>
-   <p>I'm here to help you.</p>
-  </div>
+<div class="clippy-support">
+ <img src="assets/ron-avatar.png" alt="Ron">
+ <div>
+  <h3>Ron is overseeing support.</h3>
+  <p>Commander Robby and Captain Cassie are the human crew. Ron keeps the board organized, points users to the right lane, and tries not to eat the ticket queue.</p>
  </div>
- <div class="ron-panel-center">
-  <button class="dumpster-btn" onclick="openDumpsterModal()" title="Dumpster Fire Mod">
-   <img src="assets/trash.svg" alt="Dumpster Fire" style="width:48px;height:48px;" />
-  </button>
- </div>
- <div class="ron-panel-right">
-  <img src="assets/ron-dish.png" alt="Connect" class="ron-dish satellite-dish" style="width:64px;height:64px;border-radius:12px;" />
- </div>
+ <button type="button" class="clippy-open" id="supportClippyOpen2">Open Clippy Ron</button>
 </div>
 
-<!-- DUMPSTER FIRE MODAL -->
-<div class="dumpster-modal-overlay" id="dumpsterModal">
- <div class="dumpster-modal">
-  <div class="dumpster-image-wrap">
-   <img src="assets/dumpster-raccoon.png" alt="Dumpster Raccoon" class="dumpster-image" />
+<!-- FAQ -->
+<div class="faq-panel" id="faq">
+ <h2>Quick answers</h2>
+ <p>For small things that should not require a whole ticket.</p>
+ <details class="faq-item"><summary>My agent is not responding. What should I try first?</summary><div>Refresh the dashboard, check whether your channel is connected, then ask Clippy Ron to help decide if this needs a ticket.</div></details>
+ <details class="faq-item"><summary>Where do I set up my agent?</summary><div>Start in Launchpad. It walks you through name, agent name, first mission, tools, and guardrails.</div></details>
+ <details class="faq-item"><summary>When should I make a ticket?</summary><div>If it involves billing, account access, broken container behavior, lost setup, or something private, make a ticket so Robby and Cassie can see the details.</div></details>
+ <details class="faq-item"><summary>Should I ask Discord or support?</summary><div>Use Discord for general questions and community ideas. Use tickets for private account-specific problems.</div></details>
+</div>
+
+<div class="sw-panel" id="supportClippy" role="dialog" aria-modal="false" aria-labelledby="supportClippyTitle">
+ <div class="sw-header"><img src="assets/ron-avatar.png" alt="Ron"><div><strong id="supportClippyTitle">Clippy Ron</strong><span>Support triage raccoon</span></div><button class="sw-close" id="supportClippyClose" type="button">×</button></div>
+ <div class="sw-body">
+  <div class="sw-msg" id="supportClippyMsg">Tell me what’s going on. I’ll help you pick: quick answer, Discord, or ticket.</div>
+  <div class="sw-quick">
+   <button data-reply="If it is account-specific, private, billing, or broken container behavior, make a ticket. If it is general learning or ideas, Discord is fine.">Should I make a ticket?</button>
+   <button data-reply="Launchpad is where you name your agent, pick a mission, connect tools, and set guardrails.">Where is setup?</button>
+   <button data-reply="First refresh, then check the connected channel. If it still fails, make a ticket with what you tried.">My agent is stuck</button>
   </div>
-  <div class="dumpster-content">
-   <h2>Dumpster Fire Module</h2>
-   <h3>Moderators Only</h3>
-   <p>Enter password to access, manage and resolve support tickets.</p>
-   <input type="password" class="dumpster-password" id="dumpsterPassword" placeholder="Enter password" />
-   <div class="dumpster-actions">
-    <button class="access-btn" onclick="submitDumpster()">Access Module</button>
-    <button class="cancel-btn" onclick="closeDumpsterModal()">Cancel</button>
-   </div>
-  </div>
+  <div class="sw-input"><input id="supportClippyInput" placeholder="Ask a quick support question…"><button id="supportClippySend" type="button">Send</button></div>
  </div>
 </div>
 
 <script>
-function openDumpsterModal() {
- document.getElementById('dumpsterModal').classList.add('active');
- setTimeout(() => {
-  document.getElementById('dumpsterPassword').focus();
- }, 100);
-}
-function closeDumpsterModal() {
- document.getElementById('dumpsterModal').classList.remove('active');
- document.getElementById('dumpsterPassword').value = '';
-}
-function submitDumpster() {
- const pwd = document.getElementById('dumpsterPassword').value;
- if(pwd) {
-  alert('Password submitted: ' + pwd + ' — Redirect not configured yet');
-  closeDumpsterModal();
- } else {
-  document.getElementById('dumpsterPassword').focus();
- }
-}
-document.addEventListener('keydown', function(e) {
- if(e.key === 'Escape') closeDumpsterModal();
-});
+(function(){
+ const panel=document.getElementById('supportClippy');
+ const msg=document.getElementById('supportClippyMsg');
+ const input=document.getElementById('supportClippyInput');
+ function open(){panel.classList.add('open'); setTimeout(()=>input&&input.focus(),50)}
+ function close(){panel.classList.remove('open')}
+ document.getElementById('supportClippyOpen')?.addEventListener('click',open);
+ document.getElementById('supportClippyOpen2')?.addEventListener('click',open);
+ document.getElementById('supportClippyClose')?.addEventListener('click',close);
+ document.querySelectorAll('.sw-quick button').forEach(b=>b.addEventListener('click',()=>{msg.textContent=b.dataset.reply;}));
+ document.getElementById('supportClippySend')?.addEventListener('click',()=>{const q=(input.value||'').trim(); if(!q) return; msg.textContent='Got it. If this touches your account, billing, container, or private info, make a ticket. Otherwise this is a good Discord/simple-question lane.'; input.value='';});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape') close();});
+})();
 </script>
-
-<!-- FAQ -->
-<div class="faq">
- <div class="faq-item">
- <span>How do I reset my password?</span>
- <span>›</span>
- </div>
- <div class="faq-item">
- <span>How do I configure new agents?</span>
- <span>›</span>
- </div>
- <div class="faq-item">
- <span>Why is my agent not responding?</span>
- <span>›</span>
- </div>
-</div>
-
 </div>
 
 <!-- FOOTER NAV -->
