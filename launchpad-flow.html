@@ -345,6 +345,33 @@ button,a,input,textarea,select,.btn,.chip,.option,.usecase,.integration,.checkbo
 }
 @media(max-width:390px){.hero img{width:min(88vw,340px)!important;max-width:min(88vw,340px)!important;}.headline{font-size:30px!important;}}
 
+
+/* Ron mobile readability repair: form pages */
+@media(max-width:700px){
+  .app{max-width:100%!important;padding:14px 12px calc(132px + env(safe-area-inset-bottom))!important;}
+  .panel{padding:18px 14px 16px!important;border-radius:18px!important;overflow:hidden!important;}
+  .brand{margin-bottom:14px!important;}
+  .steps{margin-bottom:16px!important;}
+  .hero{display:grid!important;grid-template-columns:1fr!important;justify-items:center!important;text-align:center!important;margin-bottom:18px!important;gap:10px!important;}
+  .hero-text{width:100%!important;min-width:0!important;}
+  h1.headline,.headline{font-size:24px!important;line-height:1.08!important;margin-bottom:7px!important;letter-spacing:-.02em!important;}
+  p.sub,.sub{font-size:14px!important;line-height:1.45!important;color:#D6E4F5!important;}
+  .hero img{width:min(88vw,340px)!important;max-width:min(88vw,340px)!important;max-height:240px!important;height:auto!important;object-fit:contain!important;}
+  .field{margin-bottom:13px!important;}
+  .input{font-size:16px!important;padding:12px!important;}
+  .actions{display:grid!important;grid-template-columns:1fr!important;width:100%!important;gap:10px!important;margin-top:18px!important;align-items:stretch!important;}
+  .actions .btn,.actions .btn-back,.actions .btn-skip,.btn{width:100%!important;max-width:100%!important;min-width:0!important;flex:0 0 auto!important;padding:13px 14px!important;white-space:normal!important;}
+  .card-grid,.options,.options-rich,.usecase-grid{grid-template-columns:1fr!important;}
+  .integration{display:grid!important;grid-template-columns:1fr!important;align-items:stretch!important;gap:10px!important;}
+  .integration-body{width:100%!important;min-width:0!important;}
+  .integration-name{font-size:14px!important;}
+  .integration-desc{font-size:12px!important;line-height:1.45!important;overflow-wrap:anywhere!important;}
+  .setup{padding:14px!important;}
+  .setup-step{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;}
+  .setup-step-body{width:100%!important;min-width:0!important;}
+}
+@media(max-width:390px){h1.headline,.headline{font-size:22px!important}.hero img{width:min(92vw,320px)!important;}}
+
 </style>
 <!-- Functional Launchpad flow copied from launchpad-final.html; entry art lives in launchpad-onboarding.html. -->
 </head>
