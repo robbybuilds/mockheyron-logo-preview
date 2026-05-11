@@ -604,7 +604,7 @@ function PersonalityScreen({ data, onUpdate, onNext, onBack, step, totalSteps })
   return (
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
-      <div className="hero"><img src="assets/onboarding/final/personality.png" alt="" className="flow-art" /><div className="hero-text"><h1 className="headline">Pick your agent's working style.</h1><p className="sub">Choose how {data.agentName || 'your agent'} should communicate. The characters are inspiration — the behavior is what gets saved.</p></div></div>
+      <div className="hero"><img src="assets/onboarding/final/working-style.png" alt="Four communication style cards: Direct and strategic, Warm and encouraging, Technical and precise, Creative and playful." className="flow-art-wide" /><div className="hero-text"><h1 className="headline">Pick your agent's working style.</h1><p className="sub">Choose how {data.agentName || 'your agent'} should communicate. The characters are inspiration — the behavior is what gets saved.</p></div></div>
       <div className="options options-rich">
         {PERSONAS.map((p) => (
           <button key={p.id} className={`option persona-card ${data.personality === p.id ? 'selected' : ''}`} onClick={() => onUpdate({ personality: p.id })}>
