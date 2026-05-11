@@ -136,6 +136,11 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .resource-card h3{font-size:15px;margin:0 0 5px;color:#F8FAFC;}.resource-card p{font-size:12px;margin:0 0 9px;color:#9BAAC4;}.resource-card a{font-size:12px;color:#D7F9FF;text-decoration:none;}
 .page-note{font-size:12px;color:#FDE68A;background:rgba(253,224,71,.08);border:1px solid rgba(253,224,71,.18);border-radius:14px;padding:9px 10px;margin:10px 0 2px;}
 .glow-cloud{color:#E9D5FF!important;border-color:rgba(168,85,247,.42)!important;background:radial-gradient(circle at 50% 35%,rgba(168,85,247,.22),rgba(7,9,12,.46) 62%)!important;box-shadow:0 0 24px rgba(168,85,247,.20),inset 0 1px 0 rgba(255,255,255,.07)!important;}
+.soon-modal{position:fixed;inset:0;z-index:1002;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(3,5,8,.68);backdrop-filter:blur(10px);}
+.soon-modal.open{display:flex;}
+.soon-card{width:min(420px,100%);border-radius:24px;padding:22px;background:linear-gradient(180deg,rgba(15,20,28,.98),rgba(7,9,12,.99));border:1px solid rgba(0,207,255,.42);box-shadow:0 0 38px rgba(0,207,255,.16),0 0 44px rgba(109,40,217,.12),inset 0 1px 0 rgba(255,255,255,.06);text-align:center;}
+.soon-card h2{margin:0 0 8px;font-size:24px;}.soon-card p{margin:0 0 16px;color:var(--text-muted);font-size:13px;line-height:1.5;}.soon-card button{border:1px solid rgba(125,225,255,.35);border-radius:999px;background:rgba(7,9,12,.52);color:#D7F9FF;padding:10px 14px;cursor:pointer;}
+
 @media(max-width:700px){.community-grid{grid-template-columns:1fr}.community-card.large{max-height:86vh}}
 
 
@@ -238,7 +243,7 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
     <img src="assets/monitor.svg" class="icon" />
     <h3>Ron Academy</h3>
     <p>Short lessons to help you build better</p>
-    <a href="https://heyron-ai.github.io/agent-library/tutorials/index.html" class="button">Learn</a>
+    <a href="#" class="button" data-soon="Ron Academy">Learn</a>
   </div>
   <div class="card quick-card">
     <img src="assets/headset.svg" class="icon" />
@@ -268,7 +273,7 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 
 <!-- EXTRA ACTIONS -->
 <div class="bridge-actions">
-  <a href="https://stan.store/robbybuildsron" class="bridge-button">Merch</a>
+  <a href="#" class="bridge-button" data-soon="Merch">Merch</a>
   <a href="https://www.thedenheyron.com/" class="bridge-button">Socials</a>
   <a href="https://discord.gg/heyron" class="bridge-button">Discord</a>
   <a href="https://heyron.ai/chat" class="bridge-button primary">Speak with your AI cadet</a>
@@ -284,13 +289,13 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 <!-- STATS (moved from top) -->
 <div class="grid grid-4" style="margin-top:16px;">
   <div class="card">
-    <div class="stat-title">Active Subscribers</div>
-    <div class="stat-value">2,056</div>
+    <div class="stat-title">Agent Jams Hosted</div>
+    <div class="stat-value">Soon</div>
     <svg class="graph" viewBox="0 0 100 30"><path d="M0 20 L20 18 L40 22 L60 15 L80 17 L100 10"/></svg>
   </div>
   <div class="card">
-    <div class="stat-title">Ready Agents</div>
-    <div class="stat-value">2,329</div>
+    <div class="stat-title">Robby's Agent Crew</div>
+    <div class="stat-value">7</div>
     <svg class="graph" viewBox="0 0 100 30"><path d="M0 25 L20 20 L40 18 L60 16 L80 12 L100 8"/></svg>
   </div>
   <div class="card">
@@ -331,10 +336,10 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
     <div class="memory-head"><div class="memory-orb">🗄️</div><div><h2 id="memoryTitle">Memory File Cabinet</h2><p style="margin:2px 0 0">Robby's dashboard memory lane.</p></div></div>
     <p>A hookup-ready place for saved memory, durable notes, project files, and searchable context. Real dashboard version can pull from the signed-in user's memory index.</p>
     <div class="community-grid">
-      <div class="resource-card"><span class="tag">Pinned</span><h3>Core Facts</h3><p>Stable preferences, people, product context, and current priorities.</p><a href="#">Open memory index →</a></div>
-      <div class="resource-card"><span class="tag">Projects</span><h3>Active Workstreams</h3><p>Mission Control, Launchpad, support flows, and community programs.</p><a href="#">View project drawer →</a></div>
-      <div class="resource-card"><span class="tag">Search</span><h3>Ask the Cabinet</h3><p>Search notes before asking Ron to act, so answers stay grounded.</p><a href="#">Search memory →</a></div>
-      <div class="resource-card"><span class="tag">Health</span><h3>Memory Cleanup</h3><p>Review stale facts, duplicates, and old assumptions before they become slop.</p><a href="#">Run cleanup →</a></div>
+      <div class="resource-card"><span class="tag">Pinned</span><h3>Core Facts</h3><p>Stable preferences, people, product context, and current priorities.</p><a href="#" data-soon="Open memory index">Open memory index →</a></div>
+      <div class="resource-card"><span class="tag">Projects</span><h3>Active Workstreams</h3><p>Mission Control, Launchpad, support flows, and community programs.</p><a href="#" data-soon="View project drawer">View project drawer →</a></div>
+      <div class="resource-card"><span class="tag">Search</span><h3>Ask the Cabinet</h3><p>Search notes before asking Ron to act, so answers stay grounded.</p><a href="#" data-soon="Search memory">Search memory →</a></div>
+      <div class="resource-card"><span class="tag">Health</span><h3>Memory Cleanup</h3><p>Review stale facts, duplicates, and old assumptions before they become slop.</p><a href="#" data-soon="Run cleanup">Run cleanup →</a></div>
     </div>
     <div class="page-note">Hookup note: wire these cards to the existing dashboard memory/file cabinet routes.</div>
     <div class="memory-actions"><a class="primary" href="https://app.heyron.ai" target="_blank" rel="noopener">Open Dashboard</a><button type="button" id="memoryClose">Close</button></div>
@@ -346,12 +351,12 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
     <div class="community-head"><div class="community-orb">🫙</div><div><h2 id="jamTitle">Huckleberry Agent Jam</h2><p style="margin:2px 0 0">Weekly builds from the community jar.</p></div></div>
     <p>Show last week’s winners, their GitHub files, the next theme, and Robby’s announcement clip after each live.</p>
     <div class="community-grid">
-      <div class="resource-card"><span class="tag">Winner</span><h3>Best Agent Build</h3><p>Short description of what it does and why it won.</p><a href="#">GitHub winning file →</a></div>
-      <div class="resource-card"><span class="tag">Runner-up</span><h3>Best Workflow</h3><p>A useful automation, prompt chain, or tool setup from the week.</p><a href="#">GitHub winning file →</a></div>
-      <div class="resource-card"><span class="tag">Next Theme</span><h3>Tiny agents that save 10 minutes</h3><p>Build something small, useful, and easy for someone else to remix.</p><a href="#">Submit next jam →</a></div>
-      <div class="resource-card"><span class="tag">Video</span><h3>Winner Announcement Clip</h3><p>Drop Robby’s clipped live announcement here each week.</p><a href="#">Watch announcement →</a></div>
+      <div class="resource-card"><span class="tag">Winner</span><h3>Best Agent Build</h3><p>Short description of what it does and why it won.</p><a href="#" data-soon="GitHub winning file">GitHub winning file →</a></div>
+      <div class="resource-card"><span class="tag">Runner-up</span><h3>Best Workflow</h3><p>A useful automation, prompt chain, or tool setup from the week.</p><a href="#" data-soon="GitHub winning file">GitHub winning file →</a></div>
+      <div class="resource-card"><span class="tag">Next Theme</span><h3>Tiny agents that save 10 minutes</h3><p>Build something small, useful, and easy for someone else to remix.</p><a href="#" data-soon="Submit next jam">Submit next jam →</a></div>
+      <div class="resource-card"><span class="tag">Video</span><h3>Winner Announcement Clip</h3><p>Drop Robby’s clipped live announcement here each week.</p><a href="#" data-soon="Watch announcement">Watch announcement →</a></div>
     </div>
-    <div class="community-actions"><a class="primary" href="#">Submit to Agent Jam</a><button type="button" id="jamClose">Close</button></div>
+    <div class="community-actions"><a class="primary" href="#" data-soon="Submit to Agent Jam">Submit to Agent Jam</a><button type="button" id="jamClose">Close</button></div>
   </div>
 </div>
 
@@ -360,12 +365,12 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
     <div class="community-head"><div class="community-orb">🖌️</div><div><h2 id="artTitle">Community Art Wall</h2><p style="margin:2px 0 0">Fan art, badges, mascots, and beautiful weird Ron things.</p></div></div>
     <p>Feature community art with creator links, source files, next prompt, and an announcement clip from the live.</p>
     <div class="community-grid">
-      <div class="resource-card"><span class="tag">Featured</span><h3>Ron Variant of the Week</h3><p>Spotlight a community-made Ron, agent mascot, or badge.</p><a href="#">Creator link →</a></div>
-      <div class="resource-card"><span class="tag">Patch</span><h3>Mission Patch Gallery</h3><p>Collect reusable badges and art assets for community builds.</p><a href="#">View source →</a></div>
-      <div class="resource-card"><span class="tag">Prompt</span><h3>Draw your agent’s desk setup</h3><p>A simple weekly art prompt people can riff on.</p><a href="#">Submit art →</a></div>
-      <div class="resource-card"><span class="tag">Video</span><h3>Art Announcement Clip</h3><p>Drop Robby’s clipped live shoutout here.</p><a href="#">Watch clip →</a></div>
+      <div class="resource-card"><span class="tag">Featured</span><h3>Ron Variant of the Week</h3><p>Spotlight a community-made Ron, agent mascot, or badge.</p><a href="#" data-soon="Creator link">Creator link →</a></div>
+      <div class="resource-card"><span class="tag">Patch</span><h3>Mission Patch Gallery</h3><p>Collect reusable badges and art assets for community builds.</p><a href="#" data-soon="View source">View source →</a></div>
+      <div class="resource-card"><span class="tag">Prompt</span><h3>Draw your agent’s desk setup</h3><p>A simple weekly art prompt people can riff on.</p><a href="#" data-soon="Submit art">Submit art →</a></div>
+      <div class="resource-card"><span class="tag">Video</span><h3>Art Announcement Clip</h3><p>Drop Robby’s clipped live shoutout here.</p><a href="#" data-soon="Watch clip">Watch clip →</a></div>
     </div>
-    <div class="community-actions"><a class="primary" href="#">Submit community art</a><button type="button" id="artClose">Close</button></div>
+    <div class="community-actions"><a class="primary" href="#" data-soon="Submit community art">Submit community art</a><button type="button" id="artClose">Close</button></div>
   </div>
 </div>
 
@@ -374,13 +379,13 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
     <div class="community-head"><div class="community-orb glow-cloud">☁️</div><div><h2 id="glowTitle">Glow Cloud Library</h2><p style="margin:2px 0 0">Tutorials, guides, examples, and community resources Glow has made.</p></div></div>
     <p>A polished landing drawer for the public community GitHub, tutorial links, starter files, and anything Glow Cloud has shipped for users.</p>
     <div class="community-grid">
-      <div class="resource-card"><span class="tag">GitHub</span><h3>Community Resource Repo</h3><p>Public files, examples, and starter materials for Heyron users.</p><a href="#">Open public GitHub →</a></div>
-      <div class="resource-card"><span class="tag">Tutorials</span><h3>Glow’s Walkthroughs</h3><p>Beginner-friendly explanations for launch, prompting, tools, and setup.</p><a href="#">Browse tutorials →</a></div>
-      <div class="resource-card"><span class="tag">Templates</span><h3>Copyable Starters</h3><p>Ready-to-remix prompts, workflows, and agent setup examples.</p><a href="#">View templates →</a></div>
-      <div class="resource-card"><span class="tag">Featured</span><h3>Best of Glow Cloud</h3><p>A curated shelf for the strongest community/help assets.</p><a href="#">Open collection →</a></div>
+      <div class="resource-card"><span class="tag">GitHub</span><h3>Community Resource Repo</h3><p>Public files, examples, and starter materials for Heyron users.</p><a href="#" data-soon="Open public GitHub">Open public GitHub →</a></div>
+      <div class="resource-card"><span class="tag">Tutorials</span><h3>Glow’s Walkthroughs</h3><p>Beginner-friendly explanations for launch, prompting, tools, and setup.</p><a href="#" data-soon="Browse tutorials">Browse tutorials →</a></div>
+      <div class="resource-card"><span class="tag">Templates</span><h3>Copyable Starters</h3><p>Ready-to-remix prompts, workflows, and agent setup examples.</p><a href="#" data-soon="View templates">View templates →</a></div>
+      <div class="resource-card"><span class="tag">Featured</span><h3>Best of Glow Cloud</h3><p>A curated shelf for the strongest community/help assets.</p><a href="#" data-soon="Open collection">Open collection →</a></div>
     </div>
     <div class="page-note">Hookup note: replace placeholder links with Glow’s public GitHub/community repo once Robby confirms the URL.</div>
-    <div class="community-actions"><a class="primary" href="#">Open Glow GitHub</a><button type="button" id="glowClose">Close</button></div>
+    <div class="community-actions"><a class="primary" href="#" data-soon="Open Glow GitHub">Open Glow GitHub</a><button type="button" id="glowClose">Close</button></div>
   </div>
 </div>
 
@@ -510,7 +515,34 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 </script>
 
 
+
+<div class="soon-modal" id="soonModal" role="dialog" aria-modal="true" aria-labelledby="soonTitle">
+  <div class="soon-card">
+    <h2 id="soonTitle">Coming soon</h2>
+    <p id="soonText">This part of Mission Control is being wired up.</p>
+    <button type="button" id="soonClose">Got it</button>
+  </div>
+</div>
+
 <script>
+
+(function(){
+  const modal = document.getElementById('soonModal');
+  const text = document.getElementById('soonText');
+  const close = document.getElementById('soonClose');
+  function hide(){ modal && modal.classList.remove('open'); }
+  document.addEventListener('click', function(e){
+    const link = e.target.closest('[data-soon]');
+    if(!link) return;
+    e.preventDefault();
+    if(text) text.textContent = (link.dataset.soon || 'This') + ' is coming soon. Robby can hook this up when the real page/link is ready.';
+    modal && modal.classList.add('open');
+  });
+  close && close.addEventListener('click', hide);
+  modal && modal.addEventListener('click', e => { if(e.target === modal) hide(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') hide(); });
+})();
+
 (function(){
   const selectable = '.quick-card, .bridge-button, .footer-symbol, .button';
   document.addEventListener('click', function(e){
