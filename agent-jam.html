@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Heyron Agent Jam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{--bg:#05070b;--panel:#0f141c;--line:rgba(125,225,255,.22);--text:#f8fafc;--muted:#9baac4;--cyan:#22d3ee;--pink:#f9a8d4;--gold:#fde047;--green:#5eead4}
+*{box-sizing:border-box}body{margin:0;min-height:100svh;background:radial-gradient(circle at top,#12243b 0,#05070b 42%,#030508 100%);color:var(--text);font-family:'DM Sans',system-ui,sans-serif}.wrap{width:min(1040px,100%);margin:0 auto;padding:calc(72px + env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom))}.topbar{position:fixed;z-index:5;top:calc(12px + env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));display:flex;justify-content:space-between;gap:10px;pointer-events:none}.topbar a{pointer-events:auto;color:#d7f9ff;text-decoration:none;border:1px solid rgba(125,225,255,.28);background:rgba(7,9,12,.52);backdrop-filter:blur(10px);border-radius:999px;padding:10px 12px;font-size:12px;min-height:44px;display:flex;align-items:center}.hero{border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,rgba(15,20,28,.88),rgba(7,9,12,.94));box-shadow:0 0 46px rgba(34,211,238,.13),0 0 60px rgba(249,168,212,.08);overflow:hidden}.hero img{width:100%;display:block;background:#05070b}.copy{padding:22px}.kicker{font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.18em;color:#a5f3fc;font-size:12px}.copy h1{font-size:clamp(34px,6vw,70px);line-height:.95;letter-spacing:-.05em;margin:10px 0 10px}.copy p{color:#d6e4f5;font-size:16px;line-height:1.6;max-width:760px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}.card{border:1px solid rgba(125,225,255,.20);border-radius:20px;background:linear-gradient(180deg,rgba(22,27,35,.78),rgba(7,9,12,.58));padding:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}.card.wide{grid-column:1/-1}.tag{display:inline-flex;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;font-size:10px;color:#071018;background:linear-gradient(135deg,var(--cyan),var(--green),var(--pink),var(--gold));border-radius:999px;padding:5px 8px;font-weight:700;margin-bottom:10px}.card h2,.card h3{margin:0 0 6px}.card p{margin:0 0 10px;color:var(--muted);font-size:13px;line-height:1.5}.card a,.button{display:inline-flex;align-items:center;justify-content:center;min-height:42px;border-radius:999px;border:1px solid rgba(125,225,255,.34);color:#d7f9ff;text-decoration:none;background:rgba(7,9,12,.50);padding:9px 12px;font-size:12px;margin-right:8px;margin-top:6px}.note{border-color:rgba(253,224,71,.22);background:linear-gradient(135deg,rgba(253,224,71,.08),rgba(249,168,212,.08),rgba(7,9,12,.56))}.ron{border-color:rgba(94,234,212,.28)}.robby{border-color:rgba(249,168,212,.28)}@media(max-width:720px){.wrap{padding-left:10px;padding-right:10px}.grid{grid-template-columns:1fr}.copy{padding:18px}.hero{border-radius:20px}}
+</style>
+</head>
+<body>
+<nav class="topbar"><a href="index.html?v=agent-jam-20260517">← Mission Control</a><a href="index.html?v=agent-jam-20260517#agent-jam">Back to Agent Jam</a></nav>
+<main class="wrap">
+  <section class="hero">
+    <img src="assets/agent-jam/agent-jam-20260517.png" alt="Heyron Agent Jam" />
+    <div class="copy">
+      <div class="kicker">Agent Jam HQ</div>
+      <h1>Build together. Show receipts.</h1>
+      <p>This is the Agent Jam space: winners, links, the next topic, and notes from Ron + Robby. Placeholder-safe for now, ready for real weekly updates.</p>
+      <div class="grid">
+        <article class="card">
+          <span class="tag">Winner</span>
+          <h2>Last Jam Winner</h2>
+          <p>Add the winning builder, what they made, and why it worked. Keep it short, useful, and remixable.</p>
+          <a href="#" data-soon="Winner repo link">Winner repo →</a><a href="#" data-soon="Winner demo link">Demo →</a>
+        </article>
+        <article class="card">
+          <span class="tag">Runner-up</span>
+          <h2>Worth Remixing</h2>
+          <p>Second standout build, workflow, prompt chain, or tiny tool people should steal lovingly.</p>
+          <a href="#" data-soon="Runner-up repo link">Runner-up repo →</a>
+        </article>
+        <article class="card wide note">
+          <span class="tag">Next Topic</span>
+          <h2>Next Agent Jam: Useful in one hour</h2>
+          <p>Build a small agent workflow someone can actually use today. Bonus points for clear setup notes, screenshots, and no secret leaks.</p>
+        </article>
+        <article class="card ron">
+          <span class="tag">Ron note</span>
+          <h3>From Ron</h3>
+          <p>Bring a tiny idea, make it real, then show the receipt. Fancy is optional. Working is delicious. 🦝</p>
+        </article>
+        <article class="card robby">
+          <span class="tag">Robby note</span>
+          <h3>From Robby</h3>
+          <p>We’re looking for agent builds that teach people how to use AI agents better, not just shiny demos.</p>
+        </article>
+        <article class="card wide">
+          <span class="tag">Submit</span>
+          <h2>What to include</h2>
+          <p>GitHub link, demo/screenshot, what it does, how to run it, and anything judges should avoid exposing.</p>
+          <a class="button" href="index.html?v=agent-jam-20260517#agent-jam">Open submit drawer →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+document.querySelectorAll('[data-soon]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();alert(`${a.dataset.soon} slot is ready. Drop the real link here when it exists.`)}));
+</script>
+</body>
+</html>
