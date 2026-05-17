@@ -68,6 +68,7 @@ body {margin:0;background:var(--bg-page);color:var(--text-primary);font-family:'
 .quick-card p{font-size:10px;color:var(--text-muted);text-align:center;margin-bottom:10px;flex-grow:1;}
 .icon{width:clamp(28px,5vw,36px);height:clamp(28px,5vw,36px);object-fit:contain;display:block;margin:0 auto 6px;filter:drop-shadow(0 0 6px rgba(34,211,238,0.25));}
 .button{margin-top:6px;display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--accent);color:var(--accent);font-size:10px;text-decoration:none;}
+.launch-success{display:none;margin:14px auto 0;max-width:760px;border:1px solid rgba(94,234,212,.62);border-radius:20px;background:linear-gradient(135deg,rgba(94,234,212,.18),rgba(34,211,238,.12),rgba(168,85,247,.10));box-shadow:0 0 26px rgba(94,234,212,.16),inset 0 1px 0 rgba(255,255,255,.10);padding:14px 16px;text-align:left}.launch-success.show{display:block}.launch-success strong{display:block;color:#F8FAFC;font-size:15px;margin-bottom:4px}.launch-success span{display:block;color:#D7F9FF;font-size:12px;line-height:1.45}.launch-success-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}.launch-success-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:8px 12px;border-radius:999px;border:1px solid rgba(125,225,255,.45);color:#F8FAFC;text-decoration:none;font-size:12px;background:rgba(7,9,12,.42)}
 
 
 @keyframes heyronRainbowTrace{to{--rainbow-angle:360deg;}}
@@ -330,6 +331,11 @@ img,svg{max-width:100%;}
 <h2 class="page-title">Your Heyron<br class="mobile-title-break" /> command center</h2>
 <p class="page-subtitle">Launch your agent, learn the tools, talk to Ron, and keep your workspace moving.</p>
 <div class="safe-hook-card" id="safeHookStatus">Safe preview mode: local-only hooks are ready. No secrets, no real container actions.</div>
+<div class="launch-success" id="launchSuccess" role="status" aria-live="polite">
+  <strong>Launchpad success. Your agent setup is saved.</strong>
+  <span id="launchSuccessCopy">Mission Control is ready for the next step.</span>
+  <div class="launch-success-actions"><a href="index.html?v=launchpad-success-20260517">Stay in Mission Control</a><a href="support.html?v=launchpad-success-20260517">Get help</a></div>
+</div>
 
 <!-- ANIMATION SECTION (from hello-screen) -->
 <div class="space-scene">
@@ -345,7 +351,7 @@ img,svg{max-width:100%;}
     <img src="assets/rocket.svg" class="icon" />
     <h3>Launchpad</h3>
     <p>Start or continue your agent setup</p>
-    <a href="launchpad-onboarding-v2.html?v=launchpad-fix-20260517" class="button">Open</a>
+    <a href="launchpad-onboarding-v2.html?v=launchpad-success-20260517" class="button">Open</a>
   </div>
   <div class="card quick-card">
     <img src="assets/monitor.svg" class="icon" />
@@ -674,8 +680,16 @@ const SAFE_HOOKS = {
   if(status){
     const name = complete?.agentName ? ` · ${complete.agentName} launched` : '';
     status.textContent = params.get('launchpad') === 'complete'
-      ? `Launchpad complete${name}. Local preview saved setup, ${tickets.length} ticket(s), ${jams.length} Agent Jam entr${jams.length === 1 ? 'y' : 'ies'}.`
+      ? `Launchpad complete${name}. Setup saved locally and Mission Control is ready.`
       : `Safe preview: ${tickets.length} ticket(s), ${jams.length} Agent Jam entr${jams.length === 1 ? 'y' : 'ies'} queued locally.`;
+  }
+  const success = document.getElementById('launchSuccess');
+  const successCopy = document.getElementById('launchSuccessCopy');
+  if(params.get('launchpad') === 'complete' && success){
+    success.classList.add('show');
+    const agent = complete?.agentName || 'your agent';
+    if(successCopy) successCopy.textContent = `${agent} made it through Launchpad. Setup details are saved in this browser preview, and the next step is Mission Control or support if anything feels off.`;
+    success.scrollIntoView({ block: 'start', behavior: 'smooth' });
   }
 })();
 
