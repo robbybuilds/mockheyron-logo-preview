@@ -5,46 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Heyron Launchpad Start</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;min-height:100%;background:#05070b;color:#fff;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}.page{min-height:100svh;display:flex;flex-direction:column;background:#05070b}.topbar{position:fixed;z-index:5;top:calc(12px + env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));display:flex;justify-content:space-between;gap:10px;pointer-events:none}.topbar a{pointer-events:auto;color:#D7F9FF;text-decoration:none;border:1px solid rgba(125,225,255,.28);background:rgba(7,9,12,.52);backdrop-filter:blur(10px);border-radius:999px;padding:10px 12px;font-size:12px;min-height:44px;display:flex;align-items:center;max-width:48%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.art-wrap{position:relative;flex:1;display:flex;align-items:center;justify-content:center;padding:calc(58px + env(safe-area-inset-top)) 0 calc(110px + env(safe-area-inset-bottom));overflow:hidden}.art-link{position:relative;display:block;width:100vw;height:calc(100svh - 168px - env(safe-area-inset-top) - env(safe-area-inset-bottom));min-height:520px;text-decoration:none;-webkit-tap-highlight-color:rgba(34,211,238,.18)}.art-link img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}.cta-hit{position:absolute;left:33%;top:49%;width:34%;height:13%;border-radius:999px}@media(max-width:700px){.art-wrap{padding-top:calc(56px + env(safe-area-inset-top));padding-bottom:calc(92px + env(safe-area-inset-bottom));align-items:stretch}.art-link{height:calc(100svh - 148px - env(safe-area-inset-top) - env(safe-area-inset-bottom));min-height:560px}.art-link img{object-fit:cover;object-position:center}.cta-hit{left:22%;top:49%;width:56%;height:16%}}@media(max-width:390px){.art-link{min-height:520px}.topbar a{font-size:11px;padding:9px 10px}}
-
-/* Ron mobile Launchpad start repair: no hard crop, real CTA zone */
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%;background:#05070b;color:#fff;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
+.page{min-height:100svh;display:flex;flex-direction:column;background:#05070b}
+.topbar{position:fixed;z-index:5;top:calc(12px + env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));display:flex;justify-content:space-between;gap:10px;pointer-events:none}
+.topbar a{pointer-events:auto;color:#D7F9FF;text-decoration:none;border:1px solid rgba(125,225,255,.28);background:rgba(7,9,12,.52);backdrop-filter:blur(10px);border-radius:999px;padding:10px 12px;font-size:12px;min-height:44px;display:flex;align-items:center;max-width:48%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.art-wrap{position:relative;flex:1;display:flex;align-items:center;justify-content:center;padding:calc(58px + env(safe-area-inset-top)) 0 calc(64px + env(safe-area-inset-bottom));overflow:hidden}
+.art-link{position:relative;display:block;width:100vw;height:calc(100svh - 122px - env(safe-area-inset-top) - env(safe-area-inset-bottom));min-height:520px;text-decoration:none;-webkit-tap-highlight-color:rgba(34,211,238,.18);cursor:pointer}
+.art-link img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;border:0}
+.art-link:focus-visible{outline:3px solid rgba(34,211,238,.8);outline-offset:-6px;border-radius:18px}
 @media(max-width:700px){
-  .art-wrap{padding:calc(64px + env(safe-area-inset-top)) 10px calc(96px + env(safe-area-inset-bottom));display:block;overflow-y:auto;}
-  .art-link{width:100%;height:auto;min-height:0;aspect-ratio:2262/1254;border-radius:18px;overflow:hidden;margin:0 auto;box-shadow:0 0 28px rgba(34,211,238,.14);}
-  .art-link img{object-fit:contain;object-position:center;background:#05070b;}
-  .cta-hit{left:36%;top:50%;width:28%;height:10%;min-height:44px;}
+  .art-wrap{padding:calc(64px + env(safe-area-inset-top)) 10px calc(40px + env(safe-area-inset-bottom));display:block;overflow-y:auto}
+  .topbar a{max-width:48%;font-size:11px;padding:9px 10px}
+  .art-link{width:100%;height:auto;min-height:0;aspect-ratio:2262/1254;border-radius:18px;overflow:hidden;margin:0 auto;box-shadow:0 0 28px rgba(34,211,238,.14)}
+  .art-link img{position:static;object-fit:contain;background:#05070b}
 }
-@media(max-width:390px){
-  .art-wrap{padding-left:8px;padding-right:8px;}
-  .art-link{border-radius:14px;}
-  .cta-hit{left:32%;top:48%;width:36%;height:13%;}
-}
-
-
-/* Ron embedded Launchpad CTA fix: real anchor over visible image button */
-.cta-hit{z-index:4;display:block;text-indent:-9999px;overflow:hidden;text-decoration:none;-webkit-tap-highlight-color:rgba(34,211,238,.24);pointer-events:auto;}
-.art-link img{pointer-events:none;}
-@media(max-width:700px){.cta-hit{left:3%!important;top:47%!important;width:94%!important;height:15%!important;min-height:52px!important;border-radius:22px;}}
-@media(max-width:390px){.cta-hit{left:2%!important;top:46%!important;width:96%!important;height:16%!important;}}
-
-
-/* Ron duplicate CTA purge: no external mobile CTA exists. Only .cta-hit inside the artwork is clickable. */
-
-
-/* Ron Launchpad crest update */
-.launchpad-crest-chip{position:fixed;z-index:6;top:calc(14px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);width:44px;height:44px;border-radius:999px;object-fit:cover;border:1px solid rgba(217,164,65,.58);box-shadow:0 0 18px rgba(34,211,238,.18),0 0 28px rgba(217,164,65,.12);background:#05070b;}
-@media(max-width:700px){.launchpad-crest-chip{width:38px;height:38px;top:calc(16px + env(safe-area-inset-top));}.topbar a{max-width:42%;}}
+@media(max-width:390px){.art-wrap{padding-left:8px;padding-right:8px}.art-link{border-radius:14px}}
 </style>
 </head>
 <body>
 <main class="page">
-  <img class="launchpad-crest-chip" src="assets/launchpad-crest.png" alt="Launchpad crest" />
   <nav class="topbar" aria-label="Launchpad navigation"><a href="index.html">← Mission Control</a><a href="index.html?launchpad=skip">Skip to Mission Control</a></nav>
   <section class="art-wrap" aria-label="Welcome to Launchpad">
-    <div class="art-link" aria-label="Welcome to Launchpad">
+    <a class="art-link" href="launchpad-flow.html?path=beginner" aria-label="Start Launchpad beginner setup">
       <img src="assets/onboarding/launchpad-start-confirmed.png" alt="Welcome to Launchpad. Step 1 of 6: Set up your agent. Let’s get started." />
-      <a class="cta-hit" href="https://robbybuilds.github.io/mockheyron-logo-preview/launchpad-flow.html?path=beginner" aria-label="Let’s get started with Launchpad">Let’s get started</a>
-    </div>
+    </a>
   </section>
 </main>
 </body>
