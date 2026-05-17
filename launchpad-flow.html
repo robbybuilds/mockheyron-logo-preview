@@ -1977,7 +1977,7 @@ function App() {
   const reset = () => { SAFE_HOOKS.set('heyronLaunchpadDraft', INITIAL_DATA); setData(INITIAL_DATA); setScreen('beginner-names'); };
   const totalB = BEGINNER_FLOW.length, totalE = expertFlow.length;
   const stepB = (n) => BEGINNER_FLOW.indexOf(n), stepE = (n) => expertFlow.indexOf(n);
-  const returnToMissionControl = () => { const expert = screen.startsWith('expert-'); const payload = buildLaunchpadPayload(data, expert); SAFE_HOOKS.set('heyronLaunchpadComplete', payload); SAFE_HOOKS.set('heyronPreviewEmail', data.email || 'you@heyron.app'); window.location.href = 'index.html?launchpad=complete&v=about-image-update-20260517'; };
+  const returnToMissionControl = () => { const expert = screen.startsWith('expert-'); const payload = buildLaunchpadPayload(data, expert); SAFE_HOOKS.set('heyronLaunchpadComplete', payload); SAFE_HOOKS.set('heyronPreviewEmail', data.email || 'you@heyron.app'); window.location.href = 'index.html?launchpad=complete&v=path-choice-20260517'; };
   const advance = (current) => { const flow = current.startsWith('beginner-') ? BEGINNER_FLOW : expertFlow; const idx = flow.indexOf(current); if (idx >= flow.length - 1) { returnToMissionControl(); return; } setScreen(flow[idx + 1]); };
 
   return (

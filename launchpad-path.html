@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Heyron Launchpad Path</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%;background:#05070b;color:#fff;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
+.page{min-height:100svh;background:#05070b;display:flex;align-items:center;justify-content:center;padding:calc(58px + env(safe-area-inset-top)) 12px calc(48px + env(safe-area-inset-bottom))}
+.topbar{position:fixed;z-index:5;top:calc(12px + env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));display:flex;justify-content:space-between;gap:10px;pointer-events:none}
+.topbar a{pointer-events:auto;color:#D7F9FF;text-decoration:none;border:1px solid rgba(125,225,255,.28);background:rgba(7,9,12,.52);backdrop-filter:blur(10px);border-radius:999px;padding:10px 12px;font-size:12px;min-height:44px;display:flex;align-items:center;max-width:48%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.path-frame{position:relative;width:min(100%,1536px);aspect-ratio:1672/941;border-radius:22px;overflow:hidden;box-shadow:0 0 34px rgba(34,211,238,.16),0 0 54px rgba(168,85,247,.10);background:#05070b}
+.path-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;background:#05070b;pointer-events:none}
+.path-hit{position:absolute;z-index:3;bottom:8.2%;height:12.6%;border-radius:999px;text-indent:-9999px;overflow:hidden;text-decoration:none;-webkit-tap-highlight-color:rgba(34,211,238,.22)}
+.path-hit:focus-visible{outline:3px solid rgba(34,211,238,.9);outline-offset:3px}
+.path-hit.beginner{left:9.1%;width:22.2%}
+.path-hit.expert{left:38.9%;width:22.2%}
+.path-hit.remix{left:68.7%;width:22.2%}
+.path-fallback{display:none;gap:10px;grid-template-columns:1fr;margin-top:12px;width:min(100%,760px)}
+.path-fallback a{min-height:48px;display:flex;align-items:center;justify-content:center;border-radius:999px;border:1px solid rgba(125,225,255,.42);color:#F8FAFC;text-decoration:none;background:rgba(7,9,12,.72);font-weight:700}
+@media(max-width:700px){
+  .page{padding:calc(64px + env(safe-area-inset-top)) 8px calc(32px + env(safe-area-inset-bottom));align-items:flex-start;flex-direction:column}
+  .path-frame{border-radius:16px;margin:0 auto}
+  .path-hit{bottom:7.4%;height:14%}
+  .topbar a{font-size:11px;padding:9px 10px}
+  .path-fallback{display:grid}
+}
+</style>
+</head>
+<body>
+<nav class="topbar" aria-label="Launchpad navigation"><a href="launchpad-start.html?v=path-choice-20260517">← Back</a><a href="index.html?v=path-choice-20260517">Skip to Mission Control</a></nav>
+<main class="page">
+  <section class="path-frame" aria-label="Choose your Launchpad setup path">
+    <img src="assets/onboarding/path-choice-20260517.png" alt="Choose your path: Beginner, Expert, or Remix." />
+    <a class="path-hit beginner" href="launchpad-flow.html?path=beginner&v=path-choice-20260517" aria-label="Choose Beginner path">Beginner</a>
+    <a class="path-hit expert" href="launchpad-flow.html?path=expert&v=path-choice-20260517" aria-label="Choose Expert path">Expert</a>
+    <a class="path-hit remix" href="launchpad-flow.html?path=beginner&template=remix&v=path-choice-20260517" aria-label="Choose Remix path">Remix</a>
+  </section>
+  <div class="path-fallback" aria-label="Path choices">
+    <a href="launchpad-flow.html?path=beginner&v=path-choice-20260517">Beginner, recommended</a>
+    <a href="launchpad-flow.html?path=expert&v=path-choice-20260517">Expert</a>
+    <a href="launchpad-flow.html?path=beginner&template=remix&v=path-choice-20260517">Remix</a>
+  </div>
+</main>
+</body>
+</html>
