@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Heyron Launchpad, Gold Refresh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg-page: #0A0A0A;
+  --bg-panel: #14171C;
+  --bg-panel-2: #1A1E25;
+  --border-muted: #2D333B;
+  --border-strong: #3D434B;
+  --brand-primary: #273957;
+  --brand-secondary: #546E8F;
+  --accent: #546E8F;
+  --accent-soft: rgba(84,110,143,0.12);
+  --accent-edge: rgba(84,110,143,0.50);
+  /* Robin / light blue accents, additive to navy, for warmth and lift */
+  --robin: #8FD3F4;           /* light robin blue, brighter so it reads as blue not periwinkle */
+  --robin-soft: rgba(143,211,244,0.14);
+  --robin-edge: rgba(143,211,244,0.55);
+  --sky: #BDE3F4;             /* softer sky for highlights */
+  --sky-soft: rgba(189,227,244,0.10);
+  --text-primary: #F5F5F5;
+  --text-secondary: #8B9CB5;
+  --text-tertiary: #6E7E94;
+  --text-on-accent: #FFFFFF;
+  --status-success: #34D399;
+  --status-warning: #F59E0B;
+  --status-error: #DC2626;
+  --danger-bg: rgba(220,38,38,0.10);
+  --danger-edge: rgba(220,38,38,0.40);
+  --danger-text: #FCA5A5;
+  --r-sm: 8px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.20);
+  --shadow-md: 0 8px 24px rgba(0,0,0,0.30);
+  --shadow-lg: 0 16px 40px rgba(0,0,0,0.40);
+}
+/* Keep page background dark so the light panel pops on top of it */
+html, body { background: #0A0A0A; }
+.pill { background: var(--robin-soft); border-color: var(--robin-edge); color: var(--robin); }
+.card.recommended { border-color: var(--robin); box-shadow: 0 0 0 1px rgba(127,198,230,0.15), 0 8px 24px rgba(127,198,230,0.08); }
+.integration.connected { border-color: var(--robin); background: rgba(127,198,230,0.04); }
+.integration.connected .usecase-check { background: var(--robin); border-color: var(--robin); }
+.usecase.selected { border-color: var(--robin); background: rgba(127,198,230,0.04); }
+.usecase.selected .usecase-check { background: var(--robin); border-color: var(--robin); }
+.option.selected { border-color: var(--robin); background: rgba(127,198,230,0.04); }
+.option.selected .option-mark { border-color: var(--robin); }
+.option.selected .option-mark::after { background: var(--robin); }
+.chip.selected { border-color: var(--robin); color: var(--robin); background: var(--robin-soft); }
+.voice.selected { border-color: var(--robin); background: rgba(127,198,230,0.04); }
+.step.active { background: var(--robin); }
+.step.done { background: var(--robin); opacity: 0.4; }
+.toggle.on { background: var(--robin); }
+.soul-note { background: var(--robin-soft); border-color: var(--robin-edge); color: var(--robin); }
+.soul-note strong { color: var(--text-primary); }
+.metric-trend { color: var(--robin) !important; }
+/* Headline stays cool-white */
+h1.headline { color: #F5F5F5; }
+
+/* Brand now shows a mini Ron head, bring it in line */
+.brand { gap: 8px; align-items: center; }
+.brand-name { letter-spacing: -0.008em; }
+
+/* Ron companion bubble, his little voice next to the progress bar */
+.ron-companion { display: flex; align-items: center; gap: 10px; padding: 12px 16px; margin: -14px 0 22px; background: var(--robin-soft); border: 0.5px solid var(--robin-edge); border-radius: var(--r-lg); font-size: 13px; color: var(--robin); line-height: 1.5; animation: ron-fade-in 260ms ease-out; box-shadow: 0 4px 16px rgba(143,211,244,0.08); }
+.ron-companion span { color: var(--text-primary); opacity: 0.95; font-weight: 400; }
+@keyframes ron-fade-in { from { opacity: 0; transform: translateY(-2px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Active step dot gets a subtle glow so progress feels alive */
+.step.active { background: var(--robin); box-shadow: 0 0 12px rgba(127,198,230,0.50); }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: var(--bg-page); color: var(--text-primary);
+  font-family: 'DM Sans', 'Commissioner', system-ui, -apple-system, sans-serif;
+  font-feature-settings: 'ss01','kern','liga'; font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility; line-height: 1.5; min-height: 100vh;
+}
+button { font-family: inherit; cursor: pointer; }
+input, textarea, select { font-family: inherit; }
+code { font-family: 'JetBrains Mono', SFMono-Regular, Menlo, monospace; font-size: 0.9em; background: var(--bg-panel-2); padding: 1px 6px; border-radius: 4px; color: var(--brand-secondary); }
+h1, h2, h3, h4 { letter-spacing: -0.018em; }
+.metric-value, .container-meta-value, code, input[type="time"] { font-variant-numeric: tabular-nums; }
+button, a { transition: background 140ms ease, border-color 140ms ease, color 140ms ease, transform 140ms ease, box-shadow 140ms ease, opacity 140ms ease; }
+button:focus-visible, .input:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--brand-secondary); outline-offset: 2px; }
+::selection { background: var(--accent-soft); color: var(--text-primary); }
+
+.app { max-width: 720px; margin: 0 auto; padding: 32px 16px 120px; min-height: 100vh; position: relative; }
+.placeholder-note { background: var(--accent-soft); border: 0.5px dashed var(--accent-edge); border-radius: var(--r-md); padding: 10px 14px; font-size: 12px; color: var(--brand-secondary); margin-bottom: 16px; line-height: 1.5; }
+.panel { border: 0.5px solid var(--border-muted); border-radius: var(--r-xl); padding: 32px 28px 24px; background: linear-gradient(180deg, rgba(20,23,28,0.4) 0%, rgba(10,10,10,0) 100%); }
+
+.brand { display: flex; align-items: center; gap: 7px; margin-bottom: 24px; }
+.brand-name { font-size: 15px; font-weight: 600; letter-spacing: -0.012em; }
+.brand-dot { display: inline-block; width: 5px; height: 5px; background: var(--brand-secondary); border-radius: 50%; }
+
+h1.headline { font-size: 28px; font-weight: 500; line-height: 1.18; letter-spacing: -0.024em; margin-bottom: 10px; }
+p.sub { font-size: 15px; color: var(--text-secondary); line-height: 1.55; }
+.hero { display: flex; align-items: center; gap: 24px; margin-bottom: 28px; }
+.hero-text { flex: 1; }
+
+.card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.card { background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); padding: 20px; display: flex; flex-direction: column; }
+.card.recommended { border: 1px solid var(--brand-secondary); }
+.card-title { font-size: 17px; font-weight: 500; margin-bottom: 6px; }
+.card-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 18px; flex: 1; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; font-size: 14px; font-weight: 500; border-radius: var(--r-md); border: none; width: 100%; }
+.btn-primary { background: var(--brand-secondary); color: var(--text-on-accent); }
+.btn-primary:hover:not(:disabled) { background: #607D9F; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(84,110,143,0.30); }
+.btn-primary:active:not(:disabled) { transform: translateY(0); }
+.btn-ghost { background: transparent; color: var(--text-primary); border: 0.5px solid var(--border-strong); }
+.btn-ghost:hover { background: var(--bg-panel-2); border-color: var(--accent-edge); }
+.btn-link { background: transparent; color: var(--brand-secondary); padding: 6px 12px; font-size: 12px; border: 0.5px solid var(--accent-edge); border-radius: var(--r-sm); width: auto; }
+.btn-link:hover { background: var(--accent-soft); }
+.btn-text { background: transparent; color: var(--brand-secondary); border: none; padding: 6px 8px; width: auto; font-size: 13px; font-weight: 500; }
+.btn-text:hover { color: var(--text-primary); }
+.btn-sm { padding: 8px 14px; font-size: 12px; width: auto; flex-shrink: 0; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.pill { display: inline-flex; align-items: center; gap: 6px; background: var(--accent-soft); border: 0.5px solid var(--accent-edge); color: var(--brand-secondary); font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px; margin-bottom: 14px; align-self: flex-start; }
+.pill-spacer { height: 22px; margin-bottom: 14px; }
+
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500; }
+.field-hint { font-size: 12px; color: var(--text-tertiary); margin-top: 6px; line-height: 1.5; }
+.input { width: 100%; padding: 10px 12px; background: var(--bg-panel); color: var(--text-primary); border: 0.5px solid var(--border-muted); border-radius: var(--r-md); font-size: 14px; outline: none; transition: border-color 120ms ease, box-shadow 120ms ease; }
+.input:focus { border-color: var(--brand-secondary); box-shadow: 0 0 0 2px var(--accent-edge); }
+textarea.input { resize: vertical; min-height: 80px; line-height: 1.55; }
+select.input { appearance: none; -webkit-appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--text-secondary) 50%), linear-gradient(135deg, var(--text-secondary) 50%, transparent 50%); background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 32px; }
+
+.foot { font-size: 12px; color: var(--text-tertiary); text-align: center; margin-top: 20px; }
+.steps { display: flex; gap: 4px; margin-bottom: 24px; }
+.step { flex: 1; height: 3px; background: var(--border-muted); border-radius: 2px; transition: background 200ms; }
+.step.active { background: var(--brand-secondary); }
+.step.done { background: var(--brand-secondary); opacity: 0.4; }
+
+.options { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.options-rich { grid-template-columns: 1fr 1fr; gap: 10px; }
+.option { background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); padding: 16px; cursor: pointer; transition: border-color 140ms; text-align: left; color: inherit; }
+.option:hover { border-color: var(--border-strong); }
+.option.selected { border: 1px solid var(--brand-secondary); }
+.option-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+.option-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+.option-tag { font-size: 10px; color: var(--brand-secondary); background: var(--accent-soft); padding: 2px 6px; border-radius: 4px; font-weight: 500; }
+.options-list { display: flex; flex-direction: column; gap: 10px; }
+.options-list .option { display: flex; gap: 12px; align-items: center; }
+.options-list .option-body { flex: 1; }
+.option-mark { width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--border-strong); flex-shrink: 0; position: relative; transition: border-color 140ms; }
+.options-list .option.selected .option-mark { border-color: var(--brand-secondary); }
+.options-list .option.selected .option-mark::after { content: ''; position: absolute; inset: 4px; background: var(--brand-secondary); border-radius: 50%; }
+
+.persona-card { padding: 18px; }
+.persona-name { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+.persona-tag { font-size: 12px; color: var(--text-secondary); margin-bottom: 12px; }
+.persona-sample { font-size: 12px; color: var(--text-primary); background: var(--bg-panel-2); padding: 10px 12px; border-radius: var(--r-sm); margin-bottom: 10px; line-height: 1.55; font-style: italic; border-left: 2px solid var(--brand-secondary); }
+.persona-best { font-size: 11px; color: var(--text-tertiary); }
+.persona-best strong { color: var(--text-secondary); font-weight: 500; }
+.comm-sample { font-size: 13px; color: var(--text-primary); background: var(--bg-panel-2); padding: 10px 12px; border-radius: var(--r-sm); margin-top: 10px; line-height: 1.55; font-style: italic; border-left: 2px solid var(--brand-secondary); }
+
+.usecase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.usecase { display: flex; align-items: center; gap: 10px; background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-md); padding: 12px; cursor: pointer; color: inherit; text-align: left; transition: border-color 140ms; width: 100%; }
+.usecase:hover { border-color: var(--border-strong); }
+.usecase.selected { border-color: var(--brand-secondary); }
+.usecase-check { width: 16px; height: 16px; border-radius: 4px; border: 1px solid var(--border-strong); flex-shrink: 0; position: relative; transition: all 140ms; }
+.usecase.selected .usecase-check { background: var(--brand-secondary); border-color: var(--brand-secondary); }
+.usecase.selected .usecase-check::after { content: ''; position: absolute; left: 4px; top: 1px; width: 4px; height: 8px; border: 2px solid #FFFFFF; border-top: 0; border-left: 0; transform: rotate(45deg); }
+.usecase-label { font-size: 13px; flex: 1; }
+
+.soul-note { background: var(--accent-soft); border: 0.5px solid var(--accent-edge); border-radius: var(--r-md); padding: 12px 14px; margin-top: 18px; font-size: 12px; color: var(--brand-secondary); line-height: 1.6; }
+.soul-note strong { color: var(--text-primary); font-weight: 500; }
+.danger-note { background: var(--danger-bg); border: 0.5px solid var(--danger-edge); border-radius: var(--r-md); padding: 12px 14px; font-size: 12px; color: var(--danger-text); line-height: 1.6; }
+.danger-note strong { color: var(--text-primary); font-weight: 500; display: block; margin-bottom: 4px; }
+.danger-note ul { margin: 6px 0 0; padding-left: 16px; }
+.danger-note li { margin-bottom: 3px; }
+
+.actions { display: flex; gap: 12px; margin-top: 28px; align-items: center; }
+.actions .btn { flex: 1; }
+.actions .btn-back, .actions .btn-skip { flex: 0 0 auto; width: auto; padding: 10px 18px; }
+
+.setup { background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); padding: 18px; }
+.setup-step { display: flex; gap: 12px; padding: 14px 0; border-bottom: 0.5px solid var(--border-muted); }
+.setup-step:last-child { border-bottom: 0; padding-bottom: 0; }
+.setup-step:first-child { padding-top: 0; }
+.setup-num { width: 22px; height: 22px; border-radius: 50%; background: var(--bg-panel-2); color: var(--text-secondary); font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; transition: all 200ms; }
+.setup-step.done .setup-num { background: var(--brand-secondary); color: var(--text-on-accent); }
+.setup-step-body { flex: 1; min-width: 0; }
+.setup-step-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+.setup-step-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+.setup-step-action { margin-top: 10px; }
+.setup-cta { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 18px; font-size: 14px; font-weight: 500; border-radius: var(--r-md); width: 100%; background: var(--bg-panel-2); color: var(--text-primary); border: 0.5px solid var(--border-strong); cursor: pointer; transition: all 140ms; }
+.setup-cta:hover { border-color: var(--accent-edge); background: var(--bg-panel); }
+.setup-cta:disabled { opacity: 0.5; cursor: not-allowed; }
+.setup-status { display: flex; align-items: center; gap: 8px; padding: 12px 14px; background: var(--accent-soft); border: 0.5px solid var(--accent-edge); border-radius: var(--r-md); font-size: 13px; color: var(--brand-secondary); }
+
+.voice-pick { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.voice { padding: 12px; background: var(--bg-page); border: 0.5px solid var(--border-muted); border-radius: var(--r-md); cursor: pointer; text-align: left; color: inherit; transition: border-color 140ms; }
+.voice:hover { border-color: var(--border-strong); }
+.voice.selected { border-color: var(--brand-secondary); }
+.voice-name { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+.voice-desc { font-size: 11px; color: var(--text-tertiary); }
+.permissions { display: flex; flex-direction: column; gap: 0; }
+.permissions .toggle-row { padding: 12px 0; }
+.permissions .toggle-row:first-child { padding-top: 4px; }
+.permissions .toggle-row:last-child { padding-bottom: 4px; }
+.skip-hint { font-size: 12px; color: var(--text-tertiary); text-align: center; margin-top: 14px; }
+
+.integrations { display: flex; flex-direction: column; gap: 8px; }
+.integration { display: flex; align-items: center; gap: 12px; background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-md); padding: 14px; transition: border-color 140ms, transform 100ms, background 140ms; cursor: pointer; text-align: left; color: inherit; width: 100%; }
+.integration:hover { border-color: var(--border-strong); }
+.integration:active { transform: scale(0.99); }
+.integration.connected { border-color: var(--brand-secondary); background: rgba(84,110,143,0.05); }
+.integration.connected .usecase-check { background: var(--brand-secondary); border-color: var(--brand-secondary); }
+.integration.connected .usecase-check::after { content: ''; position: absolute; left: 4px; top: 1px; width: 4px; height: 8px; border: 2px solid #FFFFFF; border-top: 0; border-left: 0; transform: rotate(45deg); }
+.card { transition: transform 100ms, border-color 140ms; }
+.card:active { transform: scale(0.995); }
+/* ── GLOBAL LIGHT-BOX STYLE ──
+   Every content card/panel/box gets: dark blue frame, lighter-blue interior, near-black text.
+   Applied late so it overrides the earlier dark theme for content areas.
+   Page background stays subtly dark, only the content boxes are light. */
+
+/* Panels (every screen's main container) */
+.panel {
+  background: linear-gradient(180deg, #EAF4FB 0%, #D8E8F3 100%) !important;
+  border: 2px solid #1E3A5F !important;
+  box-shadow: 0 0 0 3px rgba(143,211,244,0.25), 0 18px 48px rgba(30,58,95,0.35) !important;
+  color: #0A1220 !important;
+}
+
+/* All headings/body text inside panels goes dark */
+.panel h1, .panel h2, .panel h3, .panel h4, .panel p, .panel span, .panel label, .panel li,
+.panel .summary-label, .panel .summary-value,
+.panel .field-hint, .panel .foot, .panel .skip-hint, .panel .about-note {
+  color: #0A1220 !important;
+}
+.panel h1.headline { color: #0A1220 !important; background: none !important; -webkit-text-fill-color: initial !important; }
+.panel .sub { color: #2C4A6E !important; }
+
+/* Brand wordmark dark */
+.panel .brand-name { color: #0A1220 !important; }
+.panel .brand-dot { background: #1E3A5F !important; }
+
+/* Step progress, dark blue trail */
+.panel .steps .step { background: rgba(30,58,95,0.18) !important; }
+.panel .steps .step.active { background: #1E3A5F !important; box-shadow: 0 0 10px rgba(30,58,95,0.45) !important; }
+.panel .steps .step.done { background: #1E3A5F !important; opacity: 0.55; }
+
+/* Inner cards (Beginner, Expert, Remix in welcome; integration cards; setup rows) */
+.panel .card {
+  background: #FFFFFF !important;
+  border: 1.5px solid #1E3A5F !important;
+  color: #0A1220 !important;
+  box-shadow: 0 2px 8px rgba(30,58,95,0.10) !important;
+}
+.panel .card-title { color: #0A1220 !important; font-weight: 600 !important; }
+.panel .card-desc { color: #2C4A6E !important; opacity: 1 !important; }
+
+/* Primary CTA inside panels: dark navy */
+.panel .btn-primary {
+  background: #1E3A5F !important;
+  color: #FFFFFF !important;
+  border: none !important;
+}
+.panel .btn-primary:hover:not(:disabled) { background: #274D7E !important; box-shadow: 0 6px 16px rgba(30,58,95,0.35) !important; }
+
+/* Ghost buttons inside panels: light fill, dark frame */
+.panel .btn-ghost {
+  background: transparent !important;
+  color: #1E3A5F !important;
+  border: 1.5px solid #1E3A5F !important;
+}
+.panel .btn-ghost:hover:not(:disabled) { background: rgba(30,58,95,0.08) !important; }
+.panel .btn-text { color: #1E3A5F !important; }
+.panel .btn-link { color: #1E3A5F !important; border-color: #1E3A5F !important; }
+
+/* Recommended pill */
+.panel .pill { background: #1E3A5F !important; color: #EAF4FB !important; border: none !important; }
+
+/* Recommended card gets an extra accent halo */
+.panel .card.recommended {
+  background: #FFFFFF !important;
+  border: 2px solid #1E3A5F !important;
+  box-shadow: 0 0 0 3px rgba(143,211,244,0.45), 0 12px 32px rgba(30,58,95,0.20) !important;
+}
+
+/* Remix card, titles now match the other cards (dark like them) */
+.remix-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #EAF4FB 100%) !important;
+  border: 2px solid #1E3A5F !important;
+  box-shadow: 0 0 0 3px rgba(143,211,244,0.45), 0 14px 40px rgba(30,58,95,0.25) !important;
+  color: #0A1220 !important;
+}
+.remix-card .card-title { color: #0A1220 !important; font-weight: 600 !important; }
+.remix-card .card-desc { color: #2C4A6E !important; opacity: 1 !important; }
+.remix-btn { background: #1E3A5F !important; color: #FFFFFF !important; border: none !important; font-weight: 500 !important; }
+.remix-btn:hover:not(:disabled) { background: #274D7E !important; box-shadow: 0 6px 16px rgba(30,58,95,0.35) !important; transform: translateY(-1px); }
+
+/* Integration tiles in the picker */
+.panel .integration {
+  background: #FFFFFF !important;
+  border: 1.5px solid #1E3A5F !important;
+  color: #0A1220 !important;
+}
+.panel .integration:hover { border-color: #274D7E !important; box-shadow: 0 4px 12px rgba(30,58,95,0.12) !important; }
+.panel .integration.connected {
+  background: #EAF4FB !important;
+  border-color: #1E3A5F !important;
+  box-shadow: 0 0 0 2px rgba(30,58,95,0.35) !important;
+}
+.panel .integration-name { color: #0A1220 !important; }
+.panel .integration-desc { color: #0A1220 !important; }
+.panel .integration-why { color: #2C4A6E !important; }
+.panel .integration-need { background: #D8E8F3 !important; border-left: 2px solid #1E3A5F !important; color: #0A1220 !important; }
+.panel .integration-need strong { color: #1E3A5F !important; }
+.panel .integration-icon {
+  background: #1E3A5F !important;
+  color: #EAF4FB !important;
+  border: none !important;
+}
+.panel .integration.connected .integration-icon { background: #274D7E !important; }
+.panel .usecase-check {
+  background: #FFFFFF !important;
+  border: 1.5px solid #1E3A5F !important;
+}
+.panel .integration.connected .usecase-check, .panel .usecase.selected .usecase-check {
+  background: #1E3A5F !important;
+  border-color: #1E3A5F !important;
+}
+
+/* Usecase buttons, option buttons, voice buttons */
+.panel .usecase, .panel .option, .panel .voice, .panel .day, .panel .chip {
+  background: #FFFFFF !important;
+  border: 1.5px solid #1E3A5F !important;
+  color: #0A1220 !important;
+}
+.panel .usecase.selected, .panel .option.selected, .panel .voice.selected, .panel .day.selected, .panel .chip.selected {
+  background: #EAF4FB !important;
+  color: #1E3A5F !important;
+  border-color: #1E3A5F !important;
+  box-shadow: inset 0 0 0 1px #1E3A5F !important;
+}
+.panel .option-mark { border-color: #1E3A5F !important; background: #FFFFFF !important; }
+.panel .option.selected .option-mark { border-color: #1E3A5F !important; }
+.panel .option.selected .option-mark::after { background: #1E3A5F !important; }
+.panel .option-title, .panel .option-desc { color: #0A1220 !important; }
+.panel .option-tag { background: #1E3A5F !important; color: #EAF4FB !important; }
+.panel .usecase-label { color: #0A1220 !important; }
+.panel .persona-name, .panel .persona-tag, .panel .persona-sample, .panel .persona-best { color: #0A1220 !important; }
+.panel .persona-sample, .panel .comm-sample { background: #D8E8F3 !important; color: #0A1220 !important; border-left: 2px solid #1E3A5F !important; }
+
+/* Inputs */
+.panel .input, .panel textarea.input, .panel select.input, .panel input[type="time"], .panel input[type="number"] {
+  background: #FFFFFF !important;
+  color: #0A1220 !important;
+  border: 1.5px solid #1E3A5F !important;
+}
+.panel .input:focus, .panel textarea.input:focus, .panel select.input:focus {
+  border-color: #274D7E !important;
+  box-shadow: 0 0 0 2px rgba(30,58,95,0.25) !important;
+}
+.panel .input::placeholder, .panel textarea.input::placeholder { color: #6E7E94 !important; }
+
+/* Setup rows */
+.panel .setup {
+  background: #FFFFFF !important;
+  border: 1.5px solid #1E3A5F !important;
+}
+.panel .setup-step { border-bottom-color: rgba(30,58,95,0.15) !important; }
+.panel .setup-num { background: #D8E8F3 !important; color: #1E3A5F !important; border: 1px solid #1E3A5F !important; }
+.panel .setup-step.done .setup-num { background: #1E3A5F !important; color: #FFFFFF !important; }
+.panel .setup-step-title, .panel .setup-step-desc { color: #0A1220 !important; }
+.panel .setup-cta { background: #EAF4FB !important; color: #1E3A5F !important; border: 1.5px solid #1E3A5F !important; }
+.panel .setup-cta:hover:not(:disabled) { background: #D8E8F3 !important; }
+.panel .setup-status { background: #EAF4FB !important; color: #1E3A5F !important; border: 1px solid #1E3A5F !important; }
+.panel code { background: #D8E8F3 !important; color: #1E3A5F !important; }
+
+/* Toggles */
+.panel .toggle { background: rgba(30,58,95,0.25) !important; }
+.panel .toggle.on { background: #1E3A5F !important; }
+.panel .toggle::after { background: #FFFFFF !important; }
+
+/* Permissions rows */
+.panel .toggle-row { border-bottom-color: rgba(30,58,95,0.12) !important; }
+.panel .toggle-title, .panel .toggle-desc { color: #0A1220 !important; }
+.panel .permissions .toggle-row { padding: 12px 0; }
+
+/* Soul / about / disclaimer notes */
+.panel .soul-note, .panel .about-prompt {
+  background: #D8E8F3 !important;
+  border: 1px solid #1E3A5F !important;
+  border-left: 3px solid #1E3A5F !important;
+  color: #0A1220 !important;
+}
+.panel .soul-note strong, .panel .about-prompt strong { color: #1E3A5F !important; }
+.panel .disclaimer-item {
+  background: #FFFFFF !important;
+  border: 1.5px solid #1E3A5F !important;
+  border-left: 4px solid #1E3A5F !important;
+  color: #0A1220 !important;
+}
+.panel .disclaimer-title { color: #1E3A5F !important; }
+.panel .disclaimer-body { color: #0A1220 !important; opacity: 1 !important; }
+.panel .checkbox { color: #0A1220 !important; }
+.panel .checkbox-mark { border-color: #1E3A5F !important; background: #FFFFFF !important; }
+.panel .checkbox.checked .checkbox-mark { background: #1E3A5F !important; border-color: #1E3A5F !important; }
+
+/* Summary block */
+.panel .summary {
+  background: #FFFFFF !important;
+  border: 1.5px solid #1E3A5F !important;
+}
+.panel .summary-row { border-bottom-color: rgba(30,58,95,0.15) !important; }
+.panel .summary-section-title { color: #1E3A5F !important; }
+
+/* Danger / safety callouts stay red but adjusted for light background */
+.panel .danger-note {
+  background: rgba(220,38,38,0.08) !important;
+  border-color: rgba(220,38,38,0.45) !important;
+  color: #7A1818 !important;
+}
+.panel .danger-note strong { color: #7A1818 !important; }
+.panel .danger-note code { background: rgba(220,38,38,0.15) !important; color: #7A1818 !important; }
+.panel .field-hint[style*="status-error"] { color: #7A1818 !important; }
+.panel .validation-error { background: rgba(220,38,38,0.10) !important; color: #7A1818 !important; border-color: rgba(220,38,38,0.45) !important; }
+
+/* Ron companion on light theme */
+.panel .ron-companion {
+  background: #EAF4FB !important;
+  border: 1.5px solid #1E3A5F !important;
+  color: #1E3A5F !important;
+}
+.panel .ron-companion span { color: #0A1220 !important; }
+
+/* Dashboard-specific polish inside panel */
+.panel .dash-greeting h2, .panel .dash-greeting p { color: #0A1220 !important; }
+.panel .metric { background: #FFFFFF !important; border: 1px solid #1E3A5F !important; color: #0A1220 !important; }
+.panel .metric-label { color: #2C4A6E !important; }
+.panel .metric-value { color: #0A1220 !important; }
+.panel .metric-trend { color: #1E3A5F !important; }
+.panel .container-card, .panel .discord-card { background: #FFFFFF !important; border: 1.5px solid #1E3A5F !important; color: #0A1220 !important; }
+.panel .container-meta-label { color: #2C4A6E !important; }
+.panel .container-meta-value { color: #0A1220 !important; }
+.panel .container-status { color: #1E3A5F !important; }
+.panel .container-status::before { background: #1E3A5F !important; }
+.panel .activity { background: #FFFFFF !important; border: 1px solid #1E3A5F !important; }
+.panel .activity-row { border-bottom-color: rgba(30,58,95,0.15) !important; color: #0A1220 !important; }
+.panel .activity-text, .panel .activity-time { color: #0A1220 !important; }
+
+/* Progress step labels / step indicators get the navy treatment */
+.panel .steps .step.active { background: #1E3A5F !important; box-shadow: 0 0 10px rgba(30,58,95,0.4) !important; }
+
+/* Placeholder-note (the demo entry ribbon) becomes a subtle cream on light */
+.placeholder-note { background: #FFF7E0 !important; border: 1px dashed #D4A74A !important; color: #7A5D0A !important; }
+
+/* Finish screen gradient headline needs a dark base */
+.panel .finish-hero h1 { background: none !important; -webkit-background-clip: initial !important; color: #1E3A5F !important; }
+.panel .finish-note { background: #D8E8F3 !important; border: 1.5px solid #1E3A5F !important; color: #0A1220 !important; }
+
+/* Hello screen body paragraph, roomy, friendly, dark on light */
+.panel .hello-body { font-size: 14px; color: #0A1220 !important; line-height: 1.65; margin: 14px 0 22px; max-width: 560px; margin-left: auto; margin-right: auto; text-align: center; }
+.panel .hello-body strong { color: #1E3A5F !important; font-weight: 600; }
+
+/* Personality intro paragraph */
+.panel .persona-intro { font-size: 13px; color: #0A1220 !important; line-height: 1.65; margin: 0 0 18px; padding: 12px 14px; background: #D8E8F3 !important; border-left: 3px solid #1E3A5F !important; border-radius: var(--r-sm); }
+.panel .persona-intro strong { color: #1E3A5F !important; font-weight: 600; }
+
+/* Section labels between persona groups */
+.panel .persona-section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #1E3A5F !important; margin: 4px 0 10px; }
+.panel .persona-section-sub { font-size: 12px; color: #2C4A6E !important; margin: -4px 0 12px; line-height: 1.55; }
+
+/* Heyron agent showcase (non-selectable examples shown before picker) */
+.panel .persona-showcase { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin: 0 0 18px; }
+.panel .persona-example { background: #EAF4FB !important; border: 1px solid #C9DCEF; border-radius: var(--r-md); padding: 12px 14px; }
+.panel .persona-example .persona-name { font-size: 14px; font-weight: 600; color: #0A1220 !important; margin: 0 0 4px; }
+.panel .persona-example .persona-tag { font-size: 12px; color: #2C4A6E !important; margin: 0 0 8px; line-height: 1.5; }
+.panel .persona-example .persona-sample { font-size: 12px; color: #1E3A5F !important; font-style: italic; line-height: 1.5; margin: 0; }
+
+/* Integration picker, expanded descriptions */
+.integration { align-items: flex-start; padding: 16px; }
+.integration-body { padding-top: 2px; }
+.integration-name { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.integration-desc { font-size: 13px; color: var(--text-primary); line-height: 1.5; margin-bottom: 6px; }
+.integration-why { font-size: 12px; color: var(--text-secondary); line-height: 1.55; margin-bottom: 8px; }
+.integration-need { font-size: 11px; color: var(--text-tertiary); line-height: 1.5; padding: 8px 10px; background: var(--bg-panel-2); border-radius: var(--r-sm); border-left: 2px solid var(--robin-edge); margin-bottom: 0; }
+.integration-need strong { color: var(--robin); font-weight: 500; }
+
+/* About-you screen */
+.about-prompt { font-size: 13px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 14px; padding: 12px 14px; background: rgba(143,211,244,0.06); border-left: 2px solid var(--robin); border-radius: var(--r-sm); }
+.about-prompt strong { color: var(--text-primary); }
+.about-textarea { min-height: 200px; line-height: 1.65; font-size: 14px; }
+.about-note { font-size: 11px; color: var(--text-tertiary); text-align: center; margin: 10px 0 0; }
+
+/* Disclaimer screen */
+.disclaimer-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px; }
+.disclaimer-item { padding: 14px 16px; background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-left: 3px solid var(--robin); border-radius: var(--r-md); }
+.disclaimer-title { font-size: 14px; font-weight: 500; color: var(--robin); margin-bottom: 6px; }
+.disclaimer-body { font-size: 12px; color: var(--text-primary); line-height: 1.6; opacity: 0.9; }
+
+/* Finish screen */
+.finish-hero { flex-direction: column; text-align: center; align-items: center; padding: 20px 0 8px; }
+.finish-hero .hero-text { text-align: center; }
+.finish-hero h1 { background: linear-gradient(90deg, var(--robin), #A5DCF5, var(--robin)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.finish-note { padding: 16px 20px; background: rgba(143,211,244,0.07); border: 0.5px solid var(--robin-edge); border-radius: var(--r-md); font-size: 13px; color: var(--text-secondary); line-height: 1.6; text-align: center; }
+.finish-note p { margin-bottom: 6px; }
+.btn:active { transform: scale(0.98); }
+.usecase { transition: border-color 140ms, transform 100ms; }
+.usecase:active { transform: scale(0.99); }
+.option { transition: border-color 140ms, transform 100ms; }
+.option:active { transform: scale(0.99); }
+.integration-icon { width: 36px; height: 36px; border-radius: var(--r-sm); background: var(--bg-panel-2); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; color: var(--brand-secondary); flex-shrink: 0; letter-spacing: 0.04em; font-family: 'JetBrains Mono', monospace; }
+.integration-body { flex: 1; min-width: 0; }
+.integration-name { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+.integration-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+
+.checkbox { display: flex; align-items: center; gap: 10px; cursor: pointer; margin-top: 14px; font-size: 13px; color: var(--text-secondary); background: none; border: none; padding: 0; text-align: left; width: 100%; }
+.checkbox-mark { width: 16px; height: 16px; border-radius: 4px; border: 1px solid var(--border-strong); position: relative; flex-shrink: 0; transition: all 140ms; }
+.checkbox.checked .checkbox-mark { background: var(--brand-secondary); border-color: var(--brand-secondary); }
+.checkbox.checked .checkbox-mark::after { content: ''; position: absolute; left: 4px; top: 1px; width: 4px; height: 8px; border: 2px solid #FFFFFF; border-top: 0; border-left: 0; transform: rotate(45deg); }
+
+.toggle-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 0.5px solid var(--border-muted); }
+.toggle-row:last-child { border-bottom: 0; }
+.toggle-info { flex: 1; }
+.toggle-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.toggle-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+.toggle { width: 36px; height: 20px; border-radius: 10px; background: var(--border-muted); position: relative; cursor: pointer; flex-shrink: 0; transition: background 200ms; border: none; padding: 0; margin-top: 2px; }
+.toggle.on { background: var(--brand-secondary); }
+.toggle::after { content: ''; position: absolute; left: 2px; top: 2px; width: 16px; height: 16px; background: var(--text-primary); border-radius: 50%; transition: transform 200ms; }
+.toggle.on::after { background: #FFFFFF; transform: translateX(16px); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.day-row { display: flex; gap: 6px; margin-top: 8px; }
+.day { flex: 1; padding: 10px 4px; font-size: 12px; background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-sm); cursor: pointer; text-align: center; color: var(--text-secondary); transition: all 140ms; }
+.day:hover { border-color: var(--border-strong); }
+.day.selected { border-color: var(--brand-secondary); color: var(--brand-secondary); background: var(--accent-soft); }
+
+.summary { display: flex; flex-direction: column; gap: 0; background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); }
+.summary-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 16px; border-bottom: 0.5px solid var(--border-muted); font-size: 13px; gap: 12px; }
+.summary-row:last-child { border-bottom: 0; }
+.summary-section-title { font-size: 11px; color: var(--brand-secondary); padding: 12px 16px 6px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 500; }
+.summary-section-title:not(:first-child) { border-top: 0.5px solid var(--border-muted); }
+.summary-label { color: var(--text-secondary); flex-shrink: 0; }
+.summary-value { color: var(--text-primary); font-weight: 500; text-align: right; }
+
+.help-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.help-card { background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); padding: 18px; cursor: pointer; transition: border-color 140ms; text-align: left; color: inherit; display: flex; flex-direction: column; gap: 6px; }
+.help-card:hover { border-color: var(--accent-edge); }
+.help-card-title { font-size: 15px; font-weight: 500; }
+.help-card-summary { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+.help-back { background: transparent; border: none; color: var(--text-secondary); font-size: 13px; padding: 0; margin-bottom: 16px; cursor: pointer; font-weight: 500; }
+.help-back:hover { color: var(--brand-secondary); }
+.help-h1 { font-size: 30px; font-weight: 500; margin-bottom: 8px; letter-spacing: -0.026em; }
+.help-tagline { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.55; }
+.help-cat-title { font-size: 11px; color: var(--text-tertiary); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px; font-weight: 500; }
+.help-section { margin-bottom: 24px; }
+.help-section h3 { font-size: 16px; font-weight: 500; margin-bottom: 10px; }
+.help-section p { font-size: 14px; color: var(--text-primary); line-height: 1.7; margin-bottom: 8px; }
+.help-section ul, .help-section ol { padding-left: 0; list-style: none; }
+.help-section li { font-size: 14px; color: var(--text-primary); line-height: 1.7; margin-bottom: 8px; padding-left: 18px; position: relative; }
+.help-section ul li::before { content: '•'; color: var(--brand-secondary); position: absolute; left: 4px; top: 0; }
+.help-section ol { counter-reset: step; }
+.help-section ol li { padding-left: 32px; counter-increment: step; }
+.help-section ol li::before { content: counter(step); color: var(--brand-secondary); background: var(--accent-soft); border: 0.5px solid var(--accent-edge); border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; left: 0; top: 4px; font-weight: 500; position: absolute; }
+.help-cta { background: var(--bg-panel); border: 0.5px solid var(--accent-edge); border-radius: var(--r-lg); padding: 16px; margin-top: 18px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.help-cta-text { font-size: 13px; color: var(--text-secondary); flex: 1; }
+
+.dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.dash-greeting h2 { font-size: 24px; font-weight: 500; margin-bottom: 4px; letter-spacing: -0.020em; }
+.dash-greeting p { font-size: 13px; color: var(--text-secondary); }
+.dash-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.metric { background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); padding: 16px; }
+.metric-label { font-size: 11px; color: var(--text-tertiary); margin-bottom: 6px; }
+.metric-value { font-size: 22px; font-weight: 500; }
+.metric-trend { font-size: 11px; color: var(--status-success); margin-top: 4px; }
+.dash-section { margin-top: 22px; }
+.dash-section h3 { font-size: 14px; font-weight: 500; margin-bottom: 10px; color: var(--text-secondary); }
+.activity { background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); }
+.activity-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 0.5px solid var(--border-muted); font-size: 13px; }
+.activity-row:last-child { border-bottom: 0; }
+.activity-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.activity-text { flex: 1; }
+.activity-time { font-size: 11px; color: var(--text-tertiary); }
+.container-card { background: var(--bg-panel); border: 0.5px solid var(--accent-edge); border-radius: var(--r-lg); padding: 16px; margin-top: 22px; }
+.container-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.container-title { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; }
+.container-status { font-size: 11px; color: var(--brand-secondary); display: flex; align-items: center; gap: 5px; font-weight: 500; }
+.container-status::before { content: ''; width: 6px; height: 6px; background: var(--brand-secondary); border-radius: 50%; animation: pulse 2s infinite; }
+.container-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; font-size: 12px; }
+.container-meta-label { color: var(--text-tertiary); }
+.container-meta-value { color: var(--text-primary); font-family: 'JetBrains Mono', SFMono-Regular, Menlo, monospace; font-size: 11px; }
+.discord-card { background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); padding: 16px; margin-top: 22px; display: flex; align-items: center; gap: 16px; }
+.discord-card-info { flex: 1; }
+.discord-card-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.discord-card-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+
+.ron-intro { position: fixed; bottom: 96px; right: 24px; width: 304px; background: var(--bg-panel); border: 1px solid var(--brand-secondary); border-radius: var(--r-lg); padding: 16px 18px 14px; z-index: 99; box-shadow: var(--shadow-lg); animation: ron-intro-in 280ms ease-out; }
+.ron-intro::after { content: ''; position: absolute; bottom: -7px; right: 32px; width: 12px; height: 12px; background: var(--bg-panel); border-right: 1px solid var(--brand-secondary); border-bottom: 1px solid var(--brand-secondary); transform: rotate(45deg); }
+.ron-intro-row { display: flex; gap: 10px; align-items: flex-start; }
+.ron-intro-text { flex: 1; min-width: 0; padding-right: 18px; }
+.ron-intro-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.ron-intro-body { font-size: 12px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px; }
+.ron-intro-cta-row { display: flex; gap: 8px; }
+.ron-intro-cta-row .btn { padding: 6px 12px; font-size: 12px; width: auto; }
+.ron-intro-dismiss { position: absolute; top: 10px; right: 12px; background: transparent; border: none; color: var(--text-tertiary); font-size: 16px; line-height: 1; cursor: pointer; padding: 0; width: 20px; height: 20px; }
+.ron-intro-dismiss:hover { color: var(--text-primary); }
+@keyframes ron-intro-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.sw-pill { position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; border-radius: 50%; background: var(--bg-panel); border: 1px solid var(--brand-secondary); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 140ms; z-index: 100; padding: 0; box-shadow: var(--shadow-md); }
+.sw-pill:hover { transform: scale(1.05); }
+.sw-pill.glow { animation: pill-pulse 2.4s ease-in-out infinite; }
+@keyframes pill-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(84,110,143,0.50), var(--shadow-md); } 50% { box-shadow: 0 0 0 12px rgba(84,110,143,0), var(--shadow-md); } }
+.sw-panel { position: fixed; bottom: 24px; right: 24px; width: 360px; height: 520px; max-height: calc(100vh - 48px); background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: var(--r-lg); display: flex; flex-direction: column; z-index: 100; overflow: hidden; animation: sw-open 200ms ease-out; transform-origin: bottom right; box-shadow: var(--shadow-lg); }
+@keyframes sw-open { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+.sw-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 0.5px solid var(--border-muted); }
+.sw-header-info { display: flex; align-items: center; gap: 10px; }
+.sw-header-name { font-size: 13px; font-weight: 500; }
+.sw-header-status { font-size: 11px; color: var(--brand-secondary); display: flex; align-items: center; gap: 4px; margin-top: 2px; font-weight: 500; }
+.sw-status-dot { width: 5px; height: 5px; background: var(--brand-secondary); border-radius: 50%; }
+.sw-close { background: transparent; color: var(--text-tertiary); border: none; font-size: 22px; line-height: 1; width: 24px; height: 24px; padding: 0; }
+.sw-close:hover { color: var(--text-primary); }
+.sw-messages { flex: 1; padding: 14px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+.bubble { max-width: 85%; padding: 8px 12px; font-size: 13px; line-height: 1.55; word-wrap: break-word; animation: bubble-in 200ms ease-out; }
+@keyframes bubble-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+.bubble.bot { background: var(--bg-panel-2); color: var(--text-primary); border-radius: 12px 12px 12px 4px; align-self: flex-start; }
+.bubble.user { background: var(--brand-secondary); color: var(--text-on-accent); border-radius: 12px 12px 4px 12px; align-self: flex-end; }
+.sw-action-btn { align-self: flex-start; background: transparent; color: var(--brand-secondary); padding: 7px 14px; font-size: 12px; font-weight: 500; border: 0.5px solid var(--accent-edge); border-radius: var(--r-sm); cursor: pointer; }
+.sw-action-btn:hover { background: var(--accent-soft); }
+.investigating { font-size: 11px; color: var(--brand-secondary); padding: 4px 12px; background: var(--accent-soft); border-radius: 12px; align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; font-weight: 500; }
+.investigating::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--brand-secondary); animation: pulse 1.2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+.typing { display: flex; gap: 4px; padding: 12px 14px; background: var(--bg-panel-2); border-radius: 12px 12px 12px 4px; align-self: flex-start; }
+.typing-dot { width: 5px; height: 5px; background: var(--brand-secondary); border-radius: 50%; opacity: 0.5; animation: typing-pulse 1.2s infinite ease-in-out; }
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.30s; }
+@keyframes typing-pulse { 0%, 60%, 100% { opacity: 0.4; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-2px); } }
+.sw-quick { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 0; }
+.sw-chip { background: transparent; border: 0.5px solid var(--border-strong); color: var(--text-primary); font-size: 12px; padding: 5px 10px; border-radius: 14px; cursor: pointer; transition: all 140ms; }
+.sw-chip:hover { border-color: var(--accent-edge); color: var(--brand-secondary); }
+.sw-input-row { display: flex; gap: 8px; padding: 12px 14px; border-top: 0.5px solid var(--border-muted); }
+.sw-input-row .input { padding: 8px 10px; font-size: 12px; }
+.sw-send { background: var(--brand-secondary); color: var(--text-on-accent); border: none; border-radius: var(--r-sm); padding: 0 14px; font-size: 12px; font-weight: 500; }
+.sw-send:hover:not(:disabled) { background: #607D9F; }
+.sw-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 16px; animation: fade-in 160ms ease-out; }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+.modal { background: var(--bg-panel); border: 0.5px solid var(--border-muted); border-radius: 16px; padding: 24px; width: 520px; max-width: 100%; max-height: 90vh; overflow-y: auto; animation: modal-in 200ms ease-out; box-shadow: var(--shadow-lg); }
+@keyframes modal-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.modal h3 { font-size: 18px; font-weight: 500; margin-bottom: 6px; }
+.modal-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.55; }
+.chip-row { display: flex; gap: 8px; }
+.chip { flex: 1; padding: 8px 12px; font-size: 13px; background: var(--bg-page); border: 0.5px solid var(--border-muted); border-radius: var(--r-sm); cursor: pointer; text-align: center; color: var(--text-primary); transition: border-color 140ms; }
+.chip:hover { border-color: var(--border-strong); }
+.chip.selected { border: 1px solid var(--brand-secondary); color: var(--brand-secondary); }
+.ticket-status-card { background: var(--bg-panel-2); border: 0.5px solid var(--border-muted); border-radius: var(--r-md); padding: 14px; margin-top: 14px; }
+.ticket-status-card h4 { font-size: 13px; font-weight: 500; margin-bottom: 6px; text-transform: capitalize; }
+.ticket-status-card p { font-size: 12px; color: var(--text-secondary); line-height: 1.55; margin: 0; }
+.ticket-status-card-time { margin-top: 6px; font-size: 11px; color: var(--text-tertiary); }
+.error-msg { font-size: 12px; color: var(--danger-text); margin-top: 12px; }
+
+.toast { position: fixed; bottom: 96px; right: 24px; background: var(--bg-panel); border: 0.5px solid var(--brand-secondary); border-radius: var(--r-md); padding: 12px 16px; font-size: 13px; color: var(--text-primary); z-index: 150; animation: toast-in 200ms ease-out; max-width: 320px; box-shadow: var(--shadow-md); }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ─── Ron widget (floating) keeps its dark theme so it reads on a light panel ── */
+html, body { background: #0A0A0A; }
+.sw-pill { border-color: var(--robin) !important; }
+.sw-header-status::before { background: var(--robin) !important; }
+.sw-header-status { color: var(--robin) !important; }
+.ron-intro { border-color: var(--robin) !important; }
+.ron-intro::after { border-color: var(--robin) !important; }
+
+@media (max-width: 640px) {
+  .card-grid, .options, .options-rich, .usecase-grid, .voice-pick, .help-grid { grid-template-columns: 1fr; }
+  .dash-grid, .two-col, .container-meta { grid-template-columns: 1fr; }
+  .hero { flex-direction: column; align-items: flex-start; }
+  .sw-panel { width: calc(100vw - 32px); right: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+</style>
+
+<style id="gold-refresh-visual-pass">
+/* Gold-star Launchpad refresh, visual layer only. Original flow/logic preserved. */
+:root {
+  --bg-page:#030713;
+  --bg-panel:rgba(10,18,34,.86);
+  --bg-panel-2:rgba(16,28,50,.92);
+  --border-muted:rgba(155,216,255,.18);
+  --border-strong:rgba(155,216,255,.34);
+  --accent:#5EEAD4;
+  --accent-soft:rgba(94,234,212,.12);
+  --accent-edge:rgba(94,234,212,.44);
+  --robin:#7DD3FC;
+  --robin-soft:rgba(125,211,252,.14);
+  --robin-edge:rgba(125,211,252,.48);
+  --sky:#E0F2FE;
+  --text-primary:#F8FAFC;
+  --text-secondary:#B9C7DC;
+  --text-tertiary:#8392AA;
+  --brand-primary:#22D3EE;
+  --brand-secondary:#A78BFA;
+}
+html,body{background:#030713!important;min-height:100%;}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-2;background:
+  radial-gradient(circle at 18% 12%,rgba(34,211,238,.20),transparent 30%),
+  radial-gradient(circle at 86% 18%,rgba(168,85,247,.18),transparent 32%),
+  radial-gradient(circle at 52% 86%,rgba(94,234,212,.14),transparent 35%),
+  linear-gradient(180deg,#061225 0%,#030713 58%,#02030A 100%);}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.42;background-image:
+  radial-gradient(circle at 20% 30%,rgba(255,255,255,.75) 0 1px,transparent 1.5px),
+  radial-gradient(circle at 80% 20%,rgba(125,211,252,.75) 0 1px,transparent 1.5px),
+  radial-gradient(circle at 40% 76%,rgba(255,255,255,.45) 0 1px,transparent 1.5px);background-size:180px 180px,230px 230px,290px 290px;}
+.app{max-width:920px;padding:34px 16px 120px;}
+.panel{position:relative;overflow:hidden;border:1px solid rgba(125,211,252,.22);background:linear-gradient(180deg,rgba(9,18,34,.92),rgba(8,12,25,.86));box-shadow:0 24px 80px rgba(0,0,0,.45),0 0 70px rgba(34,211,238,.10),inset 0 1px 0 rgba(255,255,255,.06);backdrop-filter:blur(18px);}
+.panel:before{content:"";position:absolute;inset:-40% -20% auto;height:280px;background:radial-gradient(circle,rgba(125,211,252,.18),transparent 58%);pointer-events:none;}
+.brand{position:relative;z-index:1}.brand-name{font-weight:700;color:#F8FAFC}.brand-dot{box-shadow:0 0 18px var(--accent);}
+.hero{position:relative;z-index:1}.headline{font-weight:700!important;letter-spacing:-.045em!important;font-size:clamp(32px,6vw,56px)!important;line-height:.95!important;}
+p.sub,.hello-body{color:#D5E3F7!important;font-size:16px;line-height:1.65}.hello-body{background:rgba(2,6,23,.44);border:1px solid rgba(125,211,252,.16);border-radius:18px;padding:18px;}
+.card-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{position:relative;background:linear-gradient(180deg,rgba(18,31,55,.96),rgba(9,14,26,.92));border:1px solid rgba(125,211,252,.20);border-radius:22px;box-shadow:0 12px 34px rgba(0,0,0,.22);transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}.card:hover{transform:translateY(-2px);border-color:rgba(94,234,212,.58);box-shadow:0 18px 48px rgba(0,0,0,.30),0 0 34px rgba(94,234,212,.12)}.card.recommended{border-color:rgba(94,234,212,.70);box-shadow:0 0 0 1px rgba(94,234,212,.14),0 20px 54px rgba(94,234,212,.10)}.remix-card{background:linear-gradient(135deg,rgba(168,85,247,.20),rgba(34,211,238,.12),rgba(9,14,26,.94))!important;border-color:rgba(216,180,254,.42)!important}.card-title{font-size:22px;font-weight:800;color:#F8FAFC!important}.card-desc{color:#C7D6EA!important;line-height:1.55}.pill{font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#06111f;background:linear-gradient(135deg,#7DD3FC,#5EEAD4,#F9A8D4);border:0}.pill-spacer{height:31px}
+.btn{min-height:46px;border-radius:999px;font-weight:800;letter-spacing:-.01em;border:1px solid rgba(125,211,252,.24)}.btn-primary{background:linear-gradient(135deg,#7DD3FC,#5EEAD4)!important;color:#041018!important;box-shadow:0 10px 30px rgba(94,234,212,.20)}.btn-ghost{background:rgba(2,6,23,.38)!important;color:#E0F2FE!important}.remix-btn{background:linear-gradient(135deg,#C084FC,#7DD3FC)!important;color:#05111F!important;border:0!important;box-shadow:0 10px 28px rgba(168,85,247,.18)!important}.btn:hover:not(:disabled){filter:brightness(1.05);transform:translateY(-1px)}
+.steps{gap:7px}.step{height:5px;background:rgba(125,211,252,.16)}.step.active,.step.done{background:linear-gradient(90deg,#7DD3FC,#5EEAD4,#F9A8D4)!important;opacity:1}.ron-companion{background:rgba(125,211,252,.10);border:1px solid rgba(125,211,252,.24);color:#E0F2FE;border-radius:18px}.input,textarea.input,select.input{background:rgba(2,6,23,.58);border:1px solid rgba(125,211,252,.20);color:#F8FAFC}.input:focus{border-color:rgba(94,234,212,.75);box-shadow:0 0 0 4px rgba(94,234,212,.12)}.option,.usecase,.integration,.setup,.summary,.voice{background:rgba(9,14,26,.72);border:1px solid rgba(125,211,252,.18);border-radius:16px}.option.selected,.usecase.selected,.voice.selected,.integration.connected{border-color:rgba(94,234,212,.68);background:rgba(94,234,212,.10)}.soul-note,.setup-status{border:1px solid rgba(94,234,212,.26);background:rgba(94,234,212,.10);color:#BAFFF5;border-radius:16px}.foot{color:#93A7C2}.btn-text{color:#7DD3FC}.dash-card,.metric-card{background:rgba(9,14,26,.72)!important;border-color:rgba(125,211,252,.18)!important}
+svg{filter:drop-shadow(0 12px 24px rgba(0,0,0,.25))}
+@media(max-width:760px){.app{padding:18px 10px 90px}.panel{padding:24px 16px}.card-grid,.options,.options-rich,.usecase-grid,.two-col,.voice-pick{grid-template-columns:1fr!important}.headline{font-size:36px!important}.hero{gap:14px}.actions{flex-wrap:wrap}.actions .btn,.actions .btn-back,.actions .btn-skip{width:100%;flex:1 1 100%}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel" data-presets="env,react">
+const { useState, useEffect, useRef } = React;
+
+/* ─── Mascot ─────────────────────────────────────────────────────── */
+function Eye({ cx, cy, pupilCx, pupilCy }) {
+  return (<g><circle cx={cx} cy={cy} r="4.8" fill="#F5F5F5" /><circle cx={pupilCx} cy={pupilCy} r="2.3" fill="#18181B" /><circle cx={pupilCx - 1} cy={pupilCy - 1} r="1.1" fill="#F5F5F5" /></g>);
+}
+function Mascot({ pose = 'greeting', size = 120 }) {
+  const headTilt = pose === 'sleeping' ? -7 : 0;
+  return (
+    <svg viewBox="0 0 160 200" width={size} height={size * 200 / 160} aria-hidden="true">
+      <rect x="0" y="0" width="160" height="200" rx="18" fill="#52525B" opacity="0.30" />
+      {pose === 'sleeping' ? (<g><path d="M 50 155 Q 22 155 22 128 Q 22 110 42 112 Q 38 125 42 140 Q 42 152 60 155 Z" fill="#D4D4D8" /><path d="M 28 120 Q 32 123 32 129" stroke="#3F3F46" strokeWidth="4" fill="none" strokeLinecap="round" /><path d="M 36 134 Q 38 138 38 144" stroke="#3F3F46" strokeWidth="4" fill="none" strokeLinecap="round" /></g>) : (<g><path d="M 110 142 Q 145 144 148 114 Q 148 94 132 92 Q 128 108 132 124 Q 132 138 110 142 Z" fill="#D4D4D8" /><path d="M 132 96 Q 138 99 140 106" stroke="#3F3F46" strokeWidth="5" fill="none" strokeLinecap="round" /><path d="M 142 116 Q 145 122 145 128" stroke="#3F3F46" strokeWidth="5" fill="none" strokeLinecap="round" /></g>)}
+      {pose === 'sleeping' ? (<g><ellipse cx="58" cy="167" rx="16" ry="9" fill="#273957" /><ellipse cx="102" cy="167" rx="16" ry="9" fill="#273957" /><ellipse cx="50" cy="170" rx="8" ry="4" fill="#18181B" /><ellipse cx="110" cy="170" rx="8" ry="4" fill="#18181B" /></g>) : (<g><rect x="62" y="152" width="14" height="22" rx="2" fill="#273957" /><rect x="84" y="152" width="14" height="22" rx="2" fill="#273957" /><ellipse cx="69" cy="176" rx="9" ry="4" fill="#18181B" /><ellipse cx="91" cy="176" rx="9" ry="4" fill="#18181B" /></g>)}
+      {pose === 'greeting' && (<g><path d="M 52 100 Q 42 116 44 142 Q 46 150 53 148 Q 56 128 60 105 Z" fill="#273957" /><ellipse cx="48" cy="146" rx="6" ry="4" fill="#3F3F46" /><path d="M 108 100 Q 122 92 128 74 Q 132 62 124 60 Q 118 70 116 84 Q 113 96 105 105 Z" fill="#273957" /><circle cx="126" cy="62" r="6" fill="#3F3F46" /></g>)}
+      <path d="M 55 100 L 60 152 L 100 152 L 105 100 Q 92 92 80 94 Q 68 92 55 100 Z" fill="#273957" />
+      <path d="M 60 100 L 73 100 L 78 122 Z" fill="#1A2238" />
+      <path d="M 100 100 L 87 100 L 82 122 Z" fill="#1A2238" />
+      <path d="M 73 100 L 80 125 L 87 100 Z" fill="#F5F5F5" />
+      <path d="M 70 113 L 80 118 L 70 123 Z" fill="#546E8F" /><path d="M 90 113 L 80 118 L 90 123 Z" fill="#546E8F" />
+      <rect x="77" y="115" width="6" height="6" rx="1" fill="#8B9CB5" />
+      <path d="M 92 110 L 96 110 L 94 115 Z" fill="#546E8F" />
+      {pose === 'coffee' && (<g><path d="M 56 105 Q 50 122 62 130 L 72 130 L 72 110 Z" fill="#273957" /><path d="M 104 105 Q 110 122 98 130 L 88 130 L 88 110 Z" fill="#273957" /></g>)}
+      {pose === 'sleeping' && (<g><path d="M 55 110 Q 45 130 60 142 L 78 142 L 78 115 Z" fill="#273957" /><path d="M 105 110 Q 115 130 100 142 L 82 142 L 82 115 Z" fill="#273957" /></g>)}
+      {pose === 'thinking' && (<g><path d="M 55 105 Q 65 122 88 122 Q 95 122 95 117 L 60 105 Z" fill="#273957" /><ellipse cx="58" cy="119" rx="5" ry="3.5" fill="#3F3F46" /><path d="M 105 100 Q 116 96 112 80 Q 108 70 98 72 Q 95 80 99 86 L 95 100 Z" fill="#273957" /><ellipse cx="98" cy="76" rx="6" ry="5" fill="#3F3F46" /></g>)}
+      {pose === 'coffee' && (<g><path d="M 73 96 Q 70 90 73 84 Q 76 78 73 72" stroke="#8B9CB5" strokeWidth="1.6" fill="none" strokeLinecap="round" opacity="0.6" /><path d="M 80 96 Q 77 90 80 84 Q 83 78 80 72" stroke="#8B9CB5" strokeWidth="1.6" fill="none" strokeLinecap="round" opacity="0.6" /><path d="M 87 96 Q 84 90 87 84 Q 90 78 87 72" stroke="#8B9CB5" strokeWidth="1.6" fill="none" strokeLinecap="round" opacity="0.6" /><rect x="65" y="118" width="30" height="22" rx="2" fill="#546E8F" /><rect x="65" y="118" width="30" height="3" rx="1" fill="#8B9CB5" /><path d="M 95 122 Q 105 122 105 129 Q 105 136 95 136" stroke="#546E8F" strokeWidth="3" fill="none" /><ellipse cx="64" cy="128" rx="4.5" ry="3" fill="#3F3F46" /><ellipse cx="96" cy="128" rx="4.5" ry="3" fill="#3F3F46" /></g>)}
+      <g transform={`rotate(${headTilt}, 80, 50)`}>
+        <circle cx="80" cy="50" r="36" fill="#D4D4D8" />
+        <path d="M 47 33 L 52 8 L 65 30 Z" fill="#3F3F46" /><path d="M 113 33 L 108 8 L 95 30 Z" fill="#3F3F46" />
+        <path d="M 52 26 L 55 14 L 60 26 Z" fill="#18181B" /><path d="M 108 26 L 105 14 L 100 26 Z" fill="#18181B" />
+        <path d="M 46 48 Q 62 41 80 46 Q 98 41 114 48 Q 110 60 98 58 Q 84 51 80 52 Q 76 51 62 58 Q 50 60 46 48 Z" fill="#18181B" />
+        {pose === 'sleeping' ? (<g><path d="M 56 51 Q 63 56 70 51" stroke="#F5F5F5" strokeWidth="2.2" fill="none" strokeLinecap="round" /><path d="M 90 51 Q 97 56 104 51" stroke="#F5F5F5" strokeWidth="2.2" fill="none" strokeLinecap="round" /></g>) : pose === 'thinking' ? (<g><Eye cx={63} cy={51} pupilCx={65} pupilCy={49} /><Eye cx={97} cy={51} pupilCx={99} pupilCy={49} /></g>) : pose === 'coffee' ? (<g><Eye cx={63} cy={51} pupilCx={64} pupilCy={54} /><Eye cx={97} cy={51} pupilCx={98} pupilCy={54} /></g>) : (<g><Eye cx={63} cy={51} pupilCx={64} pupilCy={52} /><Eye cx={97} cy={51} pupilCx={98} pupilCy={52} /></g>)}
+        <ellipse cx="51" cy="66" rx="4.5" ry="2.5" fill="#F87171" opacity="0.3" /><ellipse cx="109" cy="66" rx="4.5" ry="2.5" fill="#F87171" opacity="0.3" />
+        <ellipse cx="80" cy="68" rx="12" ry="8" fill="#F5F5F5" /><ellipse cx="80" cy="63" rx="3.2" ry="2.5" fill="#18181B" />
+        {pose === 'sleeping' ? (<ellipse cx="80" cy="73" rx="1.6" ry="2.2" fill="#18181B" />) : pose === 'thinking' ? (<path d="M 76 71 L 82 71" stroke="#18181B" strokeWidth="1.3" fill="none" strokeLinecap="round" />) : pose === 'coffee' ? (<path d="M 75 71 Q 80 74 85 71" stroke="#18181B" strokeWidth="1.3" fill="none" strokeLinecap="round" />) : (<path d="M 80 67 L 80 71 M 80 71 Q 75 75 72 73 M 80 71 Q 85 75 88 73" stroke="#18181B" strokeWidth="1.2" fill="none" strokeLinecap="round" />)}
+      </g>
+      {pose === 'sleeping' && (<g><text x="118" y="32" fontFamily="DM Sans" fontSize="14" fontWeight="500" fill="#546E8F" opacity="0.7">z</text><text x="130" y="20" fontFamily="DM Sans" fontSize="11" fontWeight="500" fill="#546E8F" opacity="0.4">z</text></g>)}
+      {pose === 'thinking' && (<g><circle cx="125" cy="22" r="2" fill="#546E8F" opacity="0.7" /><circle cx="135" cy="14" r="2.5" fill="#546E8F" opacity="0.5" /><circle cx="146" cy="6" r="3" fill="#546E8F" opacity="0.4" /></g>)}
+    </svg>
+  );
+}
+function HeadMascot({ size = 32 }) {
+  return (<svg viewBox="0 0 40 40" width={size} height={size} aria-hidden="true"><circle cx="20" cy="22" r="13" fill="#D4D4D8" /><path d="M 10 15 L 12 7 L 17 13 Z" fill="#3F3F46" /><path d="M 30 15 L 28 7 L 23 13 Z" fill="#3F3F46" /><path d="M 12 12 L 13 9 L 15 12 Z" fill="#18181B" /><path d="M 28 12 L 27 9 L 25 12 Z" fill="#18181B" /><path d="M 9 21 Q 14 18 20 20 Q 26 18 31 21 Q 28 26 24 24 Q 22 22 20 23 Q 18 22 16 24 Q 12 26 9 21 Z" fill="#18181B" /><circle cx="15" cy="21" r="1.3" fill="#F5F5F5" /><circle cx="25" cy="21" r="1.3" fill="#F5F5F5" /><ellipse cx="20" cy="27" rx="4" ry="3" fill="#F5F5F5" /><ellipse cx="20" cy="26" rx="1.3" ry="1" fill="#18181B" /></svg>);
+}
+
+const Brand = () => (<div className="brand"><HeadMascot size={18} /><span className="brand-name">Heyron</span><span className="brand-dot" /></div>);
+
+// Rotating tiny Ron encouragement bubble that appears at the top of multi-step screens.
+// Picks a line based on the step number so it feels like he's walking the user through.
+const RON_LINES = [
+  "Hey, I'm Ron. I'll walk through this with you.",
+  "This is the part where your agent becomes yours.",
+  "Looking good. Every answer shapes how it treats you.",
+  "Almost there, this is the good part.",
+  "One more thing. It's learning your voice already.",
+  "You built something that'll grow with you. Ready?",
+];
+const RonCompanion = ({ step = 0, total = 1 }) => {
+  const idx = Math.min(Math.max(0, Math.floor((step / Math.max(1, total)) * RON_LINES.length)), RON_LINES.length - 1);
+  return (
+    <div className="ron-companion">
+      <HeadMascot size={22} />
+      <span>{RON_LINES[idx]}</span>
+    </div>
+  );
+};
+const Steps = ({ current, total }) => (
+  <>
+    <div className="steps">{Array.from({ length: total }).map((_, i) => (<div key={i} className={`step ${i < current ? 'done' : ''} ${i === current ? 'active' : ''}`} />))}</div>
+    <RonCompanion step={current} total={total} />
+  </>
+);
+function StatusOK({ children }) {
+  return (<div className="setup-status"><span style={{ position: 'relative', display: 'inline-block', width: 14, height: 14, borderRadius: '50%', background: 'var(--brand-secondary)' }}><span style={{ position: 'absolute', left: 4, top: 1, width: 4, height: 8, border: '2px solid #FFFFFF', borderTop: 0, borderLeft: 0, transform: 'rotate(45deg)' }} /></span>{children}</div>);
+}
+function SetupRow({ num, title, desc, children, done }) {
+  return (<div className={`setup-step ${done ? 'done' : ''}`}><div className="setup-num">{done ? '✓' : num}</div><div className="setup-step-body"><p className="setup-step-title">{title}</p>{desc && <p className="setup-step-desc">{desc}</p>}{children && <div className="setup-step-action">{children}</div>}</div></div>);
+}
+
+/* ─── Welcome / Names / Use cases ────────────────────────────────── */
+/* First screen, a simple hello before anything else */
+function HelloScreen({ data, onStart }) {
+  return (
+    <div className="panel"><Brand />
+      <div className="hero" style={{ flexDirection: 'column', textAlign: 'center', alignItems: 'center' }}>
+        <Mascot pose="greeting" size={140} />
+        <div className="hero-text" style={{ textAlign: 'center' }}>
+          <h1 className="headline">Welcome to Heyron.</h1>
+          <p className="sub">Thank you for joining us. We're glad you're here.</p>
+        </div>
+      </div>
+      <p className="hello-body">Heyron isn't another chatbot. You're about to meet <strong>your own agent</strong>, someone like Ron, Eloise, Navi, Ari, or Mack. Custom built for you. Living in its own space. Learning your voice and rhythm as it goes. The brain can change. The soul stays yours. The next few screens are called <strong>Launchpad</strong>, and they're how you introduce your agent to itself. Nothing here is one-size-fits-all. Everything you pick makes it more you.</p>
+      <div className="actions" style={{ justifyContent: 'center' }}>
+        <button className="btn btn-primary" onClick={onStart} style={{ minWidth: 260 }}>Start Launchpad →</button>
+      </div>
+    </div>
+  );
+}
+
+function LaunchpadWelcome({ data, onChoose, onBack }) {
+  return (
+    <div className="panel"><Brand />
+      <div className="hero"><Mascot pose="greeting" size={118} /><div className="hero-text"><h1 className="headline">Hey {data.email ? data.email.split('@')[0] : 'there'}, let's make your agent yours.</h1><p className="sub">Pick how you want to build it. Everything is tailored, everything's editable, everything stays yours.</p></div></div>
+      <div className="card-grid">
+        <div className="card recommended"><div className="pill">Recommended</div><p className="card-title">Beginner</p><p className="card-desc">We walk you through who your agent is, what it cares about, and how it talks to you. Feels like an intro, not a form.</p><button className="btn btn-primary" onClick={() => onChoose('beginner')}>Start as Beginner</button></div>
+        <div className="card"><div className="pill-spacer" /><p className="card-title">Expert</p><p className="card-desc">Same tailoring, more knobs, model, memory depth, working hours, notifications, privacy. Tune everything up front.</p><button className="btn btn-ghost" onClick={() => onChoose('expert')}>Configure manually</button></div>
+      </div>
+      <div className="card remix-card" style={{ marginTop: 14 }}><p className="card-title">Remix</p><p className="card-desc">Already set up? Change what you want, keep the rest. Add tools, refresh your agent's voice, or swap your keys, without starting over.</p><button className="btn remix-btn" onClick={() => onChoose('remix')}>Remix my agent</button></div>
+      <p className="foot">You own every choice. Change your mind anytime from settings. {onBack && <button className="btn-text" onClick={onBack} style={{ marginLeft: 8 }}>← Back</button>}</p>
+    </div>
+  );
+}
+
+function NamesScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const valid = data.yourName.trim() && data.agentName.trim();
+  return (
+    <div className="panel"><Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero"><Mascot pose="greeting" size={100} /><div className="hero-text"><h1 className="headline">What should we call each other?</h1><p className="sub">Your name and your agent's name. This is how it'll greet you, sign off on emails, and refer to you when it talks about you.</p></div></div>
+      <div className="field"><label>Your name</label><input className="input" value={data.yourName} onChange={(e) => onUpdate({ yourName: e.target.value })} placeholder="Cassie" autoFocus /></div>
+      <div className="field"><label>Your agent's name</label><input className="input" value={data.agentName} onChange={(e) => onUpdate({ agentName: e.target.value })} placeholder="e.g. Ron, Eloise, Navi, Ari, Mack" /><p className="field-hint">Pick something you'll enjoy seeing in your inbox every morning.</p></div>
+      <div className="soul-note"><strong>Where these go:</strong> both names become part of {data.agentName ? data.agentName + "'s" : "your agent's"} <strong>identity</strong>, the always-on layer. {data.agentName || 'It'} will sign messages, introduce itself, and refer to you by name. Editable anytime in <strong>Settings → Identity</strong>.</div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={!valid}>Continue</button></div>
+    </div>
+  );
+}
+
+const USE_CASES = [{ id: 'email', label: 'Email triage & replies' }, { id: 'calendar', label: 'Calendar & scheduling' }, { id: 'research', label: 'Research & summaries' }, { id: 'writing', label: 'Writing & editing' }, { id: 'code', label: 'Code & technical work' }, { id: 'support', label: 'Customer support' }, { id: 'sales', label: 'Sales & outreach' }, { id: 'data', label: 'Data analysis' }, { id: 'pm', label: 'Project management' }, { id: 'personal', label: 'Personal tasks & errands' }];
+function UseCasesScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const toggle = (id) => { const next = new Set(data.useCases); next.has(id) ? next.delete(id) : next.add(id); onUpdate({ useCases: Array.from(next) }); };
+  return (
+    <div className="panel"><Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero"><Mascot pose="thinking" size={80} /><div className="hero-text"><h1 className="headline">What's {data.agentName || 'your agent'} here for?</h1><p className="sub">Pick anything that fits your life. This shapes what your agent watches for, what it learns first, and where it starts to build around you.</p></div></div>
+      <div className="usecase-grid">{USE_CASES.map((u) => { const on = data.useCases.includes(u.id); return (<button key={u.id} className={`usecase ${on ? 'selected' : ''}`} onClick={() => toggle(u.id)}><div className="usecase-check" /><div className="usecase-label">{u.label}</div></button>); })}</div>
+      <div className="soul-note"><strong>Where this goes:</strong> these get written into {data.agentName || 'your agent'}'s <strong>soul</strong>, the always-on identity that shapes every reply. Memory holds facts; soul holds priorities. Edit anytime in <strong>Settings → Soul</strong>.</div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={data.useCases.length === 0}>Continue</button></div>
+    </div>
+  );
+}
+
+/* ─── Personality, Comm style, Model ────────────────────────────── */
+// Cassie's original 6 archetypes, kept exactly as she wrote them.
+const PERSONAS = [
+  { id: 'steady',   name: 'Steady',   tag: 'Calm, clear, no-frills.',                sample: '"Sent. Three more in the queue."',                                         best: 'Focused work with tight deadlines.' },
+  { id: 'curious',  name: 'Curious',  tag: 'Asks before acting.',                    sample: '"Quick check, should I include the design team?"',                         best: 'Ambiguous projects with stakeholders.' },
+  { id: 'sharp',    name: 'Sharp',    tag: 'Terse and high-signal.',                 sample: '"Done. Doc here. Anything else?"',                                         best: 'Power users who hate small talk.' },
+  { id: 'warm',     name: 'Warm',     tag: 'Friendly and on your team.',             sample: '"Got this one covered."',                                                  best: 'High-stress weeks.' },
+  { id: 'playful',  name: 'Playful',  tag: 'Witty and light.',                       sample: '"Five down, two to go. Snack break?"',                                      best: 'Casual teams.' },
+  { id: 'formal',   name: 'Formal',   tag: 'Polished and careful.',                  sample: '"I have completed the draft."',                                            best: 'Client-facing environments.' },
+];
+
+// Heyron-brand archetypes, added as a second tier so users can anchor to an existing
+// agent voice from the Heyron family. 'Like Ron', 'Like Eloise', etc.
+const HEYRON_PERSONAS = [
+  { id: 'like-ron',      name: 'Like Ron',      tag: "Warm and steady, like a friend who's got your back.",         sample: '"Hey, saw your inbox is piling up. Want me to knock out the easy ones?"',                          best: 'You want your agent to feel like a person on your team, not a tool.' },
+  { id: 'like-eloise',   name: 'Like Eloise',   tag: 'Precise and thoughtful, asks the right questions first.',       sample: '"Before I send this, is this going to the full team or just leadership?"',                          best: 'Nuanced work with stakeholders, where context matters.' },
+  { id: 'like-navi',     name: 'Like Navi',     tag: 'Energetic and curious, loves figuring things out with you.',    sample: '"Ooh, interesting, I see three ways to solve this. Want me to walk through them?"',                 best: 'Creative or exploratory work where you want a thinking partner.' },
+  { id: 'like-ari',      name: 'Like Ari',      tag: 'Sharp and clean, no-nonsense.',                                  sample: '"Done. Doc here. Anything else?"',                                                                 best: 'Focused work with tight deadlines. You want signal, not small talk.' },
+  { id: 'like-mack',     name: 'Like Mack',     tag: 'Laid-back, dryly funny, never makes anything a big deal.',       sample: '"Five down, two to go. You good?"',                                                                 best: 'Casual work vibe. You want humor and warmth, not corporate polish.' },
+  { id: 'like-spencer',  name: 'Like Spencer',  tag: 'Polished and diplomatic, trusted with a client email.',          sample: "\"Draft's ready for your review, I kept the tone formal and flagged one sentence I wasn't sure about.\"", best: 'Client-facing work where voice matters a lot.' },
+];
+function PersonalityScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  return (
+    <div className="panel"><Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero"><Mascot pose="thinking" size={80} /><div className="hero-text"><h1 className="headline">What does {data.agentName || 'your agent'} sound like?</h1><p className="sub">This is the voice you'll hear every day. Pick a starting point. It'll grow into its own as it learns you.</p></div></div>
+      <p className="persona-intro">You're picking a <strong>starting voice</strong>, not a final one. As your agent gets to know you, it picks up your phrasing, your inside jokes, your rhythm. In a few weeks it sounds like your agent, not an archetype. You can change this anytime in settings.</p>
+
+      <p className="persona-section-label">First, meet the family</p>
+      <p className="persona-section-sub">Here's what a few Heyron agents already out in the world sound like. These aren't options, they're examples so you have a feel for the range before you pick.</p>
+      <div className="persona-showcase">{HEYRON_PERSONAS.map((p) => (<div key={p.id} className="persona-example"><p className="persona-name">{p.name}</p><p className="persona-tag">{p.tag}</p><p className="persona-sample">{p.sample}</p></div>))}</div>
+
+      <p className="persona-section-label" style={{ marginTop: 22 }}>Now pick a voice for yours</p>
+      <p className="persona-section-sub">Any one of these works. Go with gut.</p>
+      <div className="options options-rich">{PERSONAS.map((p) => (<button key={p.id} className={`option persona-card ${data.personality === p.id ? 'selected' : ''}`} onClick={() => onUpdate({ personality: p.id })}><p className="persona-name">{p.name}</p><p className="persona-tag">{p.tag}</p><p className="persona-sample">{p.sample}</p><p className="persona-best"><strong>Best for:</strong> {p.best}</p></button>))}</div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={!data.personality}>Continue</button></div>
+    </div>
+  );
+}
+const COMM_STYLES = [{ id: 'concise', name: 'Concise', desc: 'Just the answer. No fluff.', sample: '"Done, saved to Drive."' }, { id: 'balanced', name: 'Balanced', desc: 'Answer plus useful context.', sample: '"Done, saved to Drive under /work/april. Want a recap?"' }, { id: 'detailed', name: 'Detailed', desc: 'Full reasoning and next steps.', sample: '"Done. Saved at /work/april/notes.md. I added two columns and reformatted dates. Anything else?"' }];
+function CommStyleScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  return (
+    <div className="panel"><Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero"><Mascot pose="thinking" size={80} /><div className="hero-text"><h1 className="headline">How chatty do you want it?</h1><p className="sub">Same voice, different rhythm. Do you like short and direct, or a little more context? It'll adjust over time to match you.</p></div></div>
+      <div className="options-list">{COMM_STYLES.map((c) => (<button key={c.id} className={`option ${data.commStyle === c.id ? 'selected' : ''}`} onClick={() => onUpdate({ commStyle: c.id })} style={{ flexDirection: 'column', alignItems: 'stretch', gap: 0 }}><div style={{ display: 'flex', gap: 12, alignItems: 'center' }}><div className="option-mark" /><div className="option-body"><p className="option-title">{c.name}</p><p className="option-desc">{c.desc}</p></div></div><p className="comm-sample">{c.sample}</p></button>))}</div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={!data.commStyle}>Continue</button></div>
+    </div>
+  );
+}
+const MODELS = [{ id: 'standard', name: 'Heyron Standard', desc: 'Best balance of speed and depth.', recommended: true }, { id: 'deep', name: 'Heyron Deep', desc: 'Slower, more thorough.' }, { id: 'fast', name: 'Heyron Fast', desc: 'Quickest replies.' }];
+function ModelScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  return (
+    <div className="panel"><Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero"><Mascot pose="thinking" size={80} /><div className="hero-text"><h1 className="headline">Which brain should it use?</h1><p className="sub">The model is the engine. You can swap it anytime without losing who your agent is. Memory, voice, and the relationship with you all stay.</p></div></div>
+      <div className="options-list">{MODELS.map((m) => (<button key={m.id} className={`option ${data.model === m.id ? 'selected' : ''}`} onClick={() => onUpdate({ model: m.id })}><div className="option-mark" /><div className="option-body"><p className="option-title">{m.name} {m.recommended && <span className="option-tag">Recommended</span>}</p><p className="option-desc">{m.desc}</p></div></button>))}</div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={!data.model}>Continue</button></div>
+    </div>
+  );
+}
+
+/* ─── Integrations picker (Discord NOT here) ────────────────────── */
+const INTEGRATIONS_LIST = [
+  { id: 'github', name: 'GitHub', icon: 'GH',
+    desc: 'Push commits, review PRs, ship code from chat.',
+    why: 'For anyone who writes or reviews code. Your agent can read your repos, explain what code does, review pull requests, open PRs for small fixes, and run scheduled health checks on your projects.',
+    need: 'A GitHub account. Either sign in with OAuth (easiest), or paste a Personal Access Token with repo + read:org + read:user scopes.' },
+  { id: 'telegram', name: 'Telegram', icon: 'TG',
+    desc: 'Chat with your agent from your phone.',
+    why: 'Message your agent like a friend in Telegram. Great for morning briefs, reminders, quick questions on the go, and voice notes.',
+    need: "A Telegram account, and a bot token you'll create inside Telegram via @BotFather. Takes 2 minutes." },
+  { id: 'apify', name: 'Apify', icon: 'AP',
+    desc: 'Scrape sites and pull web data.',
+    why: "Gives your agent the ability to read websites. Compare prices, pull news headlines, monitor competitors, extract lists from directories. anything publicly visible online.",
+    need: 'A free Apify account at apify.com, and an API token from Settings → Integrations.' },
+  { id: 'elevenlabs', name: 'ElevenLabs', icon: 'EL',
+    desc: 'Voice replies and audio generation.',
+    why: "Gives your agent a real voice. It can read your emails aloud, reply to Telegram with voice notes, or narrate summaries. Also lets you clone your own voice if you want.",
+    need: 'An ElevenLabs account at elevenlabs.io and an API key from Profile → API Keys. Free tier covers ~10k characters/month.' },
+  { id: 'obsidian', name: 'Obsidian', icon: 'OB',
+    desc: 'Sync notes and let your agent read your vault.',
+    why: "If you keep notes in Obsidian, this lets your agent read and write there. It can summarize what you've been thinking about, drop new notes into your vault, and cross-reference when you ask questions.",
+    need: 'Obsidian installed on your computer (free), the Heyron plugin enabled, and a 6-character pairing code we generate for you.' },
+  { id: 'cron', name: 'Scheduled tasks', icon: 'CR',
+    desc: 'Tell your agent to do things on a schedule.',
+    why: 'Automate recurring work. Morning briefs, hourly inbox checks, weekly summaries, daily water reminders. Anything you can describe, your agent can run on a schedule.',
+    need: 'Nothing to sign up for, this is built into Heyron. You just describe the task in plain English.' },
+  { id: 'browser', name: 'Web Browser', icon: 'WB',
+    desc: 'Let your agent navigate the web.',
+    why: "Your agent gets a real browser to log into sites, fill forms, book appointments, and click through flows. Different from Apify (static data). this is like giving your agent its own hands on the web.",
+    need: 'Nothing external. But think carefully about the permission tier + domain allowlist, the agent can do anything you can do in a browser.' },
+  { id: 'composio', name: 'Composio', icon: 'CO',
+    desc: 'One key unlocks Gmail, Slack, Notion, Linear, 500+ apps.',
+    why: 'One integration replaces many. Composio gives your agent typed access to hundreds of apps (Gmail, Calendar, Slack, Notion, Linear, Airtable, Shopify, Stripe, HubSpot, and more) with a single API key.',
+    need: 'A Composio account at composio.dev (free tier is generous) and an API key from your dashboard.' },
+  { id: 'byok', name: 'Your own key (BYOK)', icon: 'KY',
+    desc: 'Bring your own OpenRouter / Anthropic / OpenAI key.',
+    why: "Use your own model billing instead of Heyron's. Gives you direct control over which models run, and charges go to your own account with the provider.",
+    need: 'An API key from OpenRouter, Anthropic, or OpenAI. If you don\u2019t have one yet, start with OpenRouter, one key covers most models.' },
+];
+function IntegrationsPickScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const toSetup = data.toSetup || [];
+  const toggle = (id) => { const next = new Set(toSetup); next.has(id) ? next.delete(id) : next.add(id); onUpdate({ toSetup: Array.from(next) }); };
+  const cta = toSetup.length === 0 ? 'Skip integrations' : `Walk through ${toSetup.length} tool${toSetup.length === 1 ? '' : 's'}`;
+  return (
+    <div className="panel"><Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero"><Mascot pose="coffee" size={90} /><div className="hero-text"><h1 className="headline">What should it be able to do?</h1><p className="sub">Pick the apps you actually use. We'll set each one up together. Your keys, your data, your access. Skip anything now and add it later.</p></div></div>
+      <div className="integrations">{INTEGRATIONS_LIST.map((i) => { const picked = toSetup.includes(i.id); return (
+        <button key={i.id} className={`integration ${picked ? 'connected' : ''}`} onClick={() => toggle(i.id)}>
+          <div className="integration-icon">{i.icon}</div>
+          <div className="integration-body">
+            <p className="integration-name">{i.name}</p>
+            <p className="integration-desc">{i.desc}</p>
+            <p className="integration-why">{i.why}</p>
+            <p className="integration-need"><strong>You'll need:</strong> {i.need}</p>
+          </div>
+          <div className="usecase-check" style={{ alignSelf: 'center' }} />
+        </button>
+      ); })}</div>
+      <p className="skip-hint">{toSetup.length === 0 ? 'Add tools later from Settings → Connections.' : `Order: ${toSetup.map(t => (INTEGRATIONS_LIST.find(i => i.id === t) || {}).name).join(' → ')}`}</p>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext}>{cta}</button></div>
+    </div>
+  );
+}
+
+/* ─── Per-tool setup wrapper ────────────────────────────────────── */
+function IntegrationStep({ name, desc, step, totalSteps, onSkip, onConnect, onBack, connected, canConnect, children }) {
+  return (
+    <div className="panel"><Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero"><Mascot pose="coffee" size={90} /><div className="hero-text"><h1 className="headline">Would you like to add {name}?</h1><p className="sub">{desc}</p></div></div>
+      {children}
+      <div className="actions">
+        <button className="btn btn-ghost btn-back" onClick={onBack}>Back</button>
+        <button className="btn btn-ghost btn-skip" onClick={onSkip}>Skip for now</button>
+        <button className="btn btn-primary" onClick={onConnect} disabled={!canConnect && !connected}>{connected ? 'Continue' : 'Connect'}</button>
+      </div>
+    </div>
+  );
+}
+
+/* GitHub */
+function GitHubSetup({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [authMethod, setAuthMethod] = useState(data.githubAuthMethod || null);
+  const [authed, setAuthed] = useState(data.githubAuthed || false);
+  const [pat, setPat] = useState(data.githubPat || '');
+  const [repos, setRepos] = useState(data.githubRepos || []);
+  const [perms, setPerms] = useState(data.githubPerms || { readCode: true, readPRs: true, writeCommits: false, mergePRs: false });
+  const [tested, setTested] = useState(false);
+  const REPOS = ['heyron-app', 'heyron-api', 'heyron-docs', 'heyron-mobile', 'heyron-marketing'];
+  const authComplete = (authMethod === 'oauth' && authed) || (authMethod === 'pat' && pat.length >= 10);
+  const valid = authComplete && repos.length > 0 && tested;
+  const handleConnect = () => { onUpdate({ tools: Array.from(new Set([...data.tools, 'github'])), githubAuthMethod: authMethod, githubAuthed: authed, githubRepos: repos, githubPerms: perms }); onNext(); };
+  return (
+    <IntegrationStep name="GitHub" desc="Push commits, review PRs, and let your agent ship code without leaving chat." step={step} totalSteps={totalSteps} onBack={onBack} onSkip={onNext} onConnect={handleConnect} connected={data.tools.includes('github')} canConnect={valid}>
+      <div className="setup">
+        <SetupRow num="1" title="Choose how to connect" desc="OAuth is easiest. PAT is more granular." done={!!authMethod}>
+          <div className="chip-row">
+            <button className={`chip ${authMethod === 'oauth' ? 'selected' : ''}`} onClick={() => setAuthMethod('oauth')}>OAuth</button>
+            <button className={`chip ${authMethod === 'pat' ? 'selected' : ''}`} onClick={() => setAuthMethod('pat')}>Personal Access Token</button>
+          </div>
+        </SetupRow>
+        {authMethod === 'oauth' && <SetupRow num="2" title="Sign in with GitHub" desc="We'll redirect you, approve the Heyron app, come back here." done={authed}>{!authed ? (<button className="setup-cta" onClick={() => setAuthed(true)}>Continue with GitHub</button>) : (<StatusOK>Signed in as <strong style={{ color: 'var(--brand-secondary)', marginLeft: 4 }}>@cassielee</strong></StatusOK>)}</SetupRow>}
+        {authMethod === 'pat' && <SetupRow num="2" title="Generate a token" desc={<>Open <code>github.com/settings/tokens</code> → tick <code>repo</code>, <code>read:org</code>, <code>read:user</code>.</>} done={pat.length >= 10}><button className="setup-cta" onClick={() => window.open('https://github.com/settings/tokens/new?scopes=repo,read:org,read:user&description=Heyron', '_blank')} style={{ marginBottom: 10 }}>Open GitHub token settings</button><input className="input" type="password" value={pat} onChange={(e) => setPat(e.target.value)} placeholder="ghp_..." /></SetupRow>}
+        {authComplete && <SetupRow num="3" title="Pick repos to connect" done={repos.length > 0}><div style={{display: 'flex', flexDirection: 'column', gap: 6}}>{REPOS.map(r => (<button key={r} className={`usecase ${repos.includes(r) ? 'selected' : ''}`} onClick={() => setRepos(p => p.includes(r) ? p.filter(x => x !== r) : [...p, r])}><div className="usecase-check" /><div className="usecase-label">{r}</div></button>))}</div></SetupRow>}
+        {repos.length > 0 && <SetupRow num="4" title="What can your agent do?"><div className="permissions"><div className="toggle-row"><div className="toggle-info"><p className="toggle-title">Read code</p><p className="toggle-desc">Browse repo contents.</p></div><button className={`toggle ${perms.readCode ? 'on' : ''}`} onClick={() => setPerms(p => ({...p, readCode: !p.readCode}))} aria-label="toggle"/></div><div className="toggle-row"><div className="toggle-info"><p className="toggle-title">Read PRs and issues</p><p className="toggle-desc">View threads.</p></div><button className={`toggle ${perms.readPRs ? 'on' : ''}`} onClick={() => setPerms(p => ({...p, readPRs: !p.readPRs}))} aria-label="toggle"/></div><div className="toggle-row"><div className="toggle-info"><p className="toggle-title">Write commits & open PRs</p><p className="toggle-desc">Push to feature branches.</p></div><button className={`toggle ${perms.writeCommits ? 'on' : ''}`} onClick={() => setPerms(p => ({...p, writeCommits: !p.writeCommits}))} aria-label="toggle"/></div><div className="toggle-row"><div className="toggle-info"><p className="toggle-title">Merge PRs</p><p className="toggle-desc">Sensitive, only enable if you trust your agent.</p></div><button className={`toggle ${perms.mergePRs ? 'on' : ''}`} onClick={() => setPerms(p => ({...p, mergePRs: !p.mergePRs}))} aria-label="toggle"/></div></div></SetupRow>}
+        {repos.length > 0 && <SetupRow num="5" title="Test the connection" done={tested}>{tested ? (<StatusOK>Verified. Latest commit on <code>{repos[0]}</code>: 14 minutes ago.</StatusOK>) : (<button className="setup-cta" onClick={() => setTested(true)}>Test connection</button>)}</SetupRow>}
+      </div>
+    </IntegrationStep>
+  );
+}
+
+/* Telegram, BotFather + token safety + permissive validation */
+function TelegramSetup({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [opened, setOpened] = useState(data.telegramOpened || false);
+  const [botName, setBotName] = useState(data.telegramBotName || '');
+  const [token, setToken] = useState(data.telegramToken || '');
+  const [tested, setTested] = useState(false);
+  const [testing, setTesting] = useState(false);
+  const [chat, setChat] = useState(data.telegramChat || 'dm');
+  const validTokenLength = token.trim().length >= 10;
+  const looksLikeRealToken = /^\d{5,}:[A-Za-z0-9_-]{20,}$/.test(token);
+  const valid = opened && botName.trim().length >= 3 && validTokenLength && tested;
+  const test = () => { setTesting(true); setTimeout(() => { setTesting(false); setTested(true); }, 900); };
+  const handleConnect = () => { onUpdate({ tools: Array.from(new Set([...data.tools, 'telegram'])), telegramOpened: opened, telegramBotName: botName, telegramToken: '••••••••', telegramChat: chat }); onNext(); };
+  return (
+    <IntegrationStep name="Telegram" desc="Talk to your agent from your phone. You'll create a bot through Telegram's BotFather and hand its token to Heyron." step={step} totalSteps={totalSteps} onBack={onBack} onSkip={onNext} onConnect={handleConnect} connected={data.tools.includes('telegram')} canConnect={valid}>
+      <div className="setup">
+        <SetupRow num="1" title="Open @BotFather in Telegram" desc="BotFather is Telegram's official bot for creating other bots." done={opened}>
+          <button className="setup-cta" onClick={() => { window.open('https://t.me/BotFather', '_blank'); setOpened(true); }}>Open @BotFather in Telegram</button>
+        </SetupRow>
+        {opened && <SetupRow num="2" title="Send /newbot" desc="BotFather will ask for a bot name and a unique username (must end in 'bot', e.g. heyron_cassie_bot)." />}
+        {opened && <SetupRow num="3" title="Name your bot" desc="The display name BotFather sent back. Anything works." done={botName.trim().length >= 3}><input className="input" value={botName} onChange={(e) => setBotName(e.target.value)} placeholder="e.g. Cassie's Heyron" /></SetupRow>}
+        {botName.trim().length >= 3 && <SetupRow num="4" title="Paste your bot token" desc="BotFather gives you a token like 123456:ABC-DEF_1234. That token is the only thing that proves this bot is yours." done={validTokenLength}>
+          <div className="danger-note" style={{ marginBottom: 12 }}><strong>Protect this token.</strong><ul><li>Anyone with this token can control the bot.</li><li>They may read messages routed through it and impersonate the bot.</li><li>Never paste it in Slack, GitHub, chat logs, or screenshots.</li><li>If it leaks, open @BotFather and send <code>/revoke</code> to rotate it.</li></ul></div>
+          <input className="input" type="password" value={token} onChange={(e) => { setToken(e.target.value); setTested(false); }} placeholder="123456:ABC-DEF_your_token_here" style={{ fontFamily: 'JetBrains Mono, SFMono-Regular, Menlo, monospace', fontSize: 13 }} />
+          {token.length >= 5 && !looksLikeRealToken && validTokenLength && <p className="field-hint" style={{ color: 'var(--status-warning)' }}>Heads up, that doesn't quite match the BotFather format (digits + colon + long string). I'll trust you for now.</p>}
+        </SetupRow>}
+        {validTokenLength && <SetupRow num="5" title="Test the token" desc="We'll ping the bot to make sure it responds." done={tested}>{tested ? (<StatusOK>Bot <strong style={{ color: 'var(--brand-secondary)', marginLeft: 4 }}>{botName}</strong> responded. Linked to chat ID 3982174.</StatusOK>) : (<button className="setup-cta" onClick={test} disabled={testing}>{testing ? 'Testing…' : 'Test bot'}</button>)}</SetupRow>}
+        {tested && <SetupRow num="6" title="Where should messages go?" desc="Your DM with the bot, a group chat you add it to, or both." done><div className="chip-row"><button className={`chip ${chat === 'dm' ? 'selected' : ''}`} onClick={() => setChat('dm')}>DM only</button><button className={`chip ${chat === 'group' ? 'selected' : ''}`} onClick={() => setChat('group')}>Specific group</button><button className={`chip ${chat === 'both' ? 'selected' : ''}`} onClick={() => setChat('both')}>Both</button></div></SetupRow>}
+      </div>
+    </IntegrationStep>
+  );
+}
+
+/* Apify */
+function ApifySetup({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [token, setToken] = useState(data.apifyToken || '');
+  const [tested, setTested] = useState(false);
+  const [testing, setTesting] = useState(false);
+  const [actors, setActors] = useState(data.apifyActors || []);
+  const [dailyCap, setDailyCap] = useState(data.apifyDailyCap || '50');
+  const ACTORS = ['apify/web-scraper', 'apify/google-search-scraper', 'apify/linkedin-scraper', 'apify/instagram-scraper'];
+  const valid = token.length >= 10 && tested && actors.length > 0;
+  const test = () => { setTesting(true); setTimeout(() => { setTesting(false); setTested(true); }, 900); };
+  const handleConnect = () => { onUpdate({ tools: Array.from(new Set([...data.tools, 'apify'])), apifyToken: '••••••', apifyActors: actors, apifyDailyCap: dailyCap }); onNext(); };
+  return (
+    <IntegrationStep name="Apify" desc="Scrape sites and automate web data extraction." step={step} totalSteps={totalSteps} onBack={onBack} onSkip={onNext} onConnect={handleConnect} connected={data.tools.includes('apify')} canConnect={valid}>
+      <div className="setup">
+        <SetupRow num="1" title="Open Apify integrations" desc={<>Sign in at <code>console.apify.com</code> → Settings → Integrations → Personal API tokens.</>}><button className="setup-cta" onClick={() => window.open('https://console.apify.com/account/integrations', '_blank')}>Open Apify integrations</button></SetupRow>
+        <SetupRow num="2" title="Create a new token" desc='Click "+ Create new token", name it "Heyron Agent", copy the value.' />
+        <SetupRow num="3" title="Paste your token" done={token.length >= 10}><input className="input" type="password" value={token} onChange={(e) => { setToken(e.target.value); setTested(false); }} placeholder="apify_api_xxxxxxxxxxxxxxxx" /></SetupRow>
+        <SetupRow num="4" title="Test connection" done={tested}>{tested ? (<StatusOK>Connected. Plan: Personal · 4 actors available.</StatusOK>) : (<button className="setup-cta" onClick={test} disabled={token.length < 10 || testing}>{testing ? 'Testing…' : 'Test connection'}</button>)}</SetupRow>
+        {tested && <SetupRow num="5" title="Pick actors Heyron can run" done={actors.length > 0}><div style={{display: 'flex', flexDirection: 'column', gap: 6}}>{ACTORS.map(a => (<button key={a} className={`usecase ${actors.includes(a) ? 'selected' : ''}`} onClick={() => setActors(p => p.includes(a) ? p.filter(x => x !== a) : [...p, a])}><div className="usecase-check" /><div className="usecase-label">{a}</div></button>))}</div></SetupRow>}
+        {actors.length > 0 && <SetupRow num="6" title="Daily run cap" desc="Heyron asks before exceeding."><input className="input" type="number" value={dailyCap} onChange={(e) => setDailyCap(e.target.value)} min="1" placeholder="50" /></SetupRow>}
+      </div>
+    </IntegrationStep>
+  );
+}
+
+/* ElevenLabs */
+function ElevenLabsSetup({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [apiKey, setApiKey] = useState(data.elevenLabsKey || '');
+  const [tested, setTested] = useState(false);
+  const [voice, setVoice] = useState(data.elevenLabsVoice || '');
+  const [useFor, setUseFor] = useState(data.elevenLabsUseFor || 'on-request');
+  const VOICES = [{ id: 'rachel', name: 'Rachel', desc: 'Clear, neutral.' }, { id: 'james', name: 'James', desc: 'Warm, narrative.' }, { id: 'sarah', name: 'Sarah', desc: 'Bright, friendly.' }, { id: 'custom', name: 'Custom voice ID', desc: 'From your library.' }];
+  const valid = apiKey.length >= 10 && tested && voice;
+  const test = () => setTimeout(() => setTested(true), 800);
+  const handleConnect = () => { onUpdate({ tools: Array.from(new Set([...data.tools, 'elevenlabs'])), elevenLabsKey: '••••••', elevenLabsVoice: voice, elevenLabsUseFor: useFor }); onNext(); };
+  return (
+    <IntegrationStep name="ElevenLabs" desc="Voice replies and audio generation." step={step} totalSteps={totalSteps} onBack={onBack} onSkip={onNext} onConnect={handleConnect} connected={data.tools.includes('elevenlabs')} canConnect={valid}>
+      <div className="setup">
+        <SetupRow num="1" title="Open ElevenLabs profile"><button className="setup-cta" onClick={() => window.open('https://elevenlabs.io/app/settings/api-keys', '_blank')}>Open ElevenLabs API keys</button></SetupRow>
+        <SetupRow num="2" title="Paste your API key" done={apiKey.length >= 10}><input className="input" type="password" value={apiKey} onChange={(e) => { setApiKey(e.target.value); setTested(false); }} placeholder="sk_xxxxxxxxxxxx" /></SetupRow>
+        <SetupRow num="3" title="Verify" done={tested}>{tested ? (<StatusOK>Tier: Creator · 100k chars left.</StatusOK>) : (<button className="setup-cta" onClick={test} disabled={apiKey.length < 10}>Verify connection</button>)}</SetupRow>
+        {tested && <SetupRow num="4" title="Pick a voice" done={!!voice}><div className="voice-pick">{VOICES.map((v) => (<button key={v.id} className={`voice ${voice === v.id ? 'selected' : ''}`} onClick={() => setVoice(v.id)}><div className="voice-name">{v.name}</div><p className="voice-desc">{v.desc}</p></button>))}</div></SetupRow>}
+        {voice && <SetupRow num="5" title="When should it speak?" done><div className="chip-row"><button className={`chip ${useFor === 'always' ? 'selected' : ''}`} onClick={() => setUseFor('always')}>Always</button><button className={`chip ${useFor === 'on-request' ? 'selected' : ''}`} onClick={() => setUseFor('on-request')}>Only if I ask</button><button className={`chip ${useFor === 'summaries' ? 'selected' : ''}`} onClick={() => setUseFor('summaries')}>Summaries only</button></div></SetupRow>}
+      </div>
+    </IntegrationStep>
+  );
+}
+
+/* Obsidian */
+function ObsidianSetup({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [installed, setInstalled] = useState(data.obsidianInstalled || false);
+  const [pairCode, setPairCode] = useState(data.obsidianCode || '');
+  const [vaultPath, setVaultPath] = useState(data.obsidianPath || '');
+  const [direction, setDirection] = useState(data.obsidianDirection || 'bidirectional');
+  const [frequency, setFrequency] = useState(data.obsidianFreq || 'realtime');
+  const valid = installed && pairCode.length >= 6 && vaultPath.trim();
+  const handleConnect = () => { onUpdate({ tools: Array.from(new Set([...data.tools, 'obsidian'])), obsidianInstalled: installed, obsidianCode: '••••••', obsidianPath: vaultPath, obsidianDirection: direction, obsidianFreq: frequency }); onNext(); };
+  return (
+    <IntegrationStep name="Obsidian" desc="Sync notes and let your agent read, search, and write into your vault." step={step} totalSteps={totalSteps} onBack={onBack} onSkip={onNext} onConnect={handleConnect} connected={data.tools.includes('obsidian')} canConnect={valid}>
+      <div className="setup">
+        <SetupRow num="1" title="Install the Heyron plugin" desc={<>Obsidian → Settings → Community plugins → search <code>Heyron</code> → Install → Enable.</>} done={installed}>{!installed ? <button className="setup-cta" onClick={() => setInstalled(true)}>Mark installed</button> : <StatusOK>Plugin installed.</StatusOK>}</SetupRow>
+        {installed && <SetupRow num="2" title="Pair your device" desc="Settings → Heyron → Pair new device. Copy the 6-character code." />}
+        {installed && <SetupRow num="3" title="Paste pairing code" done={pairCode.length >= 6}><input className="input" value={pairCode} onChange={(e) => setPairCode(e.target.value.toUpperCase().slice(0, 6))} placeholder="A4B2X9" maxLength={6} style={{ letterSpacing: '0.3em', textAlign: 'center', fontSize: 18, fontFamily: 'JetBrains Mono, monospace' }} /></SetupRow>}
+        {pairCode.length >= 6 && <SetupRow num="4" title="Confirm vault path" done={vaultPath.trim().length > 0}><input className="input" value={vaultPath} onChange={(e) => setVaultPath(e.target.value)} placeholder="/Users/you/Documents/Obsidian/Main" /></SetupRow>}
+        {vaultPath.trim() && <SetupRow num="5" title="Sync direction" done><div className="chip-row"><button className={`chip ${direction === 'read' ? 'selected' : ''}`} onClick={() => setDirection('read')}>Read-only</button><button className={`chip ${direction === 'bidirectional' ? 'selected' : ''}`} onClick={() => setDirection('bidirectional')}>Bidirectional</button></div></SetupRow>}
+        {vaultPath.trim() && <SetupRow num="6" title="Sync frequency" done><select className="input" value={frequency} onChange={(e) => setFrequency(e.target.value)}><option value="realtime">Real-time</option><option value="5min">Every 5 min</option><option value="hourly">Hourly</option><option value="daily">Daily</option></select></SetupRow>}
+      </div>
+    </IntegrationStep>
+  );
+}
+
+/* Cron */
+function CronSetup({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [taskName, setTaskName] = useState(data.cronTask || '');
+  const [freq, setFreq] = useState(data.cronFreq || 'weekly');
+  const [time, setTime] = useState(data.cronTime || '08:00');
+  const [action, setAction] = useState(data.cronAction || '');
+  const [output, setOutput] = useState(data.cronOutput || 'email');
+  const valid = taskName.trim() && action.trim();
+  const handleConnect = () => { onUpdate({ tools: Array.from(new Set([...data.tools, 'cron'])), cronTask: taskName, cronFreq: freq, cronTime: time, cronAction: action, cronOutput: output }); onNext(); };
+  return (
+    <IntegrationStep name="Cron" desc="Schedule recurring tasks, daily, weekly, or custom." step={step} totalSteps={totalSteps} onBack={onBack} onSkip={onNext} onConnect={handleConnect} connected={data.tools.includes('cron')} canConnect={valid}>
+      <div className="setup">
+        <SetupRow num="1" title="Task name" done={taskName.trim().length > 0}><input className="input" value={taskName} onChange={(e) => setTaskName(e.target.value)} placeholder="Morning briefing" /></SetupRow>
+        <SetupRow num="2" title="How often" done><div className="chip-row"><button className={`chip ${freq === 'daily' ? 'selected' : ''}`} onClick={() => setFreq('daily')}>Daily</button><button className={`chip ${freq === 'weekly' ? 'selected' : ''}`} onClick={() => setFreq('weekly')}>Weekly</button><button className={`chip ${freq === 'monthly' ? 'selected' : ''}`} onClick={() => setFreq('monthly')}>Monthly</button></div></SetupRow>
+        <SetupRow num="3" title="Time of day" done><input className="input" type="time" value={time} onChange={(e) => setTime(e.target.value)} /></SetupRow>
+        <SetupRow num="4" title="What should it do?" desc="Plain English, treated as a prompt at trigger time." done={action.trim().length > 0}><textarea className="input" value={action} onChange={(e) => setAction(e.target.value)} placeholder="Summarize my unread Slack DMs and email me the digest." rows={3} /></SetupRow>
+        <SetupRow num="5" title="Output destination" done><div className="chip-row"><button className={`chip ${output === 'email' ? 'selected' : ''}`} onClick={() => setOutput('email')}>Email</button><button className={`chip ${output === 'push' ? 'selected' : ''}`} onClick={() => setOutput('push')}>Push</button><button className={`chip ${output === 'memory' ? 'selected' : ''}`} onClick={() => setOutput('memory')}>Memory</button></div></SetupRow>
+      </div>
+    </IntegrationStep>
+  );
+}
+
+/* Web Browser */
+function BrowserSetup({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [tier, setTier] = useState(data.browserTier || null);
+  const [domains, setDomains] = useState(data.browserDomainMode || 'any');
+  const [allowlist, setAllowlist] = useState(data.browserAllowlist || '');
+  const [blocklist, setBlocklist] = useState(data.browserBlocklist || 'mybank.com');
+  const valid = tier !== null;
+  const handleConnect = () => { onUpdate({ tools: Array.from(new Set([...data.tools, 'browser'])), browserTier: tier, browserDomainMode: domains, browserAllowlist: allowlist, browserBlocklist: blocklist }); onNext(); };
+  return (
+    <IntegrationStep name="Web Browser" desc="Let your agent navigate sites, fill forms, and pull info." step={step} totalSteps={totalSteps} onBack={onBack} onSkip={onNext} onConnect={handleConnect} connected={data.tools.includes('browser')} canConnect={valid}>
+      <div className="setup">
+        <SetupRow num="1" title="Pick a permission tier" done={!!tier}>
+          <div style={{display: 'flex', flexDirection: 'column', gap: 6}}>
+            <button className={`option ${tier === 'read' ? 'selected' : ''}`} onClick={() => setTier('read')} style={{display: 'flex', gap: 12, alignItems: 'center'}}><div className="option-mark" /><div className="option-body"><p className="option-title">Read-only <span className="option-tag">Safest</span></p><p className="option-desc">Open URLs and extract content.</p></div></button>
+            <button className={`option ${tier === 'interactive' ? 'selected' : ''}`} onClick={() => setTier('interactive')} style={{display: 'flex', gap: 12, alignItems: 'center'}}><div className="option-mark" /><div className="option-body"><p className="option-title">Interactive <span className="option-tag">Recommended</span></p><p className="option-desc">Read + click links + fill forms.</p></div></button>
+            <button className={`option ${tier === 'full' ? 'selected' : ''}`} onClick={() => setTier('full')} style={{display: 'flex', gap: 12, alignItems: 'center'}}><div className="option-mark" /><div className="option-body"><p className="option-title">Full</p><p className="option-desc">Above + downloads and scripts.</p></div></button>
+          </div>
+        </SetupRow>
+        {tier && <SetupRow num="2" title="Domain access" done><div className="chip-row"><button className={`chip ${domains === 'any' ? 'selected' : ''}`} onClick={() => setDomains('any')}>Any domain</button><button className={`chip ${domains === 'allowlist' ? 'selected' : ''}`} onClick={() => setDomains('allowlist')}>Allowlist only</button></div></SetupRow>}
+        {tier && domains === 'allowlist' && <SetupRow num="3" title="Allowed domains"><textarea className="input" value={allowlist} onChange={(e) => setAllowlist(e.target.value)} placeholder="github.com, *.notion.so" rows={2} /></SetupRow>}
+        {tier && <SetupRow num={domains === 'allowlist' ? '4' : '3'} title="Always-blocked domains" done><textarea className="input" value={blocklist} onChange={(e) => setBlocklist(e.target.value)} placeholder="mybank.com, irs.gov" rows={2} /></SetupRow>}
+      </div>
+    </IntegrationStep>
+  );
+}
+
+/* Composio */
+function ComposioSetup({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [apiKey, setApiKey] = useState(data.composioKey || '');
+  const [tested, setTested] = useState(false);
+  const [testing, setTesting] = useState(false);
+  const [testError, setTestError] = useState(null);
+  const [enabledApps, setEnabledApps] = useState(data.composioApps || []);
+  const [dailyCap, setDailyCap] = useState(data.composioCap || '100');
+  const APPS = ['Gmail','Google Calendar','Slack','Notion','Linear','Airtable','Shopify','Stripe','HubSpot','Google Docs','Google Drive','Zoom'];
+  const valid = apiKey.length >= 10 && tested && enabledApps.length > 0;
+  const test = async () => {
+    setTesting(true); setTestError(null); setTested(false);
+    if (window.HeyronLaunchpad?.validateIntegration) {
+      const res = await window.HeyronLaunchpad.validateIntegration('composio', { apiKey });
+      if (res?.ok) setTested(true); else setTestError(res?.error || 'Composio rejected this key');
+    } else { setTested(true); }
+    setTesting(false);
+  };
+  const toggleApp = (a) => setEnabledApps(p => p.includes(a) ? p.filter(x => x !== a) : [...p, a]);
+  const handleConnect = () => {
+    if (window.HeyronLaunchpad?.saveIntegrationCredential) window.HeyronLaunchpad.saveIntegrationCredential('composio', { apiKey }, { enabledApps, dailyCap });
+    onUpdate({ tools: Array.from(new Set([...data.tools, 'composio'])), composioKey: '\u2022\u2022\u2022\u2022\u2022\u2022', composioApps: enabledApps, composioCap: dailyCap });
+    onNext();
+  };
+  return (
+    <IntegrationStep name="Composio" desc="One key unlocks 500+ apps. Gmail, Slack, Notion, Linear, and more." step={step} totalSteps={totalSteps} onBack={onBack} onSkip={onNext} onConnect={handleConnect} connected={data.tools.includes('composio')} canConnect={valid}>
+      <div className="setup">
+        <SetupRow num="1" title="Open Composio" desc="Sign in at app.composio.dev, find API Keys in settings."><button className="setup-cta" onClick={() => window.open('https://app.composio.dev/dashboard', '_blank')}>Open Composio dashboard</button></SetupRow>
+        <SetupRow num="2" title="Paste your API key" done={apiKey.length >= 10}>
+          <div className="danger-note" style={{ marginBottom: 12 }}><strong>Protect this key.</strong><ul><li>Anyone with this key can access every app you've connected in Composio.</li><li>Never share it in chat logs or screenshots.</li><li>Rotate it in Composio dashboard \u2192 API Keys if it leaks.</li></ul></div>
+          <input className="input" type="password" value={apiKey} onChange={(e) => { setApiKey(e.target.value); setTested(false); }} placeholder="composio_xxxxxxxxxxxxxxxxxxx" style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 13 }} />
+        </SetupRow>
+        {apiKey.length >= 10 && <SetupRow num="3" title="Test your key" done={tested}>{tested ? (<StatusOK>Composio key accepted.</StatusOK>) : (<button className="setup-cta" onClick={test} disabled={testing}>{testing ? 'Testing\u2026' : 'Test connection'}</button>)}{testError && <p className="field-hint" style={{ color: 'var(--status-error)', marginTop: 8 }}>{testError}</p>}</SetupRow>}
+        {tested && <SetupRow num="4" title="Pick which apps your agent can touch" done={enabledApps.length > 0}><div style={{display: 'flex', flexDirection: 'column', gap: 6}}>{APPS.map(a => (<button key={a} className={`usecase ${enabledApps.includes(a) ? 'selected' : ''}`} onClick={() => toggleApp(a)}><div className="usecase-check" /><div className="usecase-label">{a}</div></button>))}</div></SetupRow>}
+        {enabledApps.length > 0 && <SetupRow num="5" title="Daily call cap" desc="Heyron asks before going over."><input className="input" type="number" value={dailyCap} onChange={(e) => setDailyCap(e.target.value)} min="1" placeholder="100" /></SetupRow>}
+      </div>
+    </IntegrationStep>
+  );
+}
+
+/* BYOK. Bring your own model key */
+function BYOKSetup({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [provider, setProvider] = useState(data.byokProvider || null);
+  const [apiKey, setApiKey] = useState(data.byokKey || '');
+  const [tested, setTested] = useState(false);
+  const [testing, setTesting] = useState(false);
+  const [testError, setTestError] = useState(null);
+  const PROVIDERS = [
+    { id: 'openrouter', name: 'OpenRouter', desc: 'Unified access to most models.' },
+    { id: 'anthropic', name: 'Anthropic', desc: 'Direct Claude API.' },
+    { id: 'openai', name: 'OpenAI', desc: 'Direct GPT-4/5 API.' },
+  ];
+  const valid = provider && apiKey.length >= 20 && tested;
+  const test = async () => {
+    setTesting(true); setTestError(null); setTested(false);
+    if (window.HeyronLaunchpad?.validateIntegration && provider === 'openrouter') {
+      const res = await window.HeyronLaunchpad.validateIntegration('openrouter', { apiKey });
+      if (res?.ok) setTested(true); else setTestError(res?.error || 'Key rejected');
+    } else { setTested(true); }
+    setTesting(false);
+  };
+  const handleConnect = () => {
+    if (window.HeyronLaunchpad?.saveIntegrationCredential) window.HeyronLaunchpad.saveIntegrationCredential('byok', { apiKey, provider }, {});
+    onUpdate({ tools: Array.from(new Set([...data.tools, 'byok'])), byokProvider: provider, byokKey: '\u2022\u2022\u2022\u2022\u2022\u2022' });
+    onNext();
+  };
+  return (
+    <IntegrationStep name="Your own key (BYOK)" desc="Use your own OpenRouter / Anthropic / OpenAI key instead of Heyron's managed billing." step={step} totalSteps={totalSteps} onBack={onBack} onSkip={onNext} onConnect={handleConnect} connected={data.tools.includes('byok')} canConnect={valid}>
+      <div className="setup">
+        <SetupRow num="1" title="Pick your provider" done={!!provider}>
+          <div style={{display: 'flex', flexDirection: 'column', gap: 6}}>{PROVIDERS.map(p => (
+            <button key={p.id} className={`option ${provider === p.id ? 'selected' : ''}`} onClick={() => { setProvider(p.id); setTested(false); }} style={{display: 'flex', gap: 12, alignItems: 'center'}}><div className="option-mark" /><div className="option-body"><p className="option-title">{p.name}</p><p className="option-desc">{p.desc}</p></div></button>
+          ))}</div>
+        </SetupRow>
+        {provider && <SetupRow num="2" title="Paste your API key" done={apiKey.length >= 20}>
+          <div className="danger-note" style={{ marginBottom: 12 }}><strong>Protect this key.</strong><ul><li>Charges go to YOUR account at {PROVIDERS.find(p => p.id === provider)?.name}.</li><li>Never share in screenshots, chat logs, or public repos.</li><li>Rotate it in the provider dashboard if leaked.</li></ul></div>
+          <input className="input" type="password" value={apiKey} onChange={(e) => { setApiKey(e.target.value); setTested(false); }} placeholder={provider === 'openrouter' ? 'sk-or-v1-...' : provider === 'anthropic' ? 'sk-ant-...' : 'sk-...'} style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 13 }} />
+        </SetupRow>}
+        {apiKey.length >= 20 && <SetupRow num="3" title="Verify the key" done={tested}>{tested ? <StatusOK>Key accepted.</StatusOK> : <button className="setup-cta" onClick={test} disabled={testing}>{testing ? 'Testing\u2026' : 'Test connection'}</button>}{testError && <p className="field-hint" style={{ color: 'var(--status-error)', marginTop: 8 }}>{testError}</p>}</SetupRow>}
+      </div>
+    </IntegrationStep>
+  );
+}
+
+/* ─── Memory, Hours, Notifications, Privacy, Preview ────────────── */
+const MEMORY_OPTIONS = [{ id: 'short', name: 'Short', desc: 'Forgets after each session.' }, { id: 'standard', name: 'Standard', desc: 'Remembers across sessions.', recommended: true }, { id: 'deep', name: 'Deep', desc: 'Full long-term memory.' }];
+function MemoryScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  return (
+    <div className="panel"><Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero"><Mascot pose="thinking" size={80} /><div className="hero-text"><h1 className="headline">How much should it remember?</h1><p className="sub">Memory holds facts and history. Edit anytime.</p></div></div>
+      <div className="options-list">{MEMORY_OPTIONS.map((m) => (<button key={m.id} className={`option ${data.memory === m.id ? 'selected' : ''}`} onClick={() => onUpdate({ memory: m.id })}><div className="option-mark" /><div className="option-body"><p className="option-title">{m.name} {m.recommended && <span className="option-tag">Recommended</span>}</p><p className="option-desc">{m.desc}</p></div></button>))}</div>
+      <button className={`checkbox ${data.editableMemory ? 'checked' : ''}`} onClick={() => onUpdate({ editableMemory: !data.editableMemory })}><span className="checkbox-mark" />Let me view and edit memory at any time</button>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={!data.memory}>Continue</button></div>
+    </div>
+  );
+}
+const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+function HoursScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const toggleDay = (d) => { const next = new Set(data.workDays); next.has(d) ? next.delete(d) : next.add(d); onUpdate({ workDays: Array.from(next) }); };
+  return (
+    <div className="panel"><Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero"><Mascot pose="sleeping" size={80} /><div className="hero-text"><h1 className="headline">When are you working?</h1><p className="sub">Your agent stays quiet outside these hours.</p></div></div>
+      <div className="field"><label>Timezone</label><select className="input" value={data.timezone} onChange={(e) => onUpdate({ timezone: e.target.value })}><option>Pacific (PT)</option><option>Mountain (MT)</option><option>Central (CT)</option><option>Eastern (ET)</option><option>UK (GMT/BST)</option><option>Central Europe (CET)</option></select></div>
+      <div className="two-col"><div className="field"><label>Start</label><input className="input" type="time" value={data.workStart} onChange={(e) => onUpdate({ workStart: e.target.value })} /></div><div className="field"><label>End</label><input className="input" type="time" value={data.workEnd} onChange={(e) => onUpdate({ workEnd: e.target.value })} /></div></div>
+      <div className="field"><label>Days</label><div className="day-row">{DAYS.map((d) => (<button key={d} className={`day ${data.workDays.includes(d) ? 'selected' : ''}`} onClick={() => toggleDay(d)}>{d}</button>))}</div></div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext}>Continue</button></div>
+    </div>
+  );
+}
+function NotificationsScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  return (
+    <div className="panel"><Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero"><Mascot pose="greeting" size={80} /><div className="hero-text"><h1 className="headline">How should we reach you?</h1><p className="sub">You'll get the daily briefing either way.</p></div></div>
+      <div><div className="toggle-row"><div className="toggle-info"><p className="toggle-title">Email</p><p className="toggle-desc">Daily summary.</p></div><button className={`toggle ${data.notifyEmail ? 'on' : ''}`} onClick={() => onUpdate({ notifyEmail: !data.notifyEmail })} aria-label="toggle"/></div><div className="toggle-row"><div className="toggle-info"><p className="toggle-title">Push</p><p className="toggle-desc">Real-time alerts.</p></div><button className={`toggle ${data.notifyPush ? 'on' : ''}`} onClick={() => onUpdate({ notifyPush: !data.notifyPush })} aria-label="toggle"/></div></div>
+      <div className="field" style={{ marginTop: 20 }}><label>How often</label><div className="chip-row">{[{id:'always',n:'Always'},{id:'important',n:'Important only'},{id:'daily',n:'Daily digest'}].map((p) => (<button key={p.id} className={`chip ${data.notifyFreq === p.id ? 'selected' : ''}`} onClick={() => onUpdate({ notifyFreq: p.id })}>{p.n}</button>))}</div></div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext}>Continue</button></div>
+    </div>
+  );
+}
+function PrivacyScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  return (
+    <div className="panel"><Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero"><Mascot pose="thinking" size={80} /><div className="hero-text"><h1 className="headline">A few privacy choices.</h1><p className="sub">Change anytime.</p></div></div>
+      <div><div className="toggle-row"><div className="toggle-info"><p className="toggle-title">Learn from my interactions</p><p className="toggle-desc">Improve at the things you do most.</p></div><button className={`toggle ${data.learnFromMe ? 'on' : ''}`} onClick={() => onUpdate({ learnFromMe: !data.learnFromMe })} aria-label="toggle"/></div><div className="toggle-row"><div className="toggle-info"><p className="toggle-title">Share anonymous usage data</p><p className="toggle-desc">Helps improve Heyron. No content.</p></div><button className={`toggle ${data.shareUsage ? 'on' : ''}`} onClick={() => onUpdate({ shareUsage: !data.shareUsage })} aria-label="toggle"/></div></div>
+      <div className="field" style={{ marginTop: 20 }}><label>Auto-delete chat history</label><select className="input" value={data.autoDelete} onChange={(e) => onUpdate({ autoDelete: e.target.value })}><option>Never</option><option>After 30 days</option><option>After 90 days</option><option>After 1 year</option></select></div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext}>Continue</button></div>
+    </div>
+  );
+}
+/* About-you: free-form "who am I" so the agent can build a soul that fits */
+function AboutYouScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
+  const [text, setText] = useState(data.aboutYou || '');
+  return (
+    <div className="panel"><Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero"><Mascot pose="thinking" size={90} /><div className="hero-text"><h1 className="headline">Tell {data.agentName || 'your agent'} who you are.</h1><p className="sub">This is the part nothing else on the market does. Everyone else gets a generic assistant. You're giving yours an origin story. Who you are, what you're building, what matters to you, how you want to be spoken to.</p></div></div>
+      <p className="about-prompt">The more honest the better. This is what makes a generic assistant into <strong>yours</strong>. Think: what you do for work, what you're building, who's in your life, how you like to be talked to, what you're bad at remembering, what you wish a friend would chase you about. It grows from here, everything your agent learns about you builds on this foundation.</p>
+      <textarea className="input about-textarea" value={text} onChange={(e) => { setText(e.target.value); onUpdate({ aboutYou: e.target.value }); }} rows={10} placeholder="I'm Cassie. I run product at Heyron. I have a dog named Coop. I'm bad at eating during work hours and great at forgetting to reply to my mom. I learn best by doing, not by reading docs. I care about craft, kindness, and not wasting people's time. I want you to flag when I haven't replied to someone in more than 2 days, help me draft messages when I'm stuck, and remind me to drink water…" />
+      <p className="about-note">Editable anytime from <strong>Settings → About you</strong>.</p>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={text.trim().length < 20}>Continue</button></div>
+    </div>
+  );
+}
+
+/* Disclaimer: AI makes mistakes, protect keys, proceed carefully */
+function DisclaimerScreen({ data, onAccept, onBack, step, totalSteps }) {
+  const [agreed, setAgreed] = useState(false);
+  return (
+    <div className="panel"><Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero"><Mascot pose="thinking" size={90} /><div className="hero-text"><h1 className="headline">One real talk before {data.agentName || 'your agent'} goes live.</h1><p className="sub">A few honest things. Your agent is powerful, and we want you to use it well.</p></div></div>
+      <div className="disclaimer-list">
+        <div className="disclaimer-item">
+          <p className="disclaimer-title">AI makes mistakes.</p>
+          <p className="disclaimer-body">Large language models get things wrong. Check the work, verify anything important, and never spend money just because an AI told you to. Treat its output like advice from a smart friend who occasionally hallucinates.</p>
+        </div>
+        <div className="disclaimer-item">
+          <p className="disclaimer-title">Protect your API keys and sensitive data.</p>
+          <p className="disclaimer-body">Any key you paste lives in your container. Don't share screenshots of your setup screens. Don't paste keys into public chats. Rotate keys if anything feels off. Secrets leaving your container is on you.</p>
+        </div>
+        <div className="disclaimer-item">
+          <p className="disclaimer-title">Be careful with what you give it access to.</p>
+          <p className="disclaimer-body">The more tools your agent can use, the more it can do, and the more it could do that you didn't intend. Start with a narrow scope. Turn on destructive-action confirmations. Add tools as you build trust.</p>
+        </div>
+        <div className="disclaimer-item">
+          <p className="disclaimer-title">You proceed at your own risk.</p>
+          <p className="disclaimer-body">Heyron gives you a powerful agent, not a perfect one. You're the human in the loop. Act accordingly.</p>
+        </div>
+      </div>
+      <button className={`checkbox ${agreed ? 'checked' : ''}`} onClick={() => setAgreed(!agreed)}><span className="checkbox-mark" />I understand and accept these risks.</button>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onAccept} disabled={!agreed}>Accept & continue</button></div>
+    </div>
+  );
+}
+
+/* Finish: Congratulations + link back to Launchpad + dashboard button */
+function FinishScreen({ data, onEnter, onBack, step, totalSteps, onResumeLaunchpad }) {
+  return (
+    <div className="panel"><Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero finish-hero"><Mascot pose="greeting" size={120} /><div className="hero-text"><h1 className="headline">You did it.</h1><p className="sub">{data.agentName || 'Your agent'} is yours now. Set up around you, ready to learn.</p></div></div>
+      <div className="finish-note">
+        <p>This is day one. Every conversation, every task, every correction, {data.agentName || 'your agent'} remembers and grows from it. The more you work with it, the more it becomes yours.</p>
+        <p>Change its name, voice, tools, or anything else anytime by coming back to Launchpad.</p>
+        <button className="btn-link" onClick={onResumeLaunchpad}>Open Launchpad again →</button>
+      </div>
+      <div className="actions" style={{ justifyContent: 'center', marginTop: 28 }}><button className="btn btn-primary" onClick={onEnter} style={{ minWidth: 260 }}>Open dashboard →</button></div>
+    </div>
+  );
+}
+
+function PreviewScreen({ data, onLaunch, onBack, step, totalSteps, expert }) {
+  const persona = PERSONAS.find((p) => p.id === data.personality);
+  const comm = COMM_STYLES.find((c) => c.id === data.commStyle);
+  const model = MODELS.find((m) => m.id === data.model);
+  const memory = MEMORY_OPTIONS.find((m) => m.id === data.memory);
+  const useCaseLabels = data.useCases.map(id => (USE_CASES.find(u => u.id === id) || {}).label).filter(Boolean);
+  return (
+    <div className="panel"><Brand /><Steps current={step} total={totalSteps} />
+      <div className="hero"><Mascot pose="greeting" size={100} /><div className="hero-text"><h1 className="headline">Here's your setup.</h1><p className="sub">Look it over. Change any of this from settings.</p></div></div>
+      <div className="summary">
+        <div className="summary-section-title">Identity</div>
+        <div className="summary-row"><span className="summary-label">Your name</span><span className="summary-value">{data.yourName}</span></div>
+        <div className="summary-row"><span className="summary-label">Agent name</span><span className="summary-value">{data.agentName}</span></div>
+        <div className="summary-section-title">Soul</div>
+        <div className="summary-row"><span className="summary-label">Focus</span><span className="summary-value">{useCaseLabels.length ? useCaseLabels.join(', ') : 'None'}</span></div>
+        {persona && <div className="summary-row"><span className="summary-label">Personality</span><span className="summary-value">{persona.name}</span></div>}
+        {comm && <div className="summary-row"><span className="summary-label">Verbosity</span><span className="summary-value">{comm.name}</span></div>}
+        {expert && (model || memory) && <div className="summary-section-title">Brain</div>}
+        {expert && model && <div className="summary-row"><span className="summary-label">Model</span><span className="summary-value">{model.name}</span></div>}
+        {expert && memory && <div className="summary-row"><span className="summary-label">Memory</span><span className="summary-value">{memory.name}</span></div>}
+        <div className="summary-section-title">Connections</div>
+        <div className="summary-row"><span className="summary-label">Tools connected</span><span className="summary-value">{data.tools.length === 0 ? 'None yet' : data.tools.join(', ')}</span></div>
+        {expert && <div className="summary-section-title">Schedule & alerts</div>}
+        {expert && <div className="summary-row"><span className="summary-label">Working hours</span><span className="summary-value">{data.workStart},{data.workEnd}, {data.workDays.length} days</span></div>}
+        {expert && <div className="summary-row"><span className="summary-label">Notifications</span><span className="summary-value">{[data.notifyEmail && 'Email', data.notifyPush && 'Push'].filter(Boolean).join(' + ') || 'Off'}</span></div>}
+      </div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onLaunch}>Looks good, continue</button></div>
+    </div>
+  );
+}
+
+/* ─── Help pages ─────────────────────────────────────────────────── */
+const HELP_PAGES = {
+  github: { title: 'GitHub', cat: 'Integrations', summary: 'Push commits, review PRs, ship code through your agent.', sections: [{ h: 'Setting it up', steps: ['Pick OAuth or Personal Access Token.', 'OAuth: tap Continue with GitHub, approve.', 'PAT: generate at github.com/settings/tokens with scopes repo, read:org, read:user.', 'Pick repos. Choose permissions. Test.'] }, { h: 'Common issues', list: ['"Repo not visible", OAuth missing org access.', 'PAT expired, regenerate and re-paste.'] }], related: ['troubleshooting'] },
+  telegram: { title: 'Telegram', cat: 'Integrations', summary: 'Talk to your agent from your phone via BotFather.', sections: [{ h: 'Creating the bot', steps: ['Open @BotFather in Telegram.', 'Send /newbot.', 'Pick a display name. Pick a username ending in "bot".', 'BotFather gives you a token, copy it.', 'Paste into Heyron and test.'] }, { h: 'Token safety', list: ['Anyone with the token controls the bot.', 'Never paste it in chat logs or screenshots.', 'If leaked, send /revoke to @BotFather immediately.'] }], related: ['troubleshooting'] },
+  apify: { title: 'Apify', cat: 'Integrations', summary: 'Scrape sites and pull web data.', sections: [{ h: 'Getting your token', steps: ['Sign in at console.apify.com.', 'Settings → Integrations → Personal API tokens.', 'Create a new token named "Heyron Agent".', 'Paste into Heyron and test.'] }], related: ['troubleshooting'] },
+  elevenlabs: { title: 'ElevenLabs', cat: 'Integrations', summary: 'Voice replies and audio generation.', sections: [{ h: 'Getting your API key', steps: ['Sign in at elevenlabs.io.', 'Profile → API Key → reveal and copy.', 'Paste into Heyron, verify, pick a voice.'] }], related: ['troubleshooting'] },
+  obsidian: { title: 'Obsidian', cat: 'Integrations', summary: 'Sync notes and let your agent read your vault.', sections: [{ h: 'Installing', steps: ['Community plugins → Browse → search Heyron → Install → Enable.', 'Plugin settings → Pair new device → copy the 6-character code.', 'Paste into Heyron. Confirm vault path. Pick sync direction.'] }], related: ['troubleshooting'] },
+  discord: { title: 'Discord', cat: 'Community', summary: 'Join the Heyron Discord for help and feature talk.', sections: [{ h: 'Joining', steps: ['Open the invite at discord.gg/heyron.', 'Sign in or create a free Discord account.', 'Land in #welcome. Say hi if you like.'] }], related: ['troubleshooting'] },
+  cron: { title: 'Cron', cat: 'Integrations', summary: 'Schedule recurring tasks.', sections: [{ h: 'Setting up a task', steps: ['Name the task.', 'Pick daily, weekly, monthly, or custom cron.', 'Write the action in plain English.', 'Pick output destination.'] }], related: ['troubleshooting'] },
+  browser: { title: 'Web Browser', cat: 'Integrations', summary: 'Navigate the web.', sections: [{ h: 'Permission tiers', list: ['Read-only, safest.', 'Interactive, read + click + fill.', 'Full, adds downloads and scripts.'] }], related: ['troubleshooting'] },
+  cancel: { title: 'Cancel my account', cat: 'Account', summary: 'How to cancel and what happens after.', sections: [{ h: 'How to cancel', steps: ['Open heyron.ai/cancel.', 'Tell us why (optional).', 'Confirm. Cancellation queues for end of billing cycle.'] }, { h: 'What happens', list: ['Full access until end of cycle.', 'Container pauses (not deleted) for 90 days.', 'Permanent deletion after 90 days.'] }], related: ['refund'] },
+  refund: { title: 'Request a refund', cat: 'Account', summary: 'Refund policy and how to ask.', sections: [{ h: 'Eligibility', list: ['Within 14 days of first charge, full refund.', 'Service outage, pro-rated.', 'Billing error, full refund.'] }, { h: 'How', steps: ['Open heyron.ai/refund.', 'Pick reason, submit.', 'Approved refunds process within 5 business days.'] }], related: ['cancel'] },
+  'soul-memory': { title: 'Soul vs memory', cat: 'Your agent', summary: 'Two layers: what your agent IS vs. what it KNOWS.', sections: [{ h: 'Soul', body: "Your agent's identity, focus areas, personality, voice. Always-on. Slow-changing." }, { h: 'Memory', body: 'Facts and history. Grows over time. Editable directly.' }], related: ['container-access'] },
+  'container-access': { title: 'What Ron can see', cat: 'Your agent', summary: 'How container access works and how to revoke it.', sections: [{ h: 'Can read', list: ['Integration health.', 'Recent logs.', 'Memory counts and topics.', 'Settings.'] }, { h: 'Cannot read', list: ['Your tokens or API keys.', 'Your message content.', "Your linked integrations' data."] }, { h: 'Revoke', body: 'Settings → Privacy → Container access.' }], related: ['soul-memory'] },
+  troubleshooting: { title: 'Common errors', cat: 'Troubleshooting', summary: 'Quick fixes.', sections: [{ h: 'Agent not responding', list: ['Ask Ron to restart it.', 'Check Settings → Connections.', 'Open a ticket if it persists.'] }, { h: 'Integration sync issues', list: ["Check the integration's health page.", 'Re-authenticate if token expired.'] }], related: ['cancel'] },
+};
+function HelpIndex({ onSelect, onBack }) {
+  const cats = {}; Object.entries(HELP_PAGES).forEach(([slug, p]) => { (cats[p.cat] = cats[p.cat] || []).push({ slug, ...p }); });
+  return (
+    <div className="panel"><Brand /><button className="help-back" onClick={onBack}>← Back to dashboard</button><h1 className="help-h1">Help</h1><p className="help-tagline">Browse by category, or just ask Ron.</p>
+      {Object.entries(cats).map(([cat, pages]) => (<div key={cat} style={{ marginBottom: 28 }}><p className="help-cat-title">{cat}</p><div className="help-grid">{pages.map(p => (<button key={p.slug} className="help-card" onClick={() => onSelect(p.slug)}><div className="help-card-title">{p.title}</div><div className="help-card-summary">{p.summary}</div></button>))}</div></div>))}
+    </div>
+  );
+}
+function HelpPage({ slug, onSelect, onBack }) {
+  const page = HELP_PAGES[slug]; if (!page) return null;
+  return (
+    <div className="panel"><Brand /><button className="help-back" onClick={onBack}>← Help</button><p className="help-cat-title">{page.cat}</p><h1 className="help-h1">{page.title}</h1><p className="help-tagline">{page.summary}</p>
+      {page.sections.map((s, i) => (<div key={i} className="help-section"><h3>{s.h}</h3>{s.body && <p>{s.body}</p>}{s.steps && <ol>{s.steps.map((l, j) => <li key={j}>{l}</li>)}</ol>}{s.list && <ul>{s.list.map((l, j) => <li key={j}>{l}</li>)}</ul>}</div>))}
+      <div className="help-cta"><span className="help-cta-text">Still need a hand? Ron can dig into your container.</span><button className="btn btn-primary" style={{ width: 'auto', padding: '8px 14px', fontSize: 12 }} onClick={onBack}>Ask Ron</button></div>
+      {page.related?.length > 0 && <div className="help-cta" style={{ marginTop: 8, flexDirection: 'column', alignItems: 'stretch' }}><div className="help-cta-text" style={{ marginBottom: 8 }}>Related</div>{page.related.filter(rs => HELP_PAGES[rs]).map(rs => (<button key={rs} className="btn btn-ghost" style={{ padding: '8px 12px', fontSize: 13, marginBottom: 4, justifyContent: 'flex-start' }} onClick={() => onSelect(rs)}>{HELP_PAGES[rs].title} →</button>))}</div>}
+    </div>
+  );
+}
+
+/* ─── Dashboard with container, Discord card, Ron intro ─────────── */
+function RonIntro({ data, onDismiss, onOpenChat }) {
+  const agent = data?.agentName || 'your agent';
+  return (
+    <div className="ron-intro" role="dialog">
+      <button className="ron-intro-dismiss" onClick={onDismiss} aria-label="Dismiss">×</button>
+      <div className="ron-intro-row"><HeadMascot size={36} />
+        <div className="ron-intro-text">
+          <p className="ron-intro-title">Hey, I'm Ron.</p>
+          <p className="ron-intro-body">I watch over {agent}'s container. Click me anytime, I pull logs, restart things, open tickets, or just answer questions.</p>
+          <div className="ron-intro-cta-row"><button className="btn btn-ghost" onClick={onDismiss}>Got it</button><button className="btn btn-primary" onClick={onOpenChat}>Say hi</button></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+function Dashboard({ data, onReset, onHelp, onNavigateHelp, onBackToLaunchpad }) {
+  const [showIntro, setShowIntro] = useState(true);
+  const [openSignal, setOpenSignal] = useState(0);
+  const dismissIntro = () => setShowIntro(false);
+  const openChat = () => { setShowIntro(false); setOpenSignal((s) => s + 1); };
+  return (
+    <>
+      <div className="placeholder-note">Stand-in for your existing dashboard. Drop the container card, help link, Discord card, and Ron widget onto your real dashboard.</div>
+      <div className="panel">
+        <div className="dash-header"><div className="dash-greeting"><h2>Hey, {data.yourName || 'friend'}.</h2><p>{data.agentName || 'Your agent'} is online and ready.</p></div><div style={{ display: 'flex', alignItems: 'center', gap: 12 }}><button className="btn-text" onClick={onBackToLaunchpad}>Finish Launchpad</button><button className="btn-text" onClick={onHelp}>Help</button><button className="btn-text" onClick={onReset}>Restart demo</button><HeadMascot size={36} /></div></div>
+        <div className="dash-grid">
+          <div className="metric"><p className="metric-label">Tasks today</p><p className="metric-value">14</p><p className="metric-trend">+3 vs yesterday</p></div>
+          <div className="metric"><p className="metric-label">Avg response</p><p className="metric-value">1.2s</p><p className="metric-trend">stable</p></div>
+          <div className="metric"><p className="metric-label">Connected tools</p><p className="metric-value">{data.tools.length || 0}</p><p className="metric-trend" style={{ color: 'var(--text-tertiary)' }}>{data.tools.length === 0 ? 'add some' : 'all healthy'}</p></div>
+        </div>
+        <div className="container-card">
+          <div className="container-head"><span className="container-title"><HeadMascot size={20} /> Your container</span><span className="container-status">Running</span></div>
+          <div className="container-meta">
+            <span className="container-meta-label">ID</span><span className="container-meta-value">heyron-prod-{(data.email || 'cassie').split('@')[0].slice(0,8)}</span>
+            <span className="container-meta-label">Region</span><span className="container-meta-value">us-east-1</span>
+            <span className="container-meta-label">Memory</span><span className="container-meta-value">2.1 / 4.0 GB</span>
+            <span className="container-meta-label">Uptime</span><span className="container-meta-value">14d 3h</span>
+            <span className="container-meta-label">Integrations</span><span className="container-meta-value">{data.tools.length}</span>
+            <span className="container-meta-label">Last deploy</span><span className="container-meta-value">2h ago</span>
+          </div>
+        </div>
+        <div className="discord-card"><div className="integration-icon">DC</div><div className="discord-card-info"><p className="discord-card-title">Join the Heyron Discord</p><p className="discord-card-desc">Community help, feature previews, and a place to ask the team things.</p></div><button className="btn btn-primary btn-sm" onClick={() => window.open('https://discord.gg/heyron', '_blank')}>Join server</button></div>
+        <div className="dash-section"><h3>Recent activity</h3><div className="activity">
+          <div className="activity-row"><span className="activity-dot" style={{ background: 'var(--status-success)' }} /><span className="activity-text">Replied to 3 messages in Slack</span><span className="activity-time">2m ago</span></div>
+          <div className="activity-row"><span className="activity-dot" style={{ background: 'var(--brand-secondary)' }} /><span className="activity-text">Updated calendar for Friday</span><span className="activity-time">12m ago</span></div>
+          <div className="activity-row"><span className="activity-dot" style={{ background: 'var(--text-tertiary)' }} /><span className="activity-text">Drafted weekly summary</span><span className="activity-time">1h ago</span></div>
+        </div></div>
+      </div>
+      {showIntro && <RonIntro data={data} onDismiss={dismissIntro} onOpenChat={openChat} />}
+      <SupportWidget mode="authenticated" userEmail={data.email || 'you@heyron.app'} userData={data} onNavigateHelp={onNavigateHelp} openSignal={openSignal} pulse={showIntro} />
+    </>
+  );
+}
+
+/* ─── Hey Ron, dual-mode support widget ─────────────────────────── */
+const ESCALATE_KEYWORDS = ['billing','refund','cancel','outage','data loss','security','breach','urgent','emergency','production down','human','support team','real person','locked out'];
+const TOOL_LABELS = { github: 'GitHub', telegram: 'Telegram', apify: 'Apify', elevenlabs: 'ElevenLabs', obsidian: 'Obsidian', cron: 'Cron', browser: 'Web Browser' };
+function buildFAQ(data, mode) {
+  const tools = data.tools || [];
+  const installedList = tools.length ? tools.map(t => TOOL_LABELS[t] || t).join(', ') : 'nothing yet';
+  const gated = mode === 'public';
+  const verify = { reply: "For that I need to verify you. Sign in, or I can still help with docs, tickets, or ticket status.", action: { type: 'link', url: '/signin', label: 'Sign in →' } };
+  return [
+    { match: /(what|which).{0,30}(installed|connected|integration)|installed|integrations? do I have/i, reply: gated ? verify.reply : (tools.length ? `Looking at your container, ${tools.length} active: ${installedList}. Want a status check on any?` : 'No integrations connected yet. Settings → Connections.'), action: gated ? verify.action : undefined, investigate: !gated },
+    { match: /cancel.{0,30}(account|subscription|plan)?|how (do|can) I cancel|delete my account/i, reply: "Sad to see you go. Here's how cancellation works.", action: { type: 'help', slug: 'cancel', label: 'Open cancellation guide →' } },
+    { match: /refund|money back|charge back/i, reply: "Refund requests go through a tracked form. Here's the guide.", action: { type: 'help', slug: 'refund', label: 'Open refund guide →' } },
+    { match: /log|crash|broken|not working|error|stuck|failed/i, reply: gated ? "Tell me what error you're seeing. For deeper log checks I'd need your account, or I can open a ticket." : "Checking your container... agent process restarted twice. Rate-limit pressure on one of your integrations. I've backed off the polling. Want the troubleshooting guide?", investigate: !gated, action: { type: 'help', slug: 'troubleshooting', label: 'Open troubleshooting guide →' } },
+    { match: /can'?t (log ?in|sign ?in|access)|reset password|locked out|forgot password/i, reply: "Let's get you back in. Fastest path is a password reset link.", action: { type: 'link', url: '/reset-password', label: 'Reset password →' } },
+    { match: /status|where.{0,10}ticket|check.{0,10}ticket/i, reply: gated ? "Sure. Paste your ticket number and the email you used." : "Let me pull your recent tickets.", action: { type: 'ticket-status', label: 'Check ticket status →' } },
+    { match: /(what is|explain|tell me about) (the )?soul|soul vs memory/i, reply: "Soul is agent identity (focus, personality, voice). Memory is what it knows.", action: { type: 'help', slug: 'soul-memory', label: 'Read the breakdown →' } },
+    { match: /container access|what.{0,15}(can|do).{0,15}(you|ron).{0,15}see/i, reply: "I can read integrations, logs, settings. Never your tokens or message content.", action: { type: 'help', slug: 'container-access', label: 'Full explanation →' } },
+    { match: /personality|persona/i, reply: `Settings → Soul → Personality controls how ${data.agentName || 'your agent'} talks.${gated ? ' Sign in to change it.' : ''}` },
+    { match: /(my )?identity|who.{0,15}(am I|are you)|(your|my) name|rename/i, reply: gated ? verify.reply : `Identity: you're ${data.yourName || 'not set'} and your agent is ${data.agentName || 'not set'}. Settings → Identity.`, action: gated ? verify.action : undefined },
+    { match: /memory|forget|remember/i, reply: gated ? verify.reply : 'Memory holds facts and history. Settings → Memory, 142 entries stored.', action: gated ? verify.action : undefined, investigate: !gated },
+    { match: /model|gpt|llm/i, reply: gated ? verify.reply : `Settings → Model. You're on ${(MODELS.find(m => m.id === data.model) || {}).name || 'Heyron Standard'}.`, action: gated ? verify.action : undefined },
+    { match: /restart|reboot/i, reply: gated ? verify.reply : `Restarting ${data.agentName || 'your agent'} in the container now.`, investigate: !gated, action: gated ? verify.action : undefined },
+    { match: /github/i, reply: gated ? 'GitHub setup covers OAuth and PAT options.' : (tools.includes('github') ? 'GitHub is live. Last sync 14 min ago.' : "GitHub isn't connected."), action: { type: 'help', slug: 'github', label: 'GitHub guide →' }, investigate: !gated && tools.includes('github') },
+    { match: /telegram|botfather/i, reply: gated ? 'Telegram setup uses @BotFather.' : (tools.includes('telegram') ? 'Telegram is connected.' : "Telegram isn't connected yet."), action: { type: 'help', slug: 'telegram', label: 'Telegram guide →' } },
+    { match: /discord/i, reply: 'Heyron Discord lives at discord.gg/heyron.', action: { type: 'link', url: 'https://discord.gg/heyron', label: 'Open invite →' } },
+    { match: /apify|scrape/i, reply: gated ? 'Apify setup covers tokens.' : (tools.includes('apify') ? 'Apify token healthy.' : "Apify isn't connected."), action: { type: 'help', slug: 'apify', label: 'Apify guide →' } },
+    { match: /elevenlabs|voice/i, reply: gated ? 'ElevenLabs setup covers API keys and voices.' : (tools.includes('elevenlabs') ? 'ElevenLabs is connected.' : "ElevenLabs isn't connected."), action: { type: 'help', slug: 'elevenlabs', label: 'ElevenLabs guide →' } },
+    { match: /obsidian|vault/i, reply: gated ? 'Obsidian setup covers plugin install.' : (tools.includes('obsidian') ? 'Obsidian sync healthy.' : "Obsidian isn't connected."), action: { type: 'help', slug: 'obsidian', label: 'Obsidian guide →' } },
+    { match: /cron|schedule task/i, reply: gated ? 'Cron setup covers scheduling.' : (tools.includes('cron') ? 'You have 1 cron job running.' : 'No scheduled tasks yet.'), action: { type: 'help', slug: 'cron', label: 'Cron guide →' } },
+    { match: /browser|web browser/i, reply: gated ? 'Browser tool guide covers tiers.' : (tools.includes('browser') ? 'Browser tool active.' : "Browser tool isn't enabled."), action: { type: 'help', slug: 'browser', label: 'Browser guide →' } },
+    { match: /^\s*(hello|hi|hey|sup|yo)\s*[!.?]?\s*$/i, reply: mode === 'authenticated' ? `Hey ${data.yourName || 'there'}! I've got your container open. What's up?` : "Hey! I'm Ron, I can help with docs, tickets, or ticket status." },
+  ];
+}
+function shouldEscalate(text, turnCount) { const lc = text.toLowerCase(); if (ESCALATE_KEYWORDS.some(k => lc.includes(k))) return true; if (turnCount >= 6) return true; return false; }
+function findReply(text, faq) { const m = faq.find(f => f.match.test(text)); return m || { reply: "Hmm, not sure about that. Try rephrasing, or open a ticket." }; }
+function getQuickActions(mode) {
+  if (mode === 'authenticated') return [{ label: "What's installed?", text: 'What integrations do I have installed?' }, { label: 'Got an error', text: "I'm getting an error" }, { label: 'Check my tickets', kind: 'ticket-status' }, { label: 'Cancel my account', text: 'How do I cancel my account?' }, { label: 'Request a refund', text: 'I want to request a refund' }, { label: 'Open a ticket', kind: 'ticket' }];
+  return [{ label: "I can't log in", text: "I can't log in" }, { label: 'Set up Telegram', text: 'How do I set up Telegram?' }, { label: 'Cancel my account', text: 'How do I cancel my account?' }, { label: 'Request a refund', text: 'I want to request a refund' }, { label: 'Check ticket status', kind: 'ticket-status' }, { label: 'Open a ticket', kind: 'ticket' }];
+}
+
+function SupportWidget({ mode = 'authenticated', userEmail, userData, onNavigateHelp, openSignal, pulse }) {
+  const [open, setOpen] = useState(false);
+  useEffect(() => { if (openSignal && openSignal > 0) setOpen(true); }, [openSignal]);
+  const greeting = mode === 'authenticated'
+    ? `${userData?.yourName ? `Hey ${userData.yourName}!` : 'Hey!'} I'm Ron, the support raccoon. I've got your container open, including ${userData?.agentName || 'your agent'}'s logs and integrations. What's up?`
+    : "Hey! I'm Ron. I can help with docs, account stuff, and tickets. For container-specific help you'll need to sign in.";
+  const [messages, setMessages] = useState([{ from: 'bot', text: greeting }]);
+  const [input, setInput] = useState('');
+  const [typing, setTyping] = useState(false);
+  const [investigating, setInvestigating] = useState(false);
+  const [escalateOffered, setEscalateOffered] = useState(false);
+  const [showTicket, setShowTicket] = useState(false);
+  const [showStatus, setShowStatus] = useState(false);
+  const [toast, setToast] = useState(null);
+  const messagesRef = useRef(null);
+  useEffect(() => { if (messagesRef.current) messagesRef.current.scrollTop = messagesRef.current.scrollHeight; }, [messages, typing, investigating]);
+  const userTurns = messages.filter(m => m.from === 'user').length;
+  const showQuick = userTurns === 0 && !typing && !investigating;
+  const FAQ = buildFAQ(userData || {}, mode);
+  const QUICK_ACTIONS = getQuickActions(mode);
+  const send = (text) => {
+    const userMsg = ((text !== undefined ? text : input) || '').trim();
+    if (!userMsg) return;
+    setMessages(m => [...m, { from: 'user', text: userMsg }]);
+    if (text === undefined) setInput('');
+    if (shouldEscalate(userMsg, userTurns + 1) && !escalateOffered) {
+      setTyping(true);
+      setTimeout(() => { setTyping(false); setMessages(m => [...m, { from: 'bot', text: 'This one needs the team. Let me hand you off.' }, { from: 'bot', kind: 'action', action: { type: 'ticket', label: 'Open a ticket →' } }]); setEscalateOffered(true); }, 700);
+      return;
+    }
+    const found = findReply(userMsg, FAQ);
+    const showReply = () => { const next = [{ from: 'bot', text: found.reply }]; if (found.action) next.push({ from: 'bot', kind: 'action', action: found.action }); setMessages(m => [...m, ...next]); };
+    // If Ron's built-in FAQ didn't have a confident answer, fall through to the LLM backend.
+    // Any confident FAQ match still wins, this is only for the generic 'not sure' fallback.
+    const isGenericFallback = /not sure about that/i.test(found.reply);
+    if (isGenericFallback && window.HeyronLaunchpad?.callRonChat) {
+      setTyping(true);
+      const history = messages.filter(m => m.from && m.text).slice(-10).map(m => ({ role: m.from === 'user' ? 'user' : 'assistant', content: m.text }));
+      history.push({ role: 'user', content: userMsg });
+      window.HeyronLaunchpad.callRonChat({ mode, userContext: userData || {}, messages: history }).then((res) => {
+        setTyping(false);
+        if (res?.reply) {
+          const next = [{ from: 'bot', text: res.reply }];
+          if (res.action) next.push({ from: 'bot', kind: 'action', action: res.action });
+          setMessages(m => [...m, ...next]);
+        } else { showReply(); }
+      }).catch(() => { setTyping(false); showReply(); });
+      return;
+    }
+    if (found.investigate) { setInvestigating(true); setTimeout(() => { setInvestigating(false); setTyping(true); setTimeout(() => { setTyping(false); showReply(); }, 600); }, 1100); }
+    else { setTyping(true); setTimeout(() => { setTyping(false); showReply(); }, 700 + Math.random() * 300); }
+  };
+  const handleQuick = (qa) => { if (qa.kind === 'ticket') { setShowTicket(true); return; } if (qa.kind === 'ticket-status') { setShowStatus(true); return; } send(qa.text); };
+  const handleAction = (action) => {
+    if (action.type === 'link') window.open(action.url, '_blank', 'noopener');
+    else if (action.type === 'ticket') setShowTicket(true);
+    else if (action.type === 'ticket-status') setShowStatus(true);
+    else if (action.type === 'help' && onNavigateHelp) { onNavigateHelp(action.slug); setOpen(false); }
+  };
+  const submitTicket = async (ticket) => {
+    let id = Math.floor(1000 + Math.random() * 9000);
+    if (window.HeyronLaunchpad?.submitTicket) {
+      try { const r = await window.HeyronLaunchpad.submitTicket(ticket, userData); if (r?.ok && r.ticketNumber) id = r.ticketNumber; } catch {}
+    }
+    setShowTicket(false);
+    setToast(`Ticket #${id} sent.`);
+    setMessages(m => [...m, { from: 'bot', text: `Ticket #${id} is in. ${mode === 'authenticated' ? 'Snapshot attached. ' : ''}We'll email you within a day.` }]);
+    setTimeout(() => setToast(null), 4000);
+  };
+  if (!open) return <button className={`sw-pill ${pulse ? 'glow' : ''}`} onClick={() => setOpen(true)} aria-label="Open support"><HeadMascot size={32} /></button>;
+  return (
+    <>
+      <div className="sw-panel" role="dialog">
+        <div className="sw-header"><div className="sw-header-info"><HeadMascot size={26} /><div><p className="sw-header-name">Hey Ron</p><p className="sw-header-status"><span className="sw-status-dot" /> {mode === 'public' ? 'Public support' : 'Online · container linked'}</p></div></div><button className="sw-close" onClick={() => setOpen(false)}>×</button></div>
+        <div className="sw-messages" ref={messagesRef} aria-live="polite">
+          {messages.map((m, i) => { if (m.kind === 'action') return <button key={i} className="sw-action-btn" onClick={() => handleAction(m.action)}>{m.action.label}</button>; return <div key={i} className={`bubble ${m.from}`}>{m.text}</div>; })}
+          {investigating && <div className="investigating">Checking your container…</div>}
+          {typing && <div className="typing"><span className="typing-dot" /><span className="typing-dot" /><span className="typing-dot" /></div>}
+          {showQuick && <div className="sw-quick">{QUICK_ACTIONS.map((qa, i) => (<button key={i} className="sw-chip" onClick={() => handleQuick(qa)}>{qa.label}</button>))}</div>}
+        </div>
+        <div className="sw-input-row"><input className="input" value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && send()} placeholder="Ask anything…" /><button className="sw-send" onClick={() => send()} disabled={!input.trim()}>Send</button></div>
+      </div>
+      {showTicket && <TicketModal mode={mode} messages={messages} email={userEmail} userData={userData} onClose={() => setShowTicket(false)} onSubmit={submitTicket} />}
+      {showStatus && <TicketStatusModal mode={mode} email={userEmail} onClose={() => setShowStatus(false)} />}
+      {toast && <div className="toast">{toast}</div>}
+    </>
+  );
+}
+function TicketModal({ mode, messages, email, userData, onClose, onSubmit }) {
+  const transcript = messages.filter(m => m.from && m.text).map(m => `${m.from === 'user' ? 'User' : 'Ron'}: ${m.text}`).join('\n');
+  const context = mode === 'authenticated' && userData ? `\nAgent: ${userData.agentName || '-'}\nIntegrations: ${(userData.tools || []).join(', ') || 'none'}` : '';
+  const [subject, setSubject] = useState('');
+  const [description, setDescription] = useState(`Conversation:\n${transcript}${context}\n\n---\n`);
+  const [category, setCategory] = useState('Bug');
+  const [priority, setPriority] = useState('normal');
+  const [emailValue, setEmail] = useState(email || '');
+  const valid = subject.trim() && description.trim() && emailValue.trim();
+  const handleSubmit = () => { if (!valid) return; onSubmit({ subject, description, category, priority, email: emailValue, source: mode === 'authenticated' ? 'in_app_widget' : 'public_widget', containerSnapshot: mode === 'authenticated' }); };
+  return (
+    <div className="modal-backdrop" onClick={onClose}><div className="modal" onClick={(e) => e.stopPropagation()}>
+      <h3>Open a ticket</h3>
+      <p className="modal-sub">{mode === 'authenticated' ? 'Container snapshot auto-attached. Team will email within a day.' : "Tell us what happened, we'll reply within a day."}</p>
+      <div className="field"><label>Subject</label><input className="input" value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="Brief summary…" maxLength={100} autoFocus /></div>
+      <div className="field"><label>Description</label><textarea className="input" value={description} onChange={(e) => setDescription(e.target.value)} rows={6} /></div>
+      <div className="field"><label>Category</label><select className="input" value={category} onChange={(e) => setCategory(e.target.value)}><option>Account</option><option>Billing</option><option>Integration</option><option>Bug</option><option>Feature request</option><option>Other</option></select></div>
+      <div className="field"><label>Priority</label><div className="chip-row">{['low','normal','urgent'].map(p => (<button key={p} className={`chip ${priority === p ? 'selected' : ''}`} onClick={() => setPriority(p)}>{p[0].toUpperCase() + p.slice(1)}</button>))}</div></div>
+      <div className="field"><label>Email</label><input className="input" type="email" value={emailValue} onChange={(e) => setEmail(e.target.value)} /></div>
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onClose}>Cancel</button><button className="btn btn-primary" onClick={handleSubmit} disabled={!valid}>Send ticket</button></div>
+    </div></div>
+  );
+}
+function TicketStatusModal({ mode, email, onClose }) {
+  const [ticketId, setTicketId] = useState('');
+  const [emailValue, setEmail] = useState(email || '');
+  const [result, setResult] = useState(null);
+  const [looking, setLooking] = useState(false);
+  const [error, setError] = useState(null);
+  const valid = ticketId.trim() && emailValue.trim();
+  const lookup = () => {
+    if (!valid) return; setLooking(true); setError(null);
+    setTimeout(() => {
+      setLooking(false);
+      const n = parseInt(ticketId, 10);
+      if (isNaN(n) || n < 100) { setError("Couldn't find that ticket. Check the ID and email."); return; }
+      const statuses = ['open', 'in_progress', 'waiting on you', 'resolved'];
+      const status = statuses[n % 4];
+      const summaries = { 'open': 'Received. Triage queue, assigning within 24h.', 'in_progress': 'Investigating. Should have an update soon.', 'waiting on you': 'Team asked a question, check your email.', 'resolved': 'Fixed. Reply if it happens again.' };
+      setResult({ ticketId: ticketId.trim(), status, lastUpdated: '2h ago', summary: summaries[status] });
+    }, 800);
+  };
+  return (
+    <div className="modal-backdrop" onClick={onClose}><div className="modal" onClick={(e) => e.stopPropagation()}>
+      <h3>Check ticket status</h3>
+      <p className="modal-sub">{mode === 'authenticated' ? 'Enter a ticket number to look it up.' : 'Enter ticket number and the email you used so we can verify.'}</p>
+      <div className="field"><label>Ticket number</label><input className="input" value={ticketId} onChange={(e) => setTicketId(e.target.value.replace(/[^0-9]/g, ''))} placeholder="4821" autoFocus /></div>
+      <div className="field"><label>Email on file</label><input className="input" type="email" value={emailValue} onChange={(e) => setEmail(e.target.value)} /></div>
+      {result && <div className="ticket-status-card"><h4>Ticket #{result.ticketId} · {result.status}</h4><p>{result.summary}</p><p className="ticket-status-card-time">Last update: {result.lastUpdated}</p></div>}
+      {error && <p className="error-msg">{error}</p>}
+      <div className="actions"><button className="btn btn-ghost btn-back" onClick={onClose}>Close</button><button className="btn btn-primary" onClick={lookup} disabled={!valid || looking}>{looking ? 'Looking up…' : 'Check status'}</button></div>
+    </div></div>
+  );
+}
+
+/* ─── App / router ──────────────────────────────────────────────── */
+const INTEGRATION_TOOL_SLUGS = ['github','telegram','apify','elevenlabs','obsidian','cron','browser','composio','byok'];
+const integrationFromScreen = (s) => INTEGRATION_TOOL_SLUGS.find(t => s === `beginner-${t}` || s === `expert-${t}`);
+const BEGINNER_FLOW = ['beginner-names','beginner-usecases','beginner-pick-tools','beginner-github','beginner-telegram','beginner-apify','beginner-elevenlabs','beginner-obsidian','beginner-cron','beginner-browser','beginner-composio','beginner-byok','beginner-personality','beginner-comm','beginner-preview','beginner-about','beginner-disclaimer','beginner-finish'];
+const EXPERT_FLOW = ['expert-names','expert-usecases','expert-model','expert-pick-tools','expert-github','expert-telegram','expert-apify','expert-elevenlabs','expert-obsidian','expert-cron','expert-browser','expert-composio','expert-byok','expert-memory','expert-personality','expert-comm','expert-hours','expert-notifications','expert-privacy','expert-preview','expert-about','expert-disclaimer','expert-finish'];
+const INITIAL_DATA = { email: 'you@heyron.app', yourName: '', agentName: '', useCases: [], personality: null, commStyle: null, model: null, tools: [], toSetup: [], memory: null, editableMemory: true, timezone: 'Pacific (PT)', workStart: '09:00', workEnd: '18:00', workDays: ['Mon','Tue','Wed','Thu','Fri'], notifyEmail: true, notifyPush: false, notifyFreq: 'important', learnFromMe: true, shareUsage: true, autoDelete: 'Never', aboutYou: '' };
+
+function App() {
+  // Dev-only: ?screen=beginner-names etc. lets us deep-link into a specific screen for QA.
+  // In production routing will gate entry; this has no effect on real users.
+  // First-time users start on 'hello' (pure welcome). 'welcome' is the Launchpad path picker.
+  const _initialScreen = (new URLSearchParams(window.location.search).get('screen')) || 'hello';
+  const [screen, setScreen] = useState(_initialScreen);
+  const [data, setData] = useState(INITIAL_DATA);
+  const update = (patch) => setData((d) => ({ ...d, ...patch }));
+  // Order tool-setup screens by the order the user picked them in (data.toSetup).
+  // Non-tool screens (names, use cases, personality, preview, etc.) stay where they are.
+  const orderFlow = (flow, prefix) => {
+    const picks = data.toSetup || [];
+    const toolScreens = picks.map(t => `${prefix}-${t}`).filter(s => flow.includes(s));
+    const nonTool = flow.filter(s => !integrationFromScreen(s));
+    const anchor = `${prefix}-pick-tools`;
+    const anchorIdx = nonTool.indexOf(anchor);
+    if (anchorIdx < 0) return [...nonTool, ...toolScreens];
+    return [...nonTool.slice(0, anchorIdx + 1), ...toolScreens, ...nonTool.slice(anchorIdx + 1)];
+  };
+  const beginnerFlow = orderFlow(BEGINNER_FLOW, 'beginner');
+  const expertFlow = orderFlow(EXPERT_FLOW, 'expert');
+  const back = (current) => { const flow = current.startsWith('beginner-') ? beginnerFlow : current.startsWith('expert-') ? expertFlow : null; if (!flow) { setScreen('welcome'); return; } const idx = flow.indexOf(current); setScreen(idx <= 0 ? 'welcome' : flow[idx - 1]); };
+  const advance = (current) => { const flow = current.startsWith('beginner-') ? beginnerFlow : expertFlow; const idx = flow.indexOf(current); setScreen(idx >= flow.length - 1 ? 'dashboard' : flow[idx + 1]); };
+  const reset = () => { setData(INITIAL_DATA); setScreen('welcome'); };
+  const stepB = (n) => beginnerFlow.indexOf(n);
+  const stepE = (n) => expertFlow.indexOf(n);
+  const totalB = beginnerFlow.length;
+  const totalE = expertFlow.length;
+  const renderTool = (prefix, tool, stepFn, total) => {
+    const Comp = { github: GitHubSetup, telegram: TelegramSetup, apify: ApifySetup, elevenlabs: ElevenLabsSetup, obsidian: ObsidianSetup, cron: CronSetup, browser: BrowserSetup, composio: ComposioSetup, byok: BYOKSetup }[tool];
+    const name = `${prefix}-${tool}`;
+    return <Comp data={data} onUpdate={update} onBack={() => back(name)} onNext={() => advance(name)} step={stepFn(name)} totalSteps={total} />;
+  };
+  return (
+    <div className="app">
+      {screen === 'hello' && <HelloScreen data={data} onStart={() => setScreen('welcome')} />}
+      {screen === 'welcome' && <LaunchpadWelcome data={data} onChoose={(p) => setScreen(p === 'beginner' ? 'beginner-names' : p === 'expert' ? 'expert-names' : 'beginner-pick-tools')} onBack={() => setScreen('hello')} />}
+      {screen === 'beginner-names' && <NamesScreen data={data} onUpdate={update} onBack={() => back('beginner-names')} onNext={() => advance('beginner-names')} step={stepB('beginner-names')} totalSteps={totalB} />}
+      {screen === 'beginner-usecases' && <UseCasesScreen data={data} onUpdate={update} onBack={() => back('beginner-usecases')} onNext={() => advance('beginner-usecases')} step={stepB('beginner-usecases')} totalSteps={totalB} />}
+      {screen === 'beginner-pick-tools' && <IntegrationsPickScreen data={data} onUpdate={update} onBack={() => back('beginner-pick-tools')} onNext={() => advance('beginner-pick-tools')} step={stepB('beginner-pick-tools')} totalSteps={totalB} />}
+      {INTEGRATION_TOOL_SLUGS.map(t => screen === `beginner-${t}` && <React.Fragment key={t}>{renderTool('beginner', t, stepB, totalB)}</React.Fragment>)}
+      {screen === 'beginner-personality' && <PersonalityScreen data={data} onUpdate={update} onBack={() => back('beginner-personality')} onNext={() => advance('beginner-personality')} step={stepB('beginner-personality')} totalSteps={totalB} />}
+      {screen === 'beginner-comm' && <CommStyleScreen data={data} onUpdate={update} onBack={() => back('beginner-comm')} onNext={() => advance('beginner-comm')} step={stepB('beginner-comm')} totalSteps={totalB} />}
+      {screen === 'beginner-preview' && <PreviewScreen data={data} onLaunch={() => advance('beginner-preview')} onBack={() => back('beginner-preview')} step={stepB('beginner-preview')} totalSteps={totalB} expert={false} />}
+      {screen === 'beginner-about' && <AboutYouScreen data={data} onUpdate={update} onNext={() => advance('beginner-about')} onBack={() => back('beginner-about')} step={stepB('beginner-about')} totalSteps={totalB} />}
+      {screen === 'beginner-disclaimer' && <DisclaimerScreen data={data} onAccept={() => { if (window.HeyronLaunchpad?.saveAboutYou) window.HeyronLaunchpad.saveAboutYou(data.aboutYou || '', { yourName: data.yourName, agentName: data.agentName }); advance('beginner-disclaimer'); }} onBack={() => back('beginner-disclaimer')} step={stepB('beginner-disclaimer')} totalSteps={totalB} />}
+      {screen === 'beginner-finish' && <FinishScreen data={data} onEnter={() => { if (window.HeyronLaunchpad?.save) window.HeyronLaunchpad.save(data); setScreen('dashboard'); }} onBack={() => back('beginner-finish')} onResumeLaunchpad={() => setScreen('beginner-pick-tools')} step={stepB('beginner-finish')} totalSteps={totalB} />}
+      {screen === 'expert-names' && <NamesScreen data={data} onUpdate={update} onBack={() => back('expert-names')} onNext={() => advance('expert-names')} step={stepE('expert-names')} totalSteps={totalE} />}
+      {screen === 'expert-usecases' && <UseCasesScreen data={data} onUpdate={update} onBack={() => back('expert-usecases')} onNext={() => advance('expert-usecases')} step={stepE('expert-usecases')} totalSteps={totalE} />}
+      {screen === 'expert-model' && <ModelScreen data={data} onUpdate={update} onBack={() => back('expert-model')} onNext={() => advance('expert-model')} step={stepE('expert-model')} totalSteps={totalE} />}
+      {screen === 'expert-pick-tools' && <IntegrationsPickScreen data={data} onUpdate={update} onBack={() => back('expert-pick-tools')} onNext={() => advance('expert-pick-tools')} step={stepE('expert-pick-tools')} totalSteps={totalE} />}
+      {INTEGRATION_TOOL_SLUGS.map(t => screen === `expert-${t}` && <React.Fragment key={t}>{renderTool('expert', t, stepE, totalE)}</React.Fragment>)}
+      {screen === 'expert-memory' && <MemoryScreen data={data} onUpdate={update} onBack={() => back('expert-memory')} onNext={() => advance('expert-memory')} step={stepE('expert-memory')} totalSteps={totalE} />}
+      {screen === 'expert-personality' && <PersonalityScreen data={data} onUpdate={update} onBack={() => back('expert-personality')} onNext={() => advance('expert-personality')} step={stepE('expert-personality')} totalSteps={totalE} />}
+      {screen === 'expert-comm' && <CommStyleScreen data={data} onUpdate={update} onBack={() => back('expert-comm')} onNext={() => advance('expert-comm')} step={stepE('expert-comm')} totalSteps={totalE} />}
+      {screen === 'expert-hours' && <HoursScreen data={data} onUpdate={update} onBack={() => back('expert-hours')} onNext={() => advance('expert-hours')} step={stepE('expert-hours')} totalSteps={totalE} />}
+      {screen === 'expert-notifications' && <NotificationsScreen data={data} onUpdate={update} onBack={() => back('expert-notifications')} onNext={() => advance('expert-notifications')} step={stepE('expert-notifications')} totalSteps={totalE} />}
+      {screen === 'expert-privacy' && <PrivacyScreen data={data} onUpdate={update} onBack={() => back('expert-privacy')} onNext={() => advance('expert-privacy')} step={stepE('expert-privacy')} totalSteps={totalE} />}
+      {screen === 'expert-preview' && <PreviewScreen data={data} onLaunch={() => advance('expert-preview')} onBack={() => back('expert-preview')} step={stepE('expert-preview')} totalSteps={totalE} expert={true} />}
+      {screen === 'expert-about' && <AboutYouScreen data={data} onUpdate={update} onNext={() => advance('expert-about')} onBack={() => back('expert-about')} step={stepE('expert-about')} totalSteps={totalE} />}
+      {screen === 'expert-disclaimer' && <DisclaimerScreen data={data} onAccept={() => { if (window.HeyronLaunchpad?.saveAboutYou) window.HeyronLaunchpad.saveAboutYou(data.aboutYou || '', { yourName: data.yourName, agentName: data.agentName }); advance('expert-disclaimer'); }} onBack={() => back('expert-disclaimer')} step={stepE('expert-disclaimer')} totalSteps={totalE} />}
+      {screen === 'expert-finish' && <FinishScreen data={data} onEnter={() => { if (window.HeyronLaunchpad?.save) window.HeyronLaunchpad.save(data); setScreen('dashboard'); }} onBack={() => back('expert-finish')} onResumeLaunchpad={() => setScreen('expert-pick-tools')} step={stepE('expert-finish')} totalSteps={totalE} />}
+      {screen === 'dashboard' && <Dashboard data={data} onReset={reset} onHelp={() => setScreen('help')} onNavigateHelp={(slug) => setScreen(`help-${slug}`)} onBackToLaunchpad={() => setScreen('beginner-pick-tools')} />}
+      {screen === 'help' && <HelpIndex onSelect={(s) => setScreen(`help-${s}`)} onBack={() => setScreen('dashboard')} />}
+      {screen.startsWith('help-') && <HelpPage slug={screen.replace('help-', '')} onSelect={(s) => setScreen(`help-${s}`)} onBack={() => setScreen('help')} />}
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
