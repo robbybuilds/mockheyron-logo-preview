@@ -311,7 +311,7 @@ select.input { appearance: none; -webkit-appearance: none; background-image: lin
 .ron-head-img{width:var(--ron-size,32px);height:var(--ron-size,32px);object-fit:contain;border-radius:50%;display:block;} .sw-pill .ron-head-img{--ron-size:68px;} .sw-header-info .ron-head-img{--ron-size:42px;border:2px solid rgba(0,207,255,.70);background:#090D13;animation:ronOrbBreath 5.5s ease-in-out infinite;}
 .btn,.option,.usecase,.integration,.chip,.setup-cta,.checkbox,.toggle{animation:launchBreath 7s ease-in-out infinite;}
 @keyframes launchBreath{0%,100%{border-color:rgba(0,229,255,.42);box-shadow:0 0 12px rgba(0,229,255,.10)}50%{border-color:rgba(255,183,230,.58);box-shadow:0 0 18px rgba(255,183,230,.16),0 0 28px rgba(94,234,212,.10)}}
-.warning-box{border:1px solid rgba(253,224,71,.35);background:rgba(253,224,71,.08);border-radius:16px;padding:14px;margin:16px 0;color:#FDE68A;font-size:13px;line-height:1.5}.ack-row{display:flex;gap:10px;align-items:flex-start;color:var(--text-primary);font-size:13px;line-height:1.45;margin:12px 0}.ack-row input{margin-top:3px}.tell-box{min-height:140px;}
+.warning-box{border:1px solid rgba(253,224,71,.35);background:rgba(253,224,71,.08);border-radius:16px;padding:14px;margin:16px 0;color:#FDE68A;font-size:13px;line-height:1.5}.ack-list{display:grid;gap:10px;margin:14px 0}.ack-row{display:flex;gap:10px;align-items:flex-start;color:var(--text-primary);font-size:13px;line-height:1.45;margin:0;padding:12px;border:1px solid rgba(125,225,255,.20);border-radius:14px;background:rgba(7,9,12,.38);cursor:pointer}.ack-row input{margin-top:3px;accent-color:#5EEAD4}.ack-row strong{display:block;color:#F8FAFC;margin-bottom:2px}.ack-row span span{display:block;color:#9BAAC4}.tell-box{min-height:140px;}
 
 /* Ron responsive safety pass: desktop + iOS/Android mobile */
 html{width:100%;overflow-x:hidden;scroll-padding-bottom:calc(112px + env(safe-area-inset-bottom));}
@@ -1330,13 +1330,21 @@ function PreviewScreen({ data, onUpdate, onLaunch, onBack, step, totalSteps, exp
   const model = MODELS.find((m) => m.id === data.model);
   const memory = MEMORY_OPTIONS.find((m) => m.id === data.memory);
   const useCaseLabels = data.useCases.map(id => (USE_CASES.find(u => u.id === id) || {}).label).filter(Boolean);
+  const safetyAck = data.safetyAck || {};
+  const toggleSafety = (key) => onUpdate({ safetyAck: { ...safetyAck, [key]: !safetyAck[key] } });
+  const allSafetyAck = ['mistakes','keys','access','human'].every((key) => !!safetyAck[key]);
   return (
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
-      <div className="complete-art-wrap"><img src="assets/onboarding/onboarding-complete.png" alt="Congrats on completing onboarding. Welcome to the crew. Continue this way." /></div><div className="hero-text complete-copy"><h1 className="headline">You're ready for Mission Control.</h1><p className="sub">Review the safety note, confirm you understand, then finish in Mission Control.</p></div>
-      <div className="warning-box"><strong>Final acknowledgement:</strong> Your agent may remember what you provide and may use connected tools based on the access you grant. Do not paste secrets unless you intend to store them. You can change settings later, but launch means you understand what you configured.</div>
-      <label className="ack-row"><input type="checkbox" checked={!!data.launchAck} onChange={(e) => onUpdate({ launchAck: e.target.checked })} /> <span>I understand this is a real agent setup and I’m ready to launch with these settings.</span></label>
-      <div className="actions complete-actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary complete-real-button" onClick={onLaunch} disabled={!data.launchAck}>Finish in Mission Control</button></div>
+      <div className="complete-art-wrap"><img src="assets/onboarding/final/safety-protocols-20260517.png" alt="Final Check. Understand the guardrails that keep everyone safe." /></div><div className="hero-text complete-copy"><h1 className="headline">Final safety check.</h1><p className="sub">Click each protocol to confirm you understand before completing onboarding.</p></div>
+      <div className="warning-box"><strong>Before launch:</strong> your agent can remember context and use connected tools. These acknowledgements keep setup intentional, safe, and human-led.</div>
+      <div className="ack-list">
+        <label className="ack-row"><input type="checkbox" checked={!!safetyAck.mistakes} onChange={() => toggleSafety('mistakes')} /> <span><strong>AI makes mistakes.</strong><span>I will verify important outputs instead of treating every answer as fact.</span></span></label>
+        <label className="ack-row"><input type="checkbox" checked={!!safetyAck.keys} onChange={() => toggleSafety('keys')} /> <span><strong>Protect the keys.</strong><span>I will not paste API keys, credentials, or private secrets unless I intend to store/use them.</span></span></label>
+        <label className="ack-row"><input type="checkbox" checked={!!safetyAck.access} onChange={() => toggleSafety('access')} /> <span><strong>Be careful with access.</strong><span>I understand tool permissions matter and should be reviewed regularly.</span></span></label>
+        <label className="ack-row"><input type="checkbox" checked={!!safetyAck.human} onChange={() => toggleSafety('human')} /> <span><strong>Human in the loop.</strong><span>My agent is a copilot, not autopilot. I own final decisions and risky actions.</span></span></label>
+      </div>
+      <div className="actions complete-actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary complete-real-button" onClick={onLaunch} disabled={!allSafetyAck}>Complete onboarding</button></div>
       <div className="summary">
         <div className="summary-section-title">Identity</div>
         <div className="summary-row"><span className="summary-label">Your name</span><span className="summary-value">{data.yourName}</span></div>
@@ -1956,7 +1964,7 @@ const INTEGRATION_TOOL_SLUGS = ['github','telegram','apify','elevenlabs','obsidi
 const integrationFromScreen = (s) => INTEGRATION_TOOL_SLUGS.find(t => s === `expert-${t}`);
 
 const INITIAL_DATA = {
-  email: 'you@heyron.app', yourName: '', agentName: '', aboutSelf: '', launchAck: false,
+  email: 'you@heyron.app', yourName: '', agentName: '', aboutSelf: '', launchAck: false, safetyAck: {},
   useCases: [], personality: null, personalityNotes: '', commStyle: null,
   model: null, tools: [], toSetup: [], memory: null, editableMemory: true,
   timezone: 'Pacific (PT)', workStart: '09:00', workEnd: '18:00', workDays: ['Mon','Tue','Wed','Thu','Fri'],
@@ -1970,7 +1978,7 @@ function App() {
     const path = params.get('path');
     if (path === 'dashboard') return 'dashboard';
     if (path !== 'beginner' && path !== 'expert') {
-      window.location.replace('launchpad-path.html?v=route-gate-20260517');
+      window.location.replace('launchpad-path.html?v=safety-check-20260517');
       return 'beginner-names';
     }
     return path === 'expert' ? 'expert-names' : 'beginner-names';
@@ -1982,7 +1990,7 @@ function App() {
   const reset = () => { SAFE_HOOKS.set('heyronLaunchpadDraft', INITIAL_DATA); setData(INITIAL_DATA); setScreen('beginner-names'); };
   const totalB = BEGINNER_FLOW.length, totalE = expertFlow.length;
   const stepB = (n) => BEGINNER_FLOW.indexOf(n), stepE = (n) => expertFlow.indexOf(n);
-  const returnToMissionControl = () => { const expert = screen.startsWith('expert-'); const payload = buildLaunchpadPayload(data, expert); SAFE_HOOKS.set('heyronLaunchpadComplete', payload); SAFE_HOOKS.set('heyronPreviewEmail', data.email || 'you@heyron.app'); window.location.href = 'index.html?launchpad=complete&v=route-gate-20260517'; };
+  const returnToMissionControl = () => { const expert = screen.startsWith('expert-'); const payload = buildLaunchpadPayload(data, expert); SAFE_HOOKS.set('heyronLaunchpadComplete', payload); SAFE_HOOKS.set('heyronPreviewEmail', data.email || 'you@heyron.app'); window.location.href = 'index.html?launchpad=complete&v=safety-check-20260517'; };
   const advance = (current) => { const flow = current.startsWith('beginner-') ? BEGINNER_FLOW : expertFlow; const idx = flow.indexOf(current); if (idx >= flow.length - 1) { returnToMissionControl(); return; } setScreen(flow[idx + 1]); };
 
   return (
