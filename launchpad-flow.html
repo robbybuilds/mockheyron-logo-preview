@@ -1316,7 +1316,7 @@ function AboutSelfScreen({ data, onUpdate, onNext, onBack, step, totalSteps }) {
   return (
     <div className="panel">
       <Brand /><Steps current={step} total={totalSteps} />
-      <div className="hero"><img src="assets/onboarding/final/origins-preferences.png" alt="" className="flow-art" /><div className="hero-text"><h1 className="headline">Tell your agent about yourself.</h1><p className="sub">This is the last human context before launch. Give your agent the stuff that helps it feel useful on day one.</p></div></div>
+      <div className="hero"><img src="assets/onboarding/final/origins-preferences-clean-20260517.png" alt="" className="flow-art" /><div className="hero-text"><h1 className="headline">Tell your agent about yourself.</h1><p className="sub">This is the last human context before launch. Give your agent the stuff that helps it feel useful on day one.</p></div></div>
       <div className="field"><label>What should your agent know about you?</label><textarea className="input tell-box" value={data.aboutSelf} onChange={(e) => onUpdate({ aboutSelf: e.target.value })} placeholder="How you work, what annoys you, what you care about, projects you’re juggling, tone preferences, reminders you need, anything important…" /></div>
       <p className="skip-hint">Minimum 20 characters. You can edit memory and soul later.</p>
       <div className="actions"><button className="btn btn-ghost btn-back" onClick={onBack}>Back</button><button className="btn btn-primary" onClick={onNext} disabled={!valid}>Continue</button></div>
@@ -1977,7 +1977,7 @@ function App() {
   const reset = () => { SAFE_HOOKS.set('heyronLaunchpadDraft', INITIAL_DATA); setData(INITIAL_DATA); setScreen('beginner-names'); };
   const totalB = BEGINNER_FLOW.length, totalE = expertFlow.length;
   const stepB = (n) => BEGINNER_FLOW.indexOf(n), stepE = (n) => expertFlow.indexOf(n);
-  const returnToMissionControl = () => { const expert = screen.startsWith('expert-'); const payload = buildLaunchpadPayload(data, expert); SAFE_HOOKS.set('heyronLaunchpadComplete', payload); SAFE_HOOKS.set('heyronPreviewEmail', data.email || 'you@heyron.app'); window.location.href = 'index.html?launchpad=complete&v=green-gone-20260517'; };
+  const returnToMissionControl = () => { const expert = screen.startsWith('expert-'); const payload = buildLaunchpadPayload(data, expert); SAFE_HOOKS.set('heyronLaunchpadComplete', payload); SAFE_HOOKS.set('heyronPreviewEmail', data.email || 'you@heyron.app'); window.location.href = 'index.html?launchpad=complete&v=about-image-update-20260517'; };
   const advance = (current) => { const flow = current.startsWith('beginner-') ? BEGINNER_FLOW : expertFlow; const idx = flow.indexOf(current); if (idx >= flow.length - 1) { returnToMissionControl(); return; } setScreen(flow[idx + 1]); };
 
   return (
