@@ -1967,8 +1967,13 @@ const INITIAL_DATA = {
 function App() {
   const [screen, setScreen] = useState(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('path') === 'dashboard') return 'dashboard';
-    return params.get('path') === 'expert' ? 'expert-names' : 'beginner-names';
+    const path = params.get('path');
+    if (path === 'dashboard') return 'dashboard';
+    if (path !== 'beginner' && path !== 'expert') {
+      window.location.replace('launchpad-path.html?v=route-gate-20260517');
+      return 'beginner-names';
+    }
+    return path === 'expert' ? 'expert-names' : 'beginner-names';
   });
   const [data, setData] = useState(() => ({ ...INITIAL_DATA, ...(SAFE_HOOKS.get('heyronLaunchpadDraft', {}) || {}) }));
   const update = (patch) => setData((d) => { const next = { ...d, ...patch }; SAFE_HOOKS.set('heyronLaunchpadDraft', next); return next; });
@@ -1977,7 +1982,7 @@ function App() {
   const reset = () => { SAFE_HOOKS.set('heyronLaunchpadDraft', INITIAL_DATA); setData(INITIAL_DATA); setScreen('beginner-names'); };
   const totalB = BEGINNER_FLOW.length, totalE = expertFlow.length;
   const stepB = (n) => BEGINNER_FLOW.indexOf(n), stepE = (n) => expertFlow.indexOf(n);
-  const returnToMissionControl = () => { const expert = screen.startsWith('expert-'); const payload = buildLaunchpadPayload(data, expert); SAFE_HOOKS.set('heyronLaunchpadComplete', payload); SAFE_HOOKS.set('heyronPreviewEmail', data.email || 'you@heyron.app'); window.location.href = 'index.html?launchpad=complete&v=agent-jam-20260517'; };
+  const returnToMissionControl = () => { const expert = screen.startsWith('expert-'); const payload = buildLaunchpadPayload(data, expert); SAFE_HOOKS.set('heyronLaunchpadComplete', payload); SAFE_HOOKS.set('heyronPreviewEmail', data.email || 'you@heyron.app'); window.location.href = 'index.html?launchpad=complete&v=route-gate-20260517'; };
   const advance = (current) => { const flow = current.startsWith('beginner-') ? BEGINNER_FLOW : expertFlow; const idx = flow.indexOf(current); if (idx >= flow.length - 1) { returnToMissionControl(); return; } setScreen(flow[idx + 1]); };
 
   return (
